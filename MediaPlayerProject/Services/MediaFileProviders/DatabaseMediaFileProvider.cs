@@ -8,23 +8,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MediaPlayerProject.Services.PlaylistProviders
+namespace MediaPlayerProject.Services.MediaFileProviders
 {
-    public class DatabasePlaylistProvider : IPlaylistProvider
+    public class DatabaseMediaFileProvider : IMediaFileProvider
     {
         private readonly PlaylistListDbContextFactory _playlistListDbContextFactory;
 
-        public DatabasePlaylistProvider(PlaylistListDbContextFactory playlistListDbContextFactory)
+        public DatabaseMediaFileProvider(PlaylistListDbContextFactory playlistListDbContextFactory)
         {
             _playlistListDbContextFactory = playlistListDbContextFactory;
         }
 
-        public async Task<IEnumerable<Playlist>> GetAllPlaylist(MediaFileProviders.IMediaFileProvider mediaFileProvider)
+        public async Task<IEnumerable<MediaFile>> GetMediaFiles(Playlist playlist)
         {
             using (PlaylistListDbContext playlistListDbContext = _playlistListDbContextFactory.CreateDbContext())
             {
-                IEnumerable<PlaylistDTO> playlistDTOs = await playlistListDbContext.Playlists.ToListAsync();
-                return playlistDTOs.Select(p => new Playlist(p.Name, p.TimeCreated, p.Id, mediaFileProvider));
+                IEnumerable<MediaFileDTO> mediaFileDTOs = await playlistListDbContext.MediaFiles.Where(m => m.Id == playlist.Id).ToListAsync();
+                return mediaFileDTOs.Select(p => new MediaFile(p.Name, p.Path, p.Id));
             }
         }
     }

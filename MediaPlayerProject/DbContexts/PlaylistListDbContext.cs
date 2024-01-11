@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 namespace MediaPlayerProject.DbContexts
 {
-    public  class PlaylistListDbContext : DbContext
+    public class PlaylistListDbContext : DbContext
     {
         public PlaylistListDbContext(DbContextOptions options) : base(options)
         {
         }
 
         public DbSet<PlaylistDTO> Playlists { get; set; }
+        public DbSet<MediaFileDTO> MediaFiles { get; set; }
+        public DbSet<PlaylistFilesDTO> PlaylistFiles { get; set; }
     }
 }

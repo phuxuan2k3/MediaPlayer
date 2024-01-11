@@ -1,4 +1,5 @@
-﻿using MediaPlayerProject.Services.PlaylistCreators;
+﻿using MediaPlayerProject.Services.MediaFileProviders;
+using MediaPlayerProject.Services.PlaylistCreators;
 using MediaPlayerProject.Services.PlaylistDelete;
 using MediaPlayerProject.Services.PlaylistProviders;
 using System;
@@ -15,21 +16,20 @@ namespace MediaPlayerProject.Models
         private readonly IPlaylistCreators playlistCreators;
         private readonly IPlaylistProvider playlistProvider;
         private readonly IPlaylistDelete playlistDeletor;
+        private readonly IMediaFileProvider mediaFileProvider;
 
-        public PlaylistList(IPlaylistCreators playlistCreators, IPlaylistProvider playlistProvider, IPlaylistDelete playlistDeletor)
+        public PlaylistList(IPlaylistCreators playlistCreators, IPlaylistProvider playlistProvider, IPlaylistDelete playlistDeletor, IMediaFileProvider mediaFileProvider)
         {
             this.playlistCreators = playlistCreators;
             this.playlistProvider = playlistProvider;
             this.playlistDeletor = playlistDeletor;
+            this.mediaFileProvider = mediaFileProvider;
         }
         public async Task<IEnumerable<Playlist>> GetItems()
         {
-            return await playlistProvider.GetAllPlaylist();
+            return await playlistProvider.GetAllPlaylist(mediaFileProvider);
         }
-        //public IEnumerable<Playlist> GetItemsByName(string name)
-        //{
-        //    return Playlists.Where(x => x.Name == name);
-        //}
+
         public async Task addPlaylist(Playlist playlist)
         {
             await playlistCreators.CreatePlaylist(playlist);

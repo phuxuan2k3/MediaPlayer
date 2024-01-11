@@ -28,11 +28,13 @@
         <ListView SelectedItem="{Binding SelectedPlaylist}" x:Name="mouse" Grid.Row="2"  ItemsSource="{Binding Playlists}">
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="SingleLineDataTemplate" >
-                    <StackPanel Orientation="Horizontal" Height="44" >
-                        <Image Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
-                        <TextBlock  Opacity="0.5" Text="{Binding TimeCreated}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
-                    </StackPanel>
+                    <Button MouseDoubleClick="Button_MouseDoubleClick">
+                        <StackPanel Orientation="Horizontal" Height="44" >
+                            <Image Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
+                            <TextBlock  Opacity="0.5" Text="{Binding TimeCreated}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
+                        </StackPanel>
+                    </Button>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

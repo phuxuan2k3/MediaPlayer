@@ -28,6 +28,7 @@ namespace MediaPlayerProject.ViewModels
         public ICommand LoadPlaylistCommand { get; }
         public ICommand CreatePlaylistCommand { get; }
         public ICommand DeletePlaylistCommand { get; }
+        public ICommand LoadMediaFileCommand { get; }
 
         public PlaylistListingViewModel(PlaylistList playlistList, Services.NavigationService? addPlaylistNavigateService, Services.NavigationService playlistListingNavigationService)
         {
@@ -35,6 +36,7 @@ namespace MediaPlayerProject.ViewModels
             CreatePlaylistCommand = new NavigateCommand(addPlaylistNavigateService);
             LoadPlaylistCommand = new LoadPlaylistCommand(playlistList, this);
             DeletePlaylistCommand = new DeletePlaylistCommand(playlistList, playlistListingNavigationService, this);
+            LoadMediaFileCommand = new LoadMediaFileCommand(,);
         }
 
         public static PlaylistListingViewModel LoadViewModel(PlaylistList playlistList, Services.NavigationService? addPlaylistNavigateService, Services.NavigationService playlistListingNavigationService)

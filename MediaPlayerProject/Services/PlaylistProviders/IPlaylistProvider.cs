@@ -1,4 +1,5 @@
 ﻿using MediaPlayerProject.Models;
+using MediaPlayerProject.Services.MediaFileProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace MediaPlayerProject.Services.PlaylistProviders
 {
     public interface IPlaylistProvider
     {
-        Task<IEnumerable<Playlist>> GetAllPlaylist();
+        Task<IEnumerable<Playlist>> GetAllPlaylist(IMediaFileProvider mediaFileProvider);
     }
 }
