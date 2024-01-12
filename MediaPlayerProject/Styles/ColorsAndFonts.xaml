@@ -19,6 +19,8 @@
     <Color
         x:Key="Teal">#73A9AD</Color>
     <Color
+        x:Key="Teal_85">#D973A9AD</Color>
+    <Color
         x:Key="LightRed">#EF4040</Color>
     <Color
         x:Key="Pink">#E95793</Color>
@@ -32,18 +34,7 @@
         Color="{StaticResource White}" />
     <!--Gradient-->
     <LinearGradientBrush
-        x:Key="BackgroundDark"
-        StartPoint="0 0"
-        EndPoint="1 1">
-        <GradientStop
-            Color="{StaticResource DarkGrayBlue}"
-            Offset="0" />
-        <GradientStop
-            Color="{StaticResource DarkBlue}"
-            Offset="1" />
-    </LinearGradientBrush>
-    <LinearGradientBrush
-        x:Key="BackgroundNormal"
+        x:Key="Background_1"
         StartPoint="0.3 0.7"
         EndPoint="0.7 0.3">
         <GradientStop
@@ -55,6 +46,36 @@
         <GradientStop
             Color="{StaticResource Teal}"
             Offset="1.4" />
+    </LinearGradientBrush>
+    <RadialGradientBrush
+        x:Key="Background_1_Rad"
+        Center="1 0"
+        GradientOrigin="1 0"
+        RadiusX="1"
+        RadiusY="1">
+        <GradientStop
+            Color="{StaticResource Teal}"
+            Offset="0" />
+        <GradientStop
+            Color="{StaticResource LightGrayBlue_85}"
+            Offset="0.4" />
+        <GradientStop
+            Color="{StaticResource Teal_85}"
+            Offset="0.8" />
+        <GradientStop
+            Color="{StaticResource LightGrayBlue}"
+            Offset="1.4" />
+    </RadialGradientBrush>
+    <LinearGradientBrush
+        x:Key="Background_2"
+        StartPoint="0 0"
+        EndPoint="1 1">
+        <GradientStop
+            Color="{StaticResource DarkGrayBlue}"
+            Offset="0" />
+        <GradientStop
+            Color="{StaticResource DarkBlue}"
+            Offset="1" />
     </LinearGradientBrush>
 
     <!--Image Size-->

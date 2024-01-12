@@ -17,18 +17,19 @@
             <!--Navigation-->
             <DataTemplate
                 DataType="{x:Type vms:AddPlaylistViewModel}">
-                <views:AddPlaylistView
-                    Background="{StaticResource BackgroundNormal}"></views:AddPlaylistView>
+                <views:AddPlaylistView />
             </DataTemplate>
 
             <DataTemplate
                 DataType="{x:Type vms:PlaylistListingViewModel}">
-                <views:PlaylistListingView
-                    Background="{StaticResource BackgroundNormal}"></views:PlaylistListingView>
+                <views:PlaylistListingView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vms:MediaFileListingViewModel}">
-                <views:MediaFileListingView></views:MediaFileListingView>
+
+            <DataTemplate
+                DataType="{x:Type vms:MediaFileListingViewModel}">
+                <views:MediaFileListingView />
             </DataTemplate>
+
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition
@@ -38,7 +39,7 @@
         </Grid.ColumnDefinitions>
 
         <ScrollViewer
-            Background="{StaticResource BackgroundDark}"
+            Background="{StaticResource Background_2}"
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto"
             Grid.Column="0"

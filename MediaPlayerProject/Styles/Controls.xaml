@@ -94,9 +94,8 @@
             TextBlock.FontSize="{TemplateBinding FontSize}">
             <TextBlock
                 x:Name="textblock"
-                Style="{StaticResource Normal}"
-                Foreground="{StaticResource WhiteBrush}"
-                FontFamily="Tahoma"
+                Style="{DynamicResource Normal}"
+                Foreground="{DynamicResource WhiteBrush}"
                 FontStyle="Italic"
                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                 Margin="{TemplateBinding Padding}"
@@ -122,8 +121,8 @@
                 Property="IsMouseOver"
                 Value="true">
                 <Setter
-                    Property="TextBlock.TextDecorations"
-                    TargetName="textblock">
+                    TargetName="textblock"
+                    Property="TextBlock.TextDecorations">
                     <Setter.Value>
                         <TextDecorationCollection>
                             <TextDecoration

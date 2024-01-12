@@ -10,7 +10,8 @@
     d:DataContext="{d:DesignInstance Type=vm:MediaFileListingViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    MouseDown="UC_MouseDown">
+    MouseDown="UC_MouseDown"
+    Background="{StaticResource Background_1_Rad}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition
@@ -45,16 +46,6 @@
             Margin="30 0">
             <StackPanel.Resources>
                 <Style
-                    TargetType="TextBlock"
-                    BasedOn="{StaticResource NormalLarge}">
-                    <Setter
-                        Property="FontFamily"
-                        Value="Times New Roman" />
-                    <Setter
-                        Property="FontStyle"
-                        Value="Italic" />
-                </Style>
-                <Style
                     TargetType="Button">
                     <Setter
                         Property="Margin"
@@ -65,30 +56,21 @@
                     <Setter
                         Property="BorderThickness"
                         Value="0" />
-                    <Style.Triggers>
-                        <Trigger
-                            Property="IsEnabled"
-                            Value="False">
-                            <Setter
-                                Property="Visibility"
-                                Value="Collapsed" />
-                        </Trigger>
-                    </Style.Triggers>
                 </Style>
             </StackPanel.Resources>
             <Button
+                Template="{DynamicResource TextBlockButton}"
+                Cursor="Hand"
                 Background="Transparent"
-                Command="{Binding CreatePlaylistCommand}">
-                <TextBlock
-                    Foreground="{StaticResource WhiteBrush}"
-                    Text="New" />
+                Content="Delete"
+                Command="{Binding DeletePlaylistCommand}">
             </Button>
             <Button
+                Template="{DynamicResource TextBlockButton}"
+                Cursor="Hand"
                 Background="Transparent"
-                Command="{Binding DeletePlaylistCommand}">
-                <TextBlock
-                    Foreground="{StaticResource WhiteBrush}"
-                    Text="Delete" />
+                Content="Create"
+                Command="{Binding CreatePlaylistCommand}">
             </Button>
         </StackPanel>
 
