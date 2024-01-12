@@ -7,10 +7,7 @@ using MediaPlayerProject.Services.PlaylistDelete;
 using MediaPlayerProject.Services.PlaylistProviders;
 using MediaPlayerProject.Services.RemoveMediaFile;
 using MediaPlayerProject.Services.RemoveMediaFilePool;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MediaPlayerProject.Models
@@ -24,7 +21,7 @@ namespace MediaPlayerProject.Models
         private readonly IMediaFileProvider mediaFileProvider;
         private readonly IMediaFileCreator mediaFileCreator;
         private readonly IRemoveMediaFile removeMediaFile;
-        private readonly IMediaFIlePoolProvider  mediaFIlePoolProvider;
+        private readonly IMediaFIlePoolProvider mediaFIlePoolProvider;
         private readonly IMediaFilePoolCreator mediaFilePoolCreator;
         private readonly IRemoveMediaFilePool removeMediaFilePool;
 
@@ -52,18 +49,18 @@ namespace MediaPlayerProject.Models
         public async Task deletePlaylist(Playlist playlist)
         {
             await playlistDeletor.DeletePlaylist(playlist);
-        } 
+        }
         public async Task<IEnumerable<MediaFile>> GetMediaFilePool()
         {
             return await mediaFIlePoolProvider.getMediaFIlePool();
-        }  
+        }
         public async Task addMediaFilePool(MediaFile m)
         {
-             await mediaFilePoolCreator.addMediaFiletoPool( m);
-        }     
+            await mediaFilePoolCreator.addMediaFiletoPool(m);
+        }
         public async Task removeMediaPool(MediaFile m)
         {
-             await removeMediaFilePool.removeMediaFile( m);
+            await removeMediaFilePool.removeMediaFile(m);
         }
 
     }

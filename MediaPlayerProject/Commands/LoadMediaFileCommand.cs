@@ -1,11 +1,6 @@
 ﻿using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
-using MediaPlayerProject.Stores;
-using MediaPlayerProject.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -24,7 +19,7 @@ namespace MediaPlayerProject.Commands
         {
             try
             {
-                var pl = (Playlist) parameter;
+                var pl = (Playlist)parameter;
                 var ns = createMediaFileNavigationService.Invoke(pl);
                 ns.Navigate();
             }
