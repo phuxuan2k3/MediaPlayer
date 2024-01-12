@@ -2,10 +2,14 @@
 using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
 using MediaPlayerProject.Services.MediaFileCreators;
+using MediaPlayerProject.Services.MediaFilePoolCreator;
+using MediaPlayerProject.Services.MediaFIlePoolProvider;
 using MediaPlayerProject.Services.MediaFileProviders;
 using MediaPlayerProject.Services.PlaylistCreators;
 using MediaPlayerProject.Services.PlaylistDelete;
 using MediaPlayerProject.Services.PlaylistProviders;
+using MediaPlayerProject.Services.RemoveMediaFile;
+using MediaPlayerProject.Services.RemoveMediaFilePool;
 using MediaPlayerProject.Stores;
 using MediaPlayerProject.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -36,8 +40,12 @@ namespace MediaPlayerProject
             IPlaylistDelete playlistDeletor = new DatabasePlaylistDelete(playlistListDbContextFactory);
             IMediaFileProvider mediaFileProvider = new DatabaseMediaFileProvider(playlistListDbContextFactory);
             IMediaFileCreator mediaFileCreator = new DatabaseMediaFileCreator(playlistListDbContextFactory);
+            IRemoveMediaFile removeMediaFile = new DatabaseRemoveMediaFile(playlistListDbContextFactory);
+            IMediaFIlePoolProvider mediaFIlePoolProvider = new DatabaseMediaFilePoolProvider(playlistListDbContextFactory);
+            IMediaFilePoolCreator mediaFilePoolCreator = new DatabaseMediaFilePoolCreator(playlistListDbContextFactory);
+            IRemoveMediaFilePool removeMediaFilePool = new DatabaseRemoveMediaFilePool(playlistListDbContextFactory);
 
-            this.playlistList = new PlaylistList(playlistCreators, playlistProvider, playlistDeletor, mediaFileProvider, mediaFileCreator);
+            this.playlistList = new PlaylistList(playlistCreators, playlistProvider, playlistDeletor, mediaFileProvider, mediaFileCreator, removeMediaFile, mediaFIlePoolProvider, mediaFilePoolCreator, removeMediaFilePool);
             navigationStore = new NavigationStore();
         }
 
@@ -67,13 +75,17 @@ namespace MediaPlayerProject
         {
             return PlaylistListingViewModel.LoadViewModel(playlistList,
                 new NavigationService(navigationStore, CreateAddPlaylistViewModel),
-                (pl) => new NavigationService(navigationStore, () => CreateMediaFileListingViewModel(pl)));
+                (pl) => new NavigationService(navigationStore, () => CreateMediaFileListingViewModel(pl)), new NavigationService(navigationStore, CreateMediaFilePoolViewModel));
         }
 
         private MediaFileListingViewModel CreateMediaFileListingViewModel(Playlist playlist)
         {
-            return MediaFileListingViewModel.LoadViewModel(playlist, new NavigationService(navigationStore, CreatePlaylistListingViewModel));
+            return MediaFileListingViewModel.LoadViewModel(playlist, new NavigationService(navigationStore, CreatePlaylistListingViewModel), new NavigationService(navigationStore, CreateMediaFilePoolViewModel));
+        }
 
+        private MediaFilePoolViewModel CreateMediaFilePoolViewModel()
+        {
+            return new MediaFilePoolViewModel(playlistList, new NavigationService(navigationStore, CreatePlaylistListingViewModel));
         }
     }
 }

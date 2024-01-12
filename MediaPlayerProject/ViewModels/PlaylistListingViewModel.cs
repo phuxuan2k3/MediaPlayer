@@ -33,9 +33,9 @@ namespace MediaPlayerProject.ViewModels
         public ICommand CreatePlaylistCommand { get; }
         public ICommand DeletePlaylistCommand { get; }
         public ICommand LoadMediaFileCommand { get; }
-
+        public ICommand MediaFilePoolNavigateCommand { get; }
         public PlaylistListingViewModel(PlaylistList playlistList, NavigationService addPlaylistNavigateService,
-            Func<Playlist, NavigationService> createMediaFileListingNavigationService)
+            Func<Playlist, NavigationService> createMediaFileListingNavigationService, NavigationService mediaFilePoolNavigateCommand)
         {
             Playlists = new ObservableCollection<Playlist>();
             CreatePlaylistCommand = new NavigateCommand(addPlaylistNavigateService);
@@ -43,12 +43,13 @@ namespace MediaPlayerProject.ViewModels
             DeletePlaylistCommand = new DeletePlaylistCommand(playlistList, this);
             LoadMediaFileCommand = new LoadMediaFileCommand(createMediaFileListingNavigationService);
             this.playlistList = playlistList;
+            MediaFilePoolNavigateCommand = new NavigateCommand(mediaFilePoolNavigateCommand);
         }
 
-        public static PlaylistListingViewModel LoadViewModel(PlaylistList playlistList, NavigationService addPlaylistNavigateService, Func<Playlist, NavigationService> createMediaFileListingNavigationService)
+        public static PlaylistListingViewModel LoadViewModel(PlaylistList playlistList, NavigationService addPlaylistNavigateService, Func<Playlist, NavigationService> createMediaFileListingNavigationService, NavigationService mediaFilePoolNavigateCommand)
         {
             PlaylistListingViewModel playlistListingViewModel = new PlaylistListingViewModel(playlistList,
-                addPlaylistNavigateService, createMediaFileListingNavigationService);
+                addPlaylistNavigateService, createMediaFileListingNavigationService, mediaFilePoolNavigateCommand);
             playlistListingViewModel.LoadPlaylistCommand.Execute(null);
 
             return playlistListingViewModel;

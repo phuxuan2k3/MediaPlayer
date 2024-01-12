@@ -14,17 +14,18 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Playlists" FontSize="40"></TextBlock>
-        <Button Command="{Binding DeletePlaylistCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding Source='delete.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
-                    <TextBlock FontSize="20">Delete</TextBlock>
-                </StackPanel>
-
-            </Button.Content>
-        </Button>
-        <Button Command="{Binding CreatePlaylistCommand}" Grid.Row="1" Content="Create new playlist" FontSize="20" Width="200" Height="40" HorizontalAlignment="Right" Margin="0 0 10 0"></Button>
-
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Content="Pool" Command="{Binding MediaFilePoolNavigateCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0"></Button>
+            <Button Command="{Binding DeletePlaylistCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Source='delete.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock FontSize="20">Delete</TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{Binding CreatePlaylistCommand}" Grid.Row="1" Content="Create new playlist" FontSize="20" Width="200" Height="40" HorizontalAlignment="Right" Margin="0 0 10 0"></Button>
+        </StackPanel>
         <ListView SelectedItem="{Binding SelectedPlaylist}" x:Name="mouse" Grid.Row="2"  ItemsSource="{Binding Playlists}">
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="SingleLineDataTemplate" >

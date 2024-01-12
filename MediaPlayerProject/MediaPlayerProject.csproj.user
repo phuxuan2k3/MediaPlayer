@@ -13,6 +13,9 @@
     <Compile Update="Views\MediaFileListingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\MediaFilePoolView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\PlaylistListingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -28,6 +31,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\MediaFileListingView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MediaFilePoolView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PlaylistListingView.xaml">

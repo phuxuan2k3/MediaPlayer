@@ -1,6 +1,7 @@
 ﻿using MediaPlayerProject.Models;
 using MediaPlayerProject.Services.MediaFileCreators;
 using MediaPlayerProject.Services.MediaFileProviders;
+using MediaPlayerProject.Services.RemoveMediaFile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace MediaPlayerProject.Services.PlaylistProviders
 {
     public interface IPlaylistProvider
     {
-        Task<IEnumerable<Playlist>> GetAllPlaylist(IMediaFileProvider mediaFileProvider, IMediaFileCreator mediaFileCreator);
+        Task<IEnumerable<Playlist>> GetAllPlaylist(IMediaFileProvider mediaFileProvider, IMediaFileCreator mediaFileCreator, IRemoveMediaFile removeMediaFile);
     }
 }

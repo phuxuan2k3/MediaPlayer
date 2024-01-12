@@ -1,6 +1,5 @@
 ﻿using MediaPlayerProject.Helpers;
 using MediaPlayerProject.Models;
-using MediaPlayerProject.Services;
 using MediaPlayerProject.ViewModels;
 using Microsoft.Win32;
 using System;
@@ -11,15 +10,13 @@ using System.Threading.Tasks;
 
 namespace MediaPlayerProject.Commands
 {
-    public class AddMediaFilesCommand : AsyncCommandBase
+    public class AddMediaFilePoolCommand : AsyncCommandBase
     {
-        private readonly Playlist playlist;
-        private readonly MediaFileListingViewModel mediaFileListingViewModel;
+        private readonly MediaFilePoolViewModel mediaFilePoolViewModel;
 
-        public AddMediaFilesCommand(Playlist playlist, MediaFileListingViewModel mediaFileListingViewModel)
+        public AddMediaFilePoolCommand(MediaFilePoolViewModel mediaFilePoolViewModel)
         {
-            this.playlist = playlist;
-            this.mediaFileListingViewModel = mediaFileListingViewModel;
+            this.mediaFilePoolViewModel = mediaFilePoolViewModel;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -36,12 +33,11 @@ namespace MediaPlayerProject.Commands
                 foreach (var filename in filenames)
                 {
                     var parsedFileName = ParseFileName.parseFileName(filename);
-                    await this.playlist.CreateMediaFile(new MediaFile(parsedFileName.Name, parsedFileName.Path));
+                    await this.mediaFilePoolViewModel.App.addMediaFilePool(new MediaFile(parsedFileName.Name, parsedFileName.Path));
                 }
 
-                this.mediaFileListingViewModel.UpdateMediaFileList();
+                this.mediaFilePoolViewModel.UpdateMediaFileList();
             }
-
         }
     }
 }

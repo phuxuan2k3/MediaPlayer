@@ -1,12 +1,10 @@
-﻿<UserControl x:Class="MediaPlayerProject.Views.MediaFileListingView"
+﻿<UserControl x:Class="MediaPlayerProject.Views.MediaFilePoolView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MediaPlayerProject.Views"
              mc:Ignorable="d" 
-             xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
-d:DataContext="{d:DesignInstance Type=vm:MediaFileListingViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -14,13 +12,12 @@ d:DataContext="{d:DesignInstance Type=vm:MediaFileListingViewModel}"
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Playlist.Name}"/>
-            <Button Content="Add files" Command="{Binding CreatePlaylistCommand}"></Button>
-            <Button Content="Back" Command="{Binding BackCommand}"></Button>
-            <Button Content="Remove" Command="{Binding RemoveMediaFileCommand}"></Button>
-        </StackPanel>
+            <Button Content="Remove" Command="{Binding RemoveMediaFilePoolCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0"></Button>
+            <Button Content="Add file" Command="{Binding AddMediaFileCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0"></Button>
+            <Button Content="Back" Command="{Binding BackCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0"></Button>
 
-        <ListView Grid.Row="1" SelectedItem="{Binding SelectedMediaFile}"  ItemsSource="{Binding MediaFiles}">
+        </StackPanel>
+        <ListView Grid.Row="1" SelectedItem="{Binding SelectedMediaFile}" ItemsSource="{Binding MediaFiles}">
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="SingleLineDataTemplate" >
                     <Button >

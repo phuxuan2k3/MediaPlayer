@@ -21,12 +21,12 @@ namespace MediaPlayerProject.Services.PlaylistProviders
             _playlistListDbContextFactory = playlistListDbContextFactory;
         }
 
-        public async Task<IEnumerable<Playlist>> GetAllPlaylist(IMediaFileProvider mediaFileProvider, IMediaFileCreator mediaFileCreator)
+        public async Task<IEnumerable<Playlist>> GetAllPlaylist(IMediaFileProvider mediaFileProvider, IMediaFileCreator mediaFileCreator, RemoveMediaFile.IRemoveMediaFile mediaFileRemover)
         {
             using (PlaylistListDbContext playlistListDbContext = _playlistListDbContextFactory.CreateDbContext())
             {
                 IEnumerable<PlaylistDTO> playlistDTOs = await playlistListDbContext.Playlists.ToListAsync();
-                return playlistDTOs.Select(p => new Playlist(p.Name, p.TimeCreated, p.Id, mediaFileProvider, mediaFileCreator));
+                return playlistDTOs.Select(p => new Playlist(p.Name, p.TimeCreated, p.Id, mediaFileProvider, mediaFileCreator, mediaFileRemover));
             }
         }
     }
