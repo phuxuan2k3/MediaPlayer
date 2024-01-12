@@ -6,11 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MediaPlayerProject.Views"
     mc:Ignorable="d"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="600"
+    d:DesignWidth="900"
     xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
     Background="{StaticResource Background_1}"
-    d:DataContext="{d:DesignInstance }">
+    d:DataContext="{d:DesignInstance vm:AddPlaylistViewModel}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -46,84 +46,69 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition
+                    Height="*" />
+                <RowDefinition
                     Height="auto" />
                 <RowDefinition
                     Height="auto" />
             </Grid.RowDefinitions>
-            <Button
-                Template="{DynamicResource TextBlockButton}"
-                Cursor="Hand"
-                Background="Transparent"
-                Content="Delete"
-                Command="{Binding DeletePlaylistCommand}">
-            </Button>
-            <Button
-                Template="{DynamicResource TextBlockButton}"
-                Cursor="Hand"
-                Background="Transparent"
-                Content="Create"
-                Command="{Binding CreatePlaylistCommand}">
-            </Button>
+
+            <Image
+                Grid.ColumnSpan="2"
+                Grid.Row="0"
+                Source="{Binding Source='add.png', Converter={StaticResource ImagePathConverter}}"
+                Width="{StaticResource ImageMediumSize}"
+                Height="{StaticResource ImageMediumSize}"
+                Margin="30" />
+
+            <TextBlock
+                VerticalAlignment="Center"
+                Style="{StaticResource Normal}"
+                FontWeight="Bold"
+                Text="New playlist:"
+                Margin="0 0 20 0"
+                Grid.Row="1"
+                Grid.Column="0" />
+
+            <TextBox
+                VerticalAlignment="Center"
+                FontSize="{StaticResource NormalLargeFontSize}"
+                Text="{Binding PlaylistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0 5"
+                Padding="4 2"
+                Grid.Row="1"
+                Grid.Column="2"
+                Width="200" />
+
+            <DockPanel
+                Grid.ColumnSpan="2"
+                Grid.Row="2"
+                Margin="10">
+                <DockPanel.Resources>
+                    <Style
+                        TargetType="TextBlock"
+                        BasedOn="{StaticResource Normal}"
+                        x:Key="ButtonText">
+                    </Style>
+                </DockPanel.Resources>
+                <Button
+                    Margin="30 5 40 5"
+                    DockPanel.Dock="Left"
+                    HorizontalAlignment="Left"
+                    Template="{DynamicResource TextBlockButton}"
+                    Content="Cancel"
+                    Command="{Binding CancelCommand}">
+                </Button>
+
+                <Button
+                    Margin="40 5 30 5"
+                    DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
+                    Template="{DynamicResource TextBlockButton}"
+                    Content="Submit"
+                    Command="{Binding SubmitCommand}">
+                </Button>
+            </DockPanel>
         </Grid>
     </Grid>
-
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition
-                Height="60"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition
-                Height="60"></RowDefinition>
-        </Grid.RowDefinitions>
-
-        <TextBlock
-            Text="Create Playlist"
-            FontSize="40"></TextBlock>
-
-        <StackPanel
-            Grid.Row="1">
-            <StackPanel
-                HorizontalAlignment="Center"
-                Grid.Row="1"
-                Orientation="Horizontal"
-                Height="50">
-                <Label
-                    Content="Name"
-                    Grid.Row="1"
-                    FontSize="25"></Label>
-                <TextBox
-                    Text="{Binding PlaylistName, UpdateSourceTrigger=PropertyChanged}"
-                    Width="200"
-                    Height="50"
-                    Grid.Row="1"
-                    FontSize="25"></TextBox>
-            </StackPanel>
-        </StackPanel>
-
-        <Grid
-            Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button
-                Command="{Binding SubmitCommand}"
-                Grid.Row="2"
-                Width="100"
-                FontSize="25"
-                Height="50"
-                Content="Create"></Button>
-            <Button
-                Grid.Column="1"
-                Command="{Binding CancelCommand}"
-                Style="{StaticResource RedButton}"
-                Grid.Row="2"
-                Width="100"
-                FontSize="25"
-                Height="50"
-                Content="Cancel"></Button>
-
-        </Grid>
-
-    </Grid>-->
 </UserControl>

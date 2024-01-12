@@ -24,14 +24,34 @@
         </Grid.RowDefinitions>
 
         <!--Title-->
-        <TextBlock
-            Grid.Row="0"
-            Text="Playlists"
-            FontSize="{StaticResource Heading1FontSize}"
-            FontWeight="Bold"
-            Foreground="{StaticResource WhiteBrush}"
-            Margin="30"
-            FontFamily="Monotype Corsiva" />
+        <DockPanel
+            LastChildFill="True"
+            Grid.Row="0">
+            <DockPanel.Resources>
+                <Style
+                    TargetType="TextBlock"
+                    x:Key="ButtonText"
+                    BasedOn="{StaticResource NormalLarge}">
+                    <Setter
+                        Property="FontFamily"
+                        Value="{StaticResource BeautyFontFamily}" />
+                </Style>
+            </DockPanel.Resources>
+            <TextBlock
+                Text="Playlists"
+                FontSize="{StaticResource Heading1FontSize}"
+                FontWeight="Bold"
+                Foreground="{StaticResource WhiteBrush}"
+                Margin="30"
+                FontFamily="{StaticResource BeautyFontFamily}" />
+            <Button
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Content="Media Files"
+                Margin="30 0"
+                Template="{DynamicResource TextBlockButton}"
+                Command="{Binding MediaFilePoolNavigateCommand}" />
+        </DockPanel>
 
         <!--Options-->
         <StackPanel
@@ -53,17 +73,20 @@
                         Property="BorderThickness"
                         Value="0" />
                 </Style>
+                <Style
+                    TargetType="TextBlock"
+                    x:Key="ButtonText"
+                    BasedOn="{StaticResource Normal}">
+                </Style>
             </StackPanel.Resources>
             <Button
                 Template="{DynamicResource TextBlockButton}"
-                Cursor="Hand"
                 Background="Transparent"
                 Content="Delete"
                 Command="{Binding DeletePlaylistCommand}">
             </Button>
             <Button
                 Template="{DynamicResource TextBlockButton}"
-                Cursor="Hand"
                 Background="Transparent"
                 Content="Create"
                 Command="{Binding CreatePlaylistCommand}">
@@ -76,7 +99,8 @@
             SelectedItem="{Binding SelectedPlaylist}"
             Grid.Row="2"
             Background="Transparent"
-            ItemsSource="{Binding Playlists}">
+            ItemsSource="{Binding Playlists}"
+            Margin="20">
             <ListView.Resources>
                 <Style
                     BasedOn="{StaticResource G1_ListViewItemStyle}"
@@ -87,22 +111,24 @@
                 </Style>
             </ListView.Resources>
             <ListView.ItemTemplate>
-                <DataTemplate
-                    x:Name="SingleLineDataTemplate">
+                <DataTemplate>
                     <StackPanel
                         Orientation="Horizontal">
                         <Image
-                            Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}"
+                            Source="{Binding Source='playlist.png', Converter={StaticResource ImagePathConverter}}"
                             Height="{StaticResource ImageIconSize}"
                             Width="{StaticResource ImageIconSize}"
                             Margin="18"
                             VerticalAlignment="Center" />
                         <TextBlock
+                            Style="{StaticResource NormalSmall}"
                             Text="{Binding Name}"
                             VerticalAlignment="Center"
                             Margin="12,0,0,0" />
                         <TextBlock
-                            Opacity="0.5"
+                            Style="{StaticResource NormalSmall}"
+                            Foreground="{StaticResource GrayBrush}"
+                            Opacity="0.8"
                             Text="{Binding TimeCreated}"
                             VerticalAlignment="Center"
                             Margin="12,0,0,0" />

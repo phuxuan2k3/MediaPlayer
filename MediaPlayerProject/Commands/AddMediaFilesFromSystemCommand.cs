@@ -39,7 +39,6 @@ namespace MediaPlayerProject.Commands
 
                 this.mediaFileListingViewModel.UpdateMediaFileList();
             }
-
         }
     }
 }

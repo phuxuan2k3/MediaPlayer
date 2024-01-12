@@ -1,15 +1,8 @@
 ﻿using MediaPlayerProject.Commands;
 using MediaPlayerProject.Models;
-using MediaPlayerProject.Services;
 using MediaPlayerProject.Services.MediaFileProviders;
 using MediaPlayerProject.Services.NavigationServiceProvider;
-using MediaPlayerProject.Services.PlaylistProviders;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MediaPlayerProject.ViewModels
@@ -21,17 +14,19 @@ namespace MediaPlayerProject.ViewModels
         public MediaFile? SelectedMediaFile { get; set; }
         public ObservableCollection<MediaFile> MediaFiles { get; set; }
 
-        public ICommand AddMediaFilesFromSystemCommand { get; }
+        public ICommand ChooseFromSystemCommand { get; }
+        public ICommand AddMediaFilesCommand { get; }
         public ICommand RemoveMediaFileCommand { get; }
         public ICommand BackCommand { get; }
 
         public MediaFileListingViewModel(Playlist playlist)
         {
             PlaylistData = playlist;
-            MediaFiles = new ObservableCollection<MediaFile>();
-            AddMediaFilesFromSystemCommand = new AddMediaFilesFromSystemCommand(playlist, this);
             var nsp = App.GetService<INavigationServiceProvider>();
             var ns_PLVM = nsp.GetNavigationService(PlaylistListingViewModel.LoadViewModel);
+            MediaFiles = new ObservableCollection<MediaFile>();
+            ChooseFromSystemCommand = new AddMediaFilesFromSystemCommand(playlist, this);
+            AddMediaFilesCommand = new AddMediaFilesFromPoolCommand(playlist, this);
             BackCommand = new NavigateCommand(ns_PLVM);
             RemoveMediaFileCommand = new RemoveMediaFileCommand(this);
             UpdateMediaFileList();

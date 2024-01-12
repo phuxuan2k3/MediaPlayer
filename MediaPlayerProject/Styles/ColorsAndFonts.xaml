@@ -7,6 +7,8 @@
     <Color
         x:Key="White">#FFFFFF</Color>
     <Color
+        x:Key="Gray">#DDDDDD</Color>
+    <Color
         x:Key="DarkGrayBlue">#19376D</Color>
     <Color
         x:Key="DarkBlue">#0F1035</Color>
@@ -32,6 +34,9 @@
     <SolidColorBrush
         x:Key="WhiteBrush"
         Color="{StaticResource White}" />
+    <SolidColorBrush
+        x:Key="GrayBrush"
+        Color="{StaticResource Gray}" />
     <!--Gradient-->
     <LinearGradientBrush
         x:Key="Background_1"
@@ -78,6 +83,10 @@
     <!--Image Size-->
     <sys:Double
         x:Key="ImageIconSize">16</sys:Double>
+    <sys:Double
+        x:Key="ImageIconSize_2">24</sys:Double>
+    <sys:Double
+        x:Key="ImageMediumSize">192</sys:Double>
 
     <!--Font Size-->
     <sys:Double
@@ -93,18 +102,27 @@
     <sys:Double
         x:Key="NormalSmallFontSize">14</sys:Double>
 
+    <!--Font Family-->
+    <FontFamily
+        x:Key="BeautyFontFamily">Monotype Corsiva</FontFamily>
+
     <!--Main Fonts-->
     <!--General-->
     <Style
+        x:Key="General"
         TargetType="TextBlock">
         <Setter
             Property="FontFamily"
             Value="Trebuchet MS" />
+        <Setter
+            Property="Foreground"
+            Value="{StaticResource WhiteBrush}" />
     </Style>
     <!--Headings-->
     <Style
         x:Key="Heading1"
-        TargetType="TextBlock">
+        TargetType="TextBlock"
+        BasedOn="{StaticResource General}">
         <Setter
             Property="FontSize"
             Value="{StaticResource Heading1FontSize}" />
@@ -114,7 +132,8 @@
     </Style>
     <Style
         x:Key="Heading2"
-        TargetType="TextBlock">
+        TargetType="TextBlock"
+        BasedOn="{StaticResource General}">
         <Setter
             Property="FontSize"
             Value="{StaticResource Heading2FontSize}" />
@@ -124,7 +143,8 @@
     </Style>
     <Style
         x:Key="Heading3"
-        TargetType="TextBlock">
+        TargetType="TextBlock"
+        BasedOn="{StaticResource General}">
         <Setter
             Property="FontSize"
             Value="{StaticResource Heading3FontSize}" />
@@ -135,7 +155,8 @@
     <!--Normal-->
     <Style
         TargetType="TextBlock"
-        x:Key="NormalLarge">
+        x:Key="NormalLarge"
+        BasedOn="{StaticResource General}">
         <Setter
             Property="FontSize"
             Value="{StaticResource NormalLargeFontSize}" />
@@ -145,7 +166,8 @@
     </Style>
     <Style
         TargetType="TextBlock"
-        x:Key="Normal">
+        x:Key="Normal"
+        BasedOn="{StaticResource General}">
         <Setter
             Property="FontSize"
             Value="{StaticResource NormalFontSize}" />
@@ -155,7 +177,8 @@
     </Style>
     <Style
         TargetType="TextBlock"
-        x:Key="NormalSmall">
+        x:Key="NormalSmall"
+        BasedOn="{StaticResource General}">
         <Setter
             Property="FontSize"
             Value="{StaticResource NormalSmallFontSize}" />

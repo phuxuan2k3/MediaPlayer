@@ -31,13 +31,17 @@ namespace MediaPlayerProject.Views
         {
             var viewModel = (MediaFileListingViewModel)(this.DataContext);
             var playlist = (MediaFile)((ListViewItem)sender).DataContext;
-            viewModel.LoadMediaFileCommand.Execute(playlist);
         }
 
 
         private void UC_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            MyListView.UnselectAll();
+            DataListView.UnselectAll();
+            PoolListView.UnselectAll();
+        }
+
+        private void Add_Button_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

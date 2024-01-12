@@ -61,6 +61,10 @@
         </Style.Triggers>
     </Style>
     <!--Visual-->
+    <!--Default-->
+    <Style
+        TargetType="TextBlock"
+        x:Key="ButtonText" />
     <SolidColorBrush
         x:Key="Button.MouseOver.Background"
         Color="#FFBEE6FD" />
@@ -87,26 +91,58 @@
         TargetType="{x:Type ButtonBase}">
         <Border
             x:Name="border"
+            Cursor="Hand"
             Background="Transparent"
             BorderBrush="{TemplateBinding BorderBrush}"
             BorderThickness="0"
-            SnapsToDevicePixels="true"
-            TextBlock.FontSize="{TemplateBinding FontSize}">
-            <TextBlock
-                x:Name="textblock"
-                Style="{DynamicResource Normal}"
-                Foreground="{DynamicResource WhiteBrush}"
-                FontStyle="Italic"
-                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+            SnapsToDevicePixels="true">
+            <ContentPresenter
+                x:Name="contentPresenter"
+                RecognizesAccessKey="True"
                 Margin="{TemplateBinding Padding}"
                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <ContentPresenter
-                    x:Name="contentPresenter"
-                    RecognizesAccessKey="True"
-                    Focusable="False" />
-            </TextBlock>
-
+                Focusable="False">
+                <ContentPresenter.ContentTemplate>
+                    <DataTemplate>
+                        <DataTemplate.Triggers>
+                            <DataTrigger
+                                Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsPressed}"
+                                Value="True">
+                                <Setter
+                                    TargetName="textblock"
+                                    Property="TextBlock.Foreground"
+                                    Value="#E95793" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseOver}"
+                                Value="True">
+                                <Setter
+                                    TargetName="textblock"
+                                    Property="TextBlock.TextDecorations">
+                                    <Setter.Value>
+                                        <TextDecorationCollection>
+                                            <TextDecoration
+                                                Location="Underline">
+                                                <TextDecoration.Pen>
+                                                    <Pen
+                                                        Thickness="2"
+                                                        Brush="{Binding ElementName=textblock, Path=Foreground}" />
+                                                </TextDecoration.Pen>
+                                            </TextDecoration>
+                                        </TextDecorationCollection>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                        <TextBlock
+                            x:Name="textblock"
+                            Foreground="{StaticResource WhiteBrush}"
+                            Style="{DynamicResource ButtonText}"
+                            Text="{Binding}">
+                        </TextBlock>
+                    </DataTemplate>
+                </ContentPresenter.ContentTemplate>
+            </ContentPresenter>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger
@@ -120,30 +156,10 @@
             <Trigger
                 Property="IsMouseOver"
                 Value="true">
-                <Setter
-                    TargetName="textblock"
-                    Property="TextBlock.TextDecorations">
-                    <Setter.Value>
-                        <TextDecorationCollection>
-                            <TextDecoration
-                                Location="Underline">
-                                <TextDecoration.Pen>
-                                    <Pen
-                                        Thickness="2"
-                                        Brush="{Binding ElementName=textblock, Path=Foreground}" />
-                                </TextDecoration.Pen>
-                            </TextDecoration>
-                        </TextDecorationCollection>
-                    </Setter.Value>
-                </Setter>
             </Trigger>
             <Trigger
                 Property="IsPressed"
                 Value="true">
-                <Setter
-                    Property="TextBlock.Foreground"
-                    TargetName="textblock"
-                    Value="#E95793" />
             </Trigger>
             <Trigger
                 Property="IsEnabled"
@@ -200,12 +216,6 @@
         <Setter
             Property="Padding"
             Value="4,1" />
-        <Setter
-            Property="HorizontalContentAlignment"
-            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-        <Setter
-            Property="VerticalContentAlignment"
-            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter
             Property="Background"
             Value="Transparent" />
