@@ -58,13 +58,10 @@
             Offset="0" />
         <GradientStop
             Color="{StaticResource LightGrayBlue_85}"
-            Offset="0.4" />
+            Offset="0.6" />
         <GradientStop
-            Color="{StaticResource Teal_85}"
-            Offset="0.8" />
-        <GradientStop
-            Color="{StaticResource LightGrayBlue}"
-            Offset="1.4" />
+            Color="{StaticResource Teal}"
+            Offset="1.2" />
     </RadialGradientBrush>
     <LinearGradientBrush
         x:Key="Background_2"
@@ -84,9 +81,9 @@
 
     <!--Font Size-->
     <sys:Double
-        x:Key="Heading1FontSize">36</sys:Double>
+        x:Key="Heading1FontSize">44</sys:Double>
     <sys:Double
-        x:Key="Heading2FontSize">32</sys:Double>
+        x:Key="Heading2FontSize">36</sys:Double>
     <sys:Double
         x:Key="Heading3FontSize">28</sys:Double>
     <sys:Double

@@ -31,42 +31,8 @@
             </DataTemplate>
 
         </Grid.Resources>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                Width="5*" />
-            <ColumnDefinition
-                Width="20*" />
-        </Grid.ColumnDefinitions>
 
-        <ScrollViewer
-            Background="{StaticResource Background_2}"
-            HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto"
-            Grid.Column="0"
-            Padding="0 5">
-            <StackPanel
-                VerticalAlignment="Top">
-                <StackPanel.Resources>
-                    <Style
-                        TargetType="Button"
-                        BasedOn="{StaticResource MainNavigate_Button}">
-                    </Style>
-                </StackPanel.Resources>
-
-                <Button
-                    Content="Home" />
-
-                <Button
-                    Content="Home" />
-
-                <Button
-                    Content="(None)" />
-
-            </StackPanel>
-        </ScrollViewer>
-
-        <ContentControl
-            Grid.Column="1">
+        <ContentControl>
             <ContentPresenter
                 Content="{Binding CurrentViewModel}">
             </ContentPresenter>

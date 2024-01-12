@@ -8,17 +8,66 @@
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Background="{StaticResource Background_1}">
-    <UserControl.Resources>
-        <Style
-            TargetType="Button"
-            x:Key="RedButton">
-            <Setter
-                Property="Background"
-                Value="red"></Setter>
-        </Style>
-    </UserControl.Resources>
+    xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
+    Background="{StaticResource Background_1}"
+    d:DataContext="{d:DesignInstance }">
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="auto" />
+            <RowDefinition
+                Height="*" />
+
+        </Grid.RowDefinitions>
+
+        <!--Title-->
+        <TextBlock
+            Grid.Row="0"
+            Text="Create New Playlist"
+            FontSize="{StaticResource Heading2FontSize}"
+            FontWeight="Bold"
+            Foreground="{StaticResource WhiteBrush}"
+            Margin="40"
+            FontFamily="Monotype Corsiva" />
+
+        <!--Options-->
+        <Grid
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="Transparent"
+            Grid.Row="1"
+            Margin="30 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="auto" />
+                <ColumnDefinition
+                    Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="auto" />
+                <RowDefinition
+                    Height="auto" />
+            </Grid.RowDefinitions>
+            <Button
+                Template="{DynamicResource TextBlockButton}"
+                Cursor="Hand"
+                Background="Transparent"
+                Content="Delete"
+                Command="{Binding DeletePlaylistCommand}">
+            </Button>
+            <Button
+                Template="{DynamicResource TextBlockButton}"
+                Cursor="Hand"
+                Background="Transparent"
+                Content="Create"
+                Command="{Binding CreatePlaylistCommand}">
+            </Button>
+        </Grid>
+    </Grid>
+
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition
                 Height="60"></RowDefinition>
@@ -76,5 +125,5 @@
 
         </Grid>
 
-    </Grid>
+    </Grid>-->
 </UserControl>

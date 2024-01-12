@@ -30,7 +30,7 @@
             FontSize="{StaticResource Heading1FontSize}"
             FontWeight="Bold"
             Foreground="{StaticResource WhiteBrush}"
-            Margin="20"
+            Margin="30"
             FontFamily="Monotype Corsiva" />
 
         <!--Options-->
