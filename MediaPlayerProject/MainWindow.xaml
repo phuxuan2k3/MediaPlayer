@@ -48,7 +48,7 @@
                 <StackPanel.Resources>
                     <Style
                         TargetType="Button"
-                        BasedOn="{StaticResource MainNavigateButton}">
+                        BasedOn="{StaticResource MainNavigate_Button}">
                     </Style>
                 </StackPanel.Resources>
 

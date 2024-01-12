@@ -3,42 +3,63 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!--Theme-->
+    <!--Color-->
+    <Color
+        x:Key="White">#FFFFFF</Color>
+    <Color
+        x:Key="DarkGrayBlue">#19376D</Color>
+    <Color
+        x:Key="DarkBlue">#0F1035</Color>
+    <Color
+        x:Key="LightGrayBlue">#576CBC</Color>
+    <Color
+        x:Key="LightGrayBlue_85">#D9576CBC</Color>
+    <Color
+        x:Key="LightTeal">#a5cbcf</Color>
+    <Color
+        x:Key="Teal">#73A9AD</Color>
+    <Color
+        x:Key="LightRed">#EF4040</Color>
+    <Color
+        x:Key="Pink">#E95793</Color>
+    <Color
+        x:Key="Purple">#940B92</Color>
+
+    <!--Brush-->
+    <!--Solid-->
+    <SolidColorBrush
+        x:Key="WhiteBrush"
+        Color="{StaticResource White}" />
+    <!--Gradient-->
     <LinearGradientBrush
         x:Key="BackgroundDark"
         StartPoint="0 0"
         EndPoint="1 1">
         <GradientStop
-            Color="#19376D"
+            Color="{StaticResource DarkGrayBlue}"
             Offset="0" />
         <GradientStop
-            Color="#0F1035"
+            Color="{StaticResource DarkBlue}"
             Offset="1" />
     </LinearGradientBrush>
-
     <LinearGradientBrush
         x:Key="BackgroundNormal"
-        StartPoint="0 1"
-        EndPoint="1 0">
+        StartPoint="0.3 0.7"
+        EndPoint="0.7 0.3">
         <GradientStop
-            Color="#576CBC"
-            Offset="0" />
+            Color="{StaticResource Teal}"
+            Offset="-0.2" />
         <GradientStop
-            Color="#A5D7E8"
+            Color="{StaticResource LightGrayBlue_85}"
             Offset="0.8" />
         <GradientStop
-            Color="#576CBC"
-            Offset="1" />
+            Color="{StaticResource Teal}"
+            Offset="1.4" />
     </LinearGradientBrush>
 
-    <!--Color-->
-    <Color
-        x:Key="White">#FFFFFF</Color>
-
-    <!--Brush-->
-    <SolidColorBrush
-        x:Key="WhiteBrush"
-        Color="{StaticResource White}" />
+    <!--Image Size-->
+    <sys:Double
+        x:Key="ImageIconSize">16</sys:Double>
 
     <!--Font Size-->
     <sys:Double
