@@ -18,21 +18,22 @@ using System.Windows.Shapes;
 namespace MediaPlayerProject.Views
 {
     /// <summary>
-    /// Interaction logic for PlaylistListingView.xaml
+    /// Interaction logic for MediaFileListingView.xaml
     /// </summary>
-    public partial class PlaylistListingView : UserControl
+    public partial class MediaFileListingView : UserControl
     {
-        public PlaylistListingView()
+        public MediaFileListingView()
         {
             InitializeComponent();
         }
 
         private void ListViewItemDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var viewModel = (PlaylistListingViewModel)(this.DataContext);
-            var playlist = (Playlist)(((ListViewItem)(sender)).DataContext);
+            var viewModel = (MediaFileListingViewModel)(this.DataContext);
+            var playlist = (MediaFile)((ListViewItem)sender).DataContext;
             viewModel.LoadMediaFileCommand.Execute(playlist);
         }
+
 
         private void UC_MouseDown(object sender, MouseButtonEventArgs e)
         {

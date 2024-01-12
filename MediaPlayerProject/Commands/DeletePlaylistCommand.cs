@@ -16,12 +16,10 @@ namespace MediaPlayerProject.Commands
         private readonly NavigationService _playlistListingNavigationService;
         private readonly PlaylistListingViewModel _playlistListingViewModel;
 
-        public DeletePlaylistCommand(PlaylistList playlistList, NavigationService playlistListingNavigationService, PlaylistListingViewModel playlistListingViewModel)
+        public DeletePlaylistCommand(PlaylistList playlistList, PlaylistListingViewModel playlistListingViewModel)
         {
             _playlistList = playlistList;
-            _playlistListingNavigationService = playlistListingNavigationService;
             _playlistListingViewModel = playlistListingViewModel;
-
             _playlistListingViewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
 
@@ -44,12 +42,11 @@ namespace MediaPlayerProject.Commands
             try
             {
                 await _playlistList.deletePlaylist(playlist);
+                _playlistListingViewModel.UpdatePlaylistList();
             }
             catch (Exception e)
             {
             }
-
-            _playlistListingNavigationService.Navigate();
         }
     }
 }

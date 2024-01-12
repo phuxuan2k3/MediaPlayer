@@ -26,7 +26,9 @@
                 <views:PlaylistListingView
                     Background="{StaticResource BackgroundNormal}"></views:PlaylistListingView>
             </DataTemplate>
-
+            <DataTemplate DataType="{x:Type vms:MediaFileListingViewModel}">
+                <views:MediaFileListingView></views:MediaFileListingView>
+            </DataTemplate>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition

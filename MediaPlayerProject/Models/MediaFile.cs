@@ -10,14 +10,16 @@ namespace MediaPlayerProject.Models
     {
         public MediaFile() { }
 
-        public MediaFile(string fileName, string path)
+        public MediaFile(string fileName, string path, Guid id)
         {
             FileName = fileName;
             Path = path;
+            Id = id;
         }
 
         public string FileName;
         public string Path;
 
+        public Guid Id;
     }
 }
