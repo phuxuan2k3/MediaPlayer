@@ -23,7 +23,10 @@ namespace MediaPlayerProject.Services.MediaFileProviders
         {
             using (PlaylistListDbContext playlistListDbContext = _playlistListDbContextFactory.CreateDbContext())
             {
-                IEnumerable<MediaFileDTO> mediaFileDTOs = await playlistListDbContext.MediaFiles.Where(m => m.Id == playlist.Id).ToListAsync();
+                IEnumerable<PlaylistFilesDTO> idMediaFiles = await playlistListDbContext.PlaylistFiles.Where(m => m.PlaylistId == playlist.Id).ToListAsync();
+
+                IEnumerable<MediaFileDTO> mediaFileDTOs = await playlistListDbContext.MediaFiles.Where(m => idMediaFiles.Select(imf => imf.FileId).Contains(m.Id)).ToListAsync();
+
                 return mediaFileDTOs.Select(p => new MediaFile(p.Name, p.Path, p.Id));
             }
         }

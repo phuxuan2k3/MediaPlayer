@@ -57,12 +57,20 @@ namespace MediaPlayerProject
         }
         private AddPlaylistViewModel CreateAddPlaylistViewModel()
         {
-            return new AddPlaylistViewModel(playlistList, new Services.NavigationService(navigationStore, CreatePlaylistListingViewModel));
+            return new AddPlaylistViewModel(playlistList, new NavigationService(navigationStore, CreatePlaylistListingViewModel));
         }
 
         private PlaylistListingViewModel CreatePlaylistListingViewModel()
         {
-            return PlaylistListingViewModel.LoadViewModel(playlistList, new NavigationService(navigationStore, CreateAddPlaylistViewModel), new NavigationService(navigationStore, CreatePlaylistListingViewModel));
+            return PlaylistListingViewModel.LoadViewModel(playlistList,
+                new NavigationService(navigationStore, CreateAddPlaylistViewModel),
+                (pl) => new NavigationService(navigationStore, () => CreateMediaFileListingViewModel(pl)));
+        }
+
+        private MediaFileListingViewModel CreateMediaFileListingViewModel(Playlist playlist)
+        {
+            return MediaFileListingViewModel.LoadViewModel(playlist, new NavigationService(navigationStore, CreatePlaylistListingViewModel));
+
         }
     }
 }

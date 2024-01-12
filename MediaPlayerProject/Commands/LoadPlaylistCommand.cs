@@ -12,12 +12,10 @@ namespace MediaPlayerProject.Commands
 {
     public class LoadPlaylistCommand : AsyncCommandBase
     {
-        private readonly PlaylistList playlistList;
         private readonly PlaylistListingViewModel viewModel;
 
         public LoadPlaylistCommand(PlaylistList playlistList, PlaylistListingViewModel viewModel)
         {
-            this.playlistList = playlistList;
             this.viewModel = viewModel;
         }
 
@@ -25,9 +23,9 @@ namespace MediaPlayerProject.Commands
         {
             try
             {
-                IEnumerable<Playlist> playlists = await playlistList.GetItems();
-                viewModel.UpdatePlaylistList(playlists);
-            }catch (Exception ex)
+                viewModel.UpdatePlaylistList();
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("Error Loading!");
             }

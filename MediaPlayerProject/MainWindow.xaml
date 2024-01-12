@@ -16,6 +16,9 @@
             <DataTemplate DataType="{x:Type vms:PlaylistListingViewModel}">
                 <views:PlaylistListingView></views:PlaylistListingView>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:MediaFileListingViewModel}">
+                <views:MediaFileListingView></views:MediaFileListingView>
+            </DataTemplate>
         </Grid.Resources>
 
         <ContentControl Content="{Binding CurrentViewModel}">

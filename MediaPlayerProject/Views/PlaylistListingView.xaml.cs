@@ -1,4 +1,5 @@
-﻿using MediaPlayerProject.ViewModels;
+﻿using MediaPlayerProject.Models;
+using MediaPlayerProject.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,8 @@ namespace MediaPlayerProject.Views
         private void Button_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var viewModel = (PlaylistListingViewModel)(this.DataContext);
-            var playlist = (PlaylistViewModel)(((Button)(sender)).DataContext);
-            viewModel.DeletePlaylistCommand.Execute(playlist);
-            new MediaFileListingViewModel()
+            var playlist = (Playlist)(((Button)(sender)).DataContext);
+            viewModel.LoadMediaFileCommand.Execute(playlist);
         }
     }
 }

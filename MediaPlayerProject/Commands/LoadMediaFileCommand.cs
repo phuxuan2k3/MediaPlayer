@@ -13,11 +13,11 @@ namespace MediaPlayerProject.Commands
 {
     public class LoadMediaFileCommand : AsyncCommandBase
     {
-        private readonly NavigationService playlistListingNavigationService;
+        private readonly Func<Playlist, NavigationService> createMediaFileNavigationService;
 
-        public LoadMediaFileCommand(NavigationStore navigationStore, NavigationService playlistListingNavigationService)
+        public LoadMediaFileCommand(Func<Playlist, NavigationService> createMediaFileNavigationService)
         {
-            this.playlistListingNavigationService = playlistListingNavigationService;
+            this.createMediaFileNavigationService = createMediaFileNavigationService;
         }
 
         public override async Task ExecuteAsync(object? parameter)
@@ -25,9 +25,8 @@ namespace MediaPlayerProject.Commands
             try
             {
                 var pl = (Playlist) parameter;
-                var navSer = new NavigationService(navigationStore, () => new MediaFileListingViewModel(pl, ));
-                IEnumerable<MediaFile> mediaFiles = await pl.GetItems();
-                this.playlistListingNavigationService.Navigate();
+                var ns = createMediaFileNavigationService.Invoke(pl);
+                ns.Navigate();
             }
             catch (Exception ex)
             {
