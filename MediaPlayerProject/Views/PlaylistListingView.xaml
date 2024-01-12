@@ -1,37 +1,119 @@
-﻿<UserControl x:Name="keyDown" x:Class="MediaPlayerProject.Views.PlaylistListingView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MediaPlayerProject.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Name="keyDown"
+    x:Class="MediaPlayerProject.Views.PlaylistListingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MediaPlayerProject.Views"
+    xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
+    mc:Ignorable="d"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance Type=vm:PlaylistListingViewModel}"
+    MouseDown="UC_MouseDown">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"></RowDefinition>
-            <RowDefinition Height="60"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition
+                Height="auto" />
+            <RowDefinition
+                Height="auto" />
+            <RowDefinition
+                Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Playlists" FontSize="40"></TextBlock>
-        <Button Command="{Binding DeletePlaylistCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding Source='delete.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
-                    <TextBlock FontSize="20">Delete</TextBlock>
-                </StackPanel>
+        <!--Title-->
+        <TextBlock
+            Grid.Row="0"
+            Text="Playlists"
+            FontSize="{StaticResource Heading1FontSize}"
+            FontWeight="Bold"
+            Foreground="{StaticResource WhiteBrush}"
+            Margin="20"
+            FontFamily="Monotype Corsiva" />
 
-            </Button.Content>
-        </Button>
-        <Button Command="{Binding CreatePlaylistCommand}" Grid.Row="1" Content="Create new playlist" FontSize="20" Width="200" Height="40" HorizontalAlignment="Right" Margin="0 0 10 0"></Button>
+        <!--Options-->
+        <StackPanel
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Background="Transparent"
+            Grid.Row="1"
+            Margin="30 0">
+            <StackPanel.Resources>
+                <Style
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource NormalLarge}">
+                    <Setter
+                        Property="FontFamily"
+                        Value="Times New Roman" />
+                    <Setter
+                        Property="FontStyle"
+                        Value="Italic" />
+                </Style>
+                <Style
+                    TargetType="Button">
+                    <Setter
+                        Property="Margin"
+                        Value="20 10" />
+                    <Setter
+                        Property="Padding"
+                        Value="10 5" />
+                    <Setter
+                        Property="BorderThickness"
+                        Value="0" />
+                    <Style.Triggers>
+                        <Trigger
+                            Property="IsEnabled"
+                            Value="False">
+                            <Setter
+                                Property="Visibility"
+                                Value="Collapsed" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+            <Button
+                Background="Transparent"
+                Command="{Binding CreatePlaylistCommand}">
+                <TextBlock
+                    Foreground="{StaticResource WhiteBrush}"
+                    Text="New" />
+            </Button>
+            <Button
+                Background="Transparent"
+                Command="{Binding DeletePlaylistCommand}">
+                <TextBlock
+                    Foreground="{StaticResource WhiteBrush}"
+                    Text="Delete" />
+            </Button>
+        </StackPanel>
 
-        <ListView SelectedItem="{Binding SelectedPlaylist}" x:Name="mouse" Grid.Row="2"  ItemsSource="{Binding Playlists}">
+        <ListView
+            x:Name="MyListView"
+            SelectedItem="{Binding SelectedPlaylist}"
+            Grid.Row="2"
+            Background="Transparent"
+            ItemsSource="{Binding Playlists}">
             <ListView.ItemTemplate>
-                <DataTemplate x:Name="SingleLineDataTemplate" >
-                    <StackPanel Orientation="Horizontal" Height="44" >
-                        <Image Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
-                        <TextBlock  Opacity="0.5" Text="{Binding TimeCreated}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
+                <DataTemplate
+                    x:Name="SingleLineDataTemplate">
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Height="44">
+                        <Image
+                            Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}"
+                            Height="16"
+                            Width="16"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+                            Text="{Binding Name}"
+                            VerticalAlignment="Center"
+                            Margin="12,0,0,0" />
+                        <TextBlock
+                            Opacity="0.5"
+                            Text="{Binding TimeCreated}"
+                            VerticalAlignment="Center"
+                            Margin="12,0,0,0" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

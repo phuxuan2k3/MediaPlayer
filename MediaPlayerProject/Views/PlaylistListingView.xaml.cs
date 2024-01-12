@@ -25,5 +25,9 @@ namespace MediaPlayerProject.Views
             InitializeComponent();
         }
 
+        private void UC_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MyListView.UnselectAll();
+        }
     }
 }
