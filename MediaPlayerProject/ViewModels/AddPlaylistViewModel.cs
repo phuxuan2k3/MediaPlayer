@@ -1,5 +1,6 @@
 ﻿using MediaPlayerProject.Commands;
 using MediaPlayerProject.Models;
+using MediaPlayerProject.Services.NavigationServiceProvider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace MediaPlayerProject.ViewModels
         public string? PlaylistName { get; set; }
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
-        public AddPlaylistViewModel(PlaylistList playlistList, Services.NavigationService playlistListViewNaviationService)
+        public AddPlaylistViewModel()
         {
-            SubmitCommand = new AddPlaylistCommand(this, playlistList, playlistListViewNaviationService);
-            CancelCommand = new NavigateCommand(playlistListViewNaviationService);
+            SubmitCommand = new AddPlaylistCommand(this);
+            var nsp = App.GetService<INavigationServiceProvider>();
+            var ns = nsp.GetNavigationService(PlaylistListingViewModel.LoadViewModel);
+            CancelCommand = new NavigateCommand(ns);
         }
     }
 }

@@ -14,8 +14,8 @@ d:DataContext="{d:DesignInstance Type=vm:MediaFileListingViewModel}"
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Playlist.Name}"/>
-            <Button Content="Add files" Command="{Binding CreatePlaylistCommand}"></Button>
+            <TextBlock Text="{Binding PlaylistData.Name}"/>
+            <Button Content="Add files" Command="{Binding AddMediaFilesFromSystemCommand}"></Button>
             <Button Content="Back" Command="{Binding BackCommand}"></Button>
             <Button Content="Remove" Command="{Binding RemoveMediaFileCommand}"></Button>
         </StackPanel>
