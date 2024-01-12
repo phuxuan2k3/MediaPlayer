@@ -29,6 +29,7 @@ namespace MediaPlayerProject.ViewModels
             MediaFiles = new ObservableCollection<MediaFile>();
             this.playlist = playlist;
             this.playlistListingNavigationService = playlistListingNavigationService;
+            CreatePlaylistCommand = new AddMediaFilesCommand(playlist, this);
         }
 
         public static MediaFileListingViewModel LoadViewModel(Playlist playlist, NavigationService playlistListingNavigationService)

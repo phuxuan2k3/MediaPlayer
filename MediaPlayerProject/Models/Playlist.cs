@@ -1,4 +1,5 @@
-﻿using MediaPlayerProject.Services.MediaFileProviders;
+﻿using MediaPlayerProject.Services.MediaFileCreators;
+using MediaPlayerProject.Services.MediaFileProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +27,14 @@ namespace MediaPlayerProject.Models
             this.Files = new List<MediaFile>();
             this.Id = id;
         }
-        public Playlist(string name, DateTime timeCreated, Guid id, IMediaFileProvider mediaFileProvider)
+        public Playlist(string name, DateTime timeCreated, Guid id, IMediaFileProvider mediaFileProvider, IMediaFileCreator mediaFileCreator)
         {
             Name = name;
             TimeCreated = timeCreated;
             this.Files = new List<MediaFile>();
             this.Id = id;
             this.mediaFileProvider = mediaFileProvider;
+            this.mediaFileCreator = mediaFileCreator;
         }
 
         public string Name { get; }
@@ -41,9 +43,14 @@ namespace MediaPlayerProject.Models
 
         public List<MediaFile> Files { get; }
         private readonly IMediaFileProvider mediaFileProvider;
+        private readonly IMediaFileCreator mediaFileCreator;
         public async Task<IEnumerable<MediaFile>> GetItems()
         {
             return await mediaFileProvider.GetMediaFiles(this);
+        }
+        public async Task CreateMediaFile(MediaFile mediaFile)
+        {
+            await mediaFileCreator.createMediaFile(this, mediaFile);
         }
     }
 }

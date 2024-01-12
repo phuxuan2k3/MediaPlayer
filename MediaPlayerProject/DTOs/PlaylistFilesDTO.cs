@@ -12,6 +12,7 @@ namespace MediaPlayerProject.DTOs
     [PrimaryKey(nameof(PlaylistId), nameof(FileId))]
     public class PlaylistFilesDTO
     {
+
         [ForeignKey("Playlist")]
         public Guid PlaylistId { get; set; }
         public PlaylistDTO? Playlist { get; set; }

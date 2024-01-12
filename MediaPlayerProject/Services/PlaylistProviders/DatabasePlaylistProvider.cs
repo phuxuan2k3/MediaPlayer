@@ -1,6 +1,8 @@
 ﻿using MediaPlayerProject.DbContexts;
 using MediaPlayerProject.DTOs;
 using MediaPlayerProject.Models;
+using MediaPlayerProject.Services.MediaFileCreators;
+using MediaPlayerProject.Services.MediaFileProviders;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,12 +21,12 @@ namespace MediaPlayerProject.Services.PlaylistProviders
             _playlistListDbContextFactory = playlistListDbContextFactory;
         }
 
-        public async Task<IEnumerable<Playlist>> GetAllPlaylist(MediaFileProviders.IMediaFileProvider mediaFileProvider)
+        public async Task<IEnumerable<Playlist>> GetAllPlaylist(IMediaFileProvider mediaFileProvider, IMediaFileCreator mediaFileCreator)
         {
             using (PlaylistListDbContext playlistListDbContext = _playlistListDbContextFactory.CreateDbContext())
             {
                 IEnumerable<PlaylistDTO> playlistDTOs = await playlistListDbContext.Playlists.ToListAsync();
-                return playlistDTOs.Select(p => new Playlist(p.Name, p.TimeCreated, p.Id, mediaFileProvider));
+                return playlistDTOs.Select(p => new Playlist(p.Name, p.TimeCreated, p.Id, mediaFileProvider, mediaFileCreator));
             }
         }
     }

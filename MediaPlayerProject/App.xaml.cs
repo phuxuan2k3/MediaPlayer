@@ -1,6 +1,7 @@
 ﻿using MediaPlayerProject.DbContexts;
 using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
+using MediaPlayerProject.Services.MediaFileCreators;
 using MediaPlayerProject.Services.MediaFileProviders;
 using MediaPlayerProject.Services.PlaylistCreators;
 using MediaPlayerProject.Services.PlaylistDelete;
@@ -34,7 +35,9 @@ namespace MediaPlayerProject
             IPlaylistProvider playlistProvider = new DatabasePlaylistProvider(playlistListDbContextFactory);
             IPlaylistDelete playlistDeletor = new DatabasePlaylistDelete(playlistListDbContextFactory);
             IMediaFileProvider mediaFileProvider = new DatabaseMediaFileProvider(playlistListDbContextFactory);
-            this.playlistList = new PlaylistList(playlistCreators, playlistProvider, playlistDeletor, mediaFileProvider);
+            IMediaFileCreator mediaFileCreator = new DatabaseMediaFileCreator(playlistListDbContextFactory);
+
+            this.playlistList = new PlaylistList(playlistCreators, playlistProvider, playlistDeletor, mediaFileProvider, mediaFileCreator);
             navigationStore = new NavigationStore();
         }
 

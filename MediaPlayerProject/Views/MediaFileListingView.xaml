@@ -9,9 +9,16 @@
 d:DataContext="{d:DesignInstance Type=vm:MediaFileListingViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="{Binding Playlist.Name}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Playlist.Name}"/>
+            <Button Content="Add files" Command="{Binding CreatePlaylistCommand}"></Button>
+        </StackPanel>
 
-        <ListView SelectedItem="{Binding SelectedPlaylist}"  ItemsSource="{Binding MediaFiles}">
+        <ListView Grid.Row="1"   ItemsSource="{Binding MediaFiles}">
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="SingleLineDataTemplate" >
                     <Button >
