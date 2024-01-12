@@ -1,5 +1,7 @@
 ﻿using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
+using MediaPlayerProject.Services.NavigationServiceProvider;
+using MediaPlayerProject.Services.PlaylistCreators;
 using MediaPlayerProject.ViewModels;
 using System;
 using System.Threading.Tasks;
@@ -8,15 +10,10 @@ namespace MediaPlayerProject.Commands
 {
     public class AddPlaylistCommand : AsyncCommandBase
     {
-        private readonly PlaylistList _playlistList;
-        private readonly NavigationService playlistListingNavigationService;
         private readonly AddPlaylistViewModel _addPlaylistViewModel;
-        public AddPlaylistCommand(ViewModels.AddPlaylistViewModel addPlaylistViewModel, PlaylistList playlistList, NavigationService playlistListViewNaviationService)
+        public AddPlaylistCommand(AddPlaylistViewModel addPlaylistViewModel)
         {
-            _playlistList = playlistList;
-            this.playlistListingNavigationService = playlistListViewNaviationService;
             _addPlaylistViewModel = addPlaylistViewModel;
-
             _addPlaylistViewModel.PropertyChanged += OnViewModelPropertyChanged!;
         }
         private void OnViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -31,14 +28,17 @@ namespace MediaPlayerProject.Commands
             Playlist playlist = new Playlist(_addPlaylistViewModel.PlaylistName!, DateTime.Now);
             try
             {
-                await _playlistList.addPlaylist(playlist);
+                var sv = App.GetService<IPlaylistCreators>();
+                await sv.CreatePlaylist(playlist);
             }
             catch (Exception e)
             {
             }
-
-            playlistListingNavigationService.Navigate();
+            var nsp = App.GetService<INavigationServiceProvider>();
+            var ns = nsp.GetNavigationService(PlaylistListingViewModel.LoadViewModel);
+            ns.Navigate();
         }
+
         public override bool CanExecute(object? parameter)
         {
             return !string.IsNullOrEmpty(_addPlaylistViewModel.PlaylistName) && base.CanExecute(parameter);

@@ -1,10 +1,10 @@
 ﻿using MediaPlayerProject.DbContexts;
 using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
-using MediaPlayerProject.Services.MediaFileCreators;
-using MediaPlayerProject.Services.MediaFilePoolCreator;
+using MediaPlayerProject.Services.MediaFileCreator;
 using MediaPlayerProject.Services.MediaFIlePoolProvider;
 using MediaPlayerProject.Services.MediaFileProviders;
+using MediaPlayerProject.Services.NavigationServiceProvider;
 using MediaPlayerProject.Services.PlaylistCreators;
 using MediaPlayerProject.Services.PlaylistDelete;
 using MediaPlayerProject.Services.PlaylistProviders;
@@ -13,6 +13,9 @@ using MediaPlayerProject.Services.RemoveMediaFilePool;
 using MediaPlayerProject.Stores;
 using MediaPlayerProject.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 using System.Windows;
 
 namespace MediaPlayerProject
@@ -26,21 +29,49 @@ namespace MediaPlayerProject
         private readonly PlaylistList playlistList;
         private readonly NavigationStore navigationStore;
         private readonly PlaylistListDbContextFactory playlistListDbContextFactory;
+
+        public IHost Host
+        {
+            get;
+        }
+        public static T GetService<T>()
+    where T : class
+        {
+            var host = (Current as App)!.Host;
+            var obj = host.Services.GetService(typeof(T));
+            if (obj is not T serviecRes)
+            {
+                throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
+            }
+            return serviecRes;
+        }
+
         public App()
         {
-            playlistListDbContextFactory = new PlaylistListDbContextFactory(CONNECTION_STRING);
-            IPlaylistCreators playlistCreators = new DatabasePlaylistCreator(playlistListDbContextFactory);
-            IPlaylistProvider playlistProvider = new DatabasePlaylistProvider(playlistListDbContextFactory);
-            IPlaylistDelete playlistDeletor = new DatabasePlaylistDelete(playlistListDbContextFactory);
-            IMediaFileProvider mediaFileProvider = new DatabaseMediaFileProvider(playlistListDbContextFactory);
-            IMediaFileCreator mediaFileCreator = new DatabaseMediaFileCreator(playlistListDbContextFactory);
-            IRemoveMediaFile removeMediaFile = new DatabaseRemoveMediaFile(playlistListDbContextFactory);
-            IMediaFIlePoolProvider mediaFIlePoolProvider = new DatabaseMediaFilePoolProvider(playlistListDbContextFactory);
-            IMediaFilePoolCreator mediaFilePoolCreator = new DatabaseMediaFilePoolCreator(playlistListDbContextFactory);
-            IRemoveMediaFilePool removeMediaFilePool = new DatabaseRemoveMediaFilePool(playlistListDbContextFactory);
 
-            this.playlistList = new PlaylistList(playlistCreators, playlistProvider, playlistDeletor, mediaFileProvider, mediaFileCreator, removeMediaFile, mediaFIlePoolProvider, mediaFilePoolCreator, removeMediaFilePool);
-            navigationStore = new NavigationStore();
+            Host = Microsoft.Extensions.Hosting.Host.
+                CreateDefaultBuilder().
+                UseContentRoot(AppContext.BaseDirectory).
+                ConfigureServices((context, services) =>
+                {
+                    services.AddSingleton(typeof(PlaylistListDbContextFactory), x => ActivatorUtilities.CreateInstance(x, typeof(PlaylistListDbContextFactory), CONNECTION_STRING));
+                    services.AddSingleton<IPlaylistCreators, DatabasePlaylistCreator>();
+                    services.AddSingleton<IPlaylistProvider, DatabasePlaylistProvider>();
+                    services.AddSingleton<IPlaylistDelete, DatabasePlaylistDelete>();
+                    services.AddSingleton<IMediaFileProvider, DatabaseMediaFileProvider>();
+                    services.AddSingleton<IMediaFileCreator, DatabaseMediaFileCreator>();
+                    services.AddSingleton<IRemoveMediaFile, DatabaseRemoveMediaFile>();
+                    services.AddSingleton<IMediaFIlePoolProvider, DatabaseMediaFilePoolProvider>();
+                    services.AddSingleton<IMediaFileCreator, DatabaseMediaFileCreator>();
+                    services.AddSingleton<IRemoveMediaFilePool, DatabaseRemoveMediaFilePool>();
+
+                    // Navigation
+                    services.AddSingleton<NavigationStore>();
+                    services.AddSingleton<INavigationServiceProvider, NavigationServiceProvider>();
+                }).Build();
+
+            this.playlistList = new PlaylistList();
+            this.playlistListDbContextFactory = GetService<PlaylistListDbContextFactory>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -50,36 +81,15 @@ namespace MediaPlayerProject
             {
                 playlistListDbContext.Database.Migrate();
             }
-
-            navigationStore.CurrentViewModel = CreatePlaylistListingViewModel();
+            var ns = GetService<NavigationStore>();
+            ns.CurrentViewModel = PlaylistListingViewModel.LoadViewModel();
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel(navigationStore)
+                DataContext = new MainViewModel()
             };
             MainWindow.Show();
 
             base.OnStartup(e);
-        }
-        private AddPlaylistViewModel CreateAddPlaylistViewModel()
-        {
-            return new AddPlaylistViewModel(playlistList, new NavigationService(navigationStore, CreatePlaylistListingViewModel));
-        }
-
-        private PlaylistListingViewModel CreatePlaylistListingViewModel()
-        {
-            return PlaylistListingViewModel.LoadViewModel(playlistList,
-                new NavigationService(navigationStore, CreateAddPlaylistViewModel),
-                (pl) => new NavigationService(navigationStore, () => CreateMediaFileListingViewModel(pl)), new NavigationService(navigationStore, CreateMediaFilePoolViewModel));
-        }
-
-        private MediaFileListingViewModel CreateMediaFileListingViewModel(Playlist playlist)
-        {
-            return MediaFileListingViewModel.LoadViewModel(playlist, new NavigationService(navigationStore, CreatePlaylistListingViewModel), new NavigationService(navigationStore, CreateMediaFilePoolViewModel));
-        }
-
-        private MediaFilePoolViewModel CreateMediaFilePoolViewModel()
-        {
-            return new MediaFilePoolViewModel(playlistList, new NavigationService(navigationStore, CreatePlaylistListingViewModel));
         }
     }
 }

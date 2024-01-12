@@ -1,5 +1,6 @@
 ﻿using MediaPlayerProject.Helpers;
 using MediaPlayerProject.Models;
+using MediaPlayerProject.Services.MediaFileCreator;
 using MediaPlayerProject.ViewModels;
 using Microsoft.Win32;
 using System;
@@ -21,16 +22,17 @@ namespace MediaPlayerProject.Commands
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
             openFileDialog.Filter = "Media Files|*.mp4;*.mov;*.wav;*.mp3";
-            Nullable<bool> result = openFileDialog.ShowDialog();
+            bool? result = openFileDialog.ShowDialog();
 
             string[] filenames;
             if (result == true)
             {
+                var sv = App.GetService<IMediaFileCreator>();
                 filenames = openFileDialog.FileNames;
                 foreach (var filename in filenames)
                 {
                     var parsedFileName = ParseFileName.parseFileName(filename);
-                    await this.mediaFilePoolViewModel.App.addMediaFilePool(new MediaFile(parsedFileName.Name, parsedFileName.Path));
+                    await sv.AddMediaFiletoPool(new MediaFile(parsedFileName.Name, parsedFileName.Path));
                 }
 
                 this.mediaFilePoolViewModel.UpdateMediaFileList();

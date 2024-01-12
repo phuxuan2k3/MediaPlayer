@@ -6,10 +6,9 @@ namespace MediaPlayerProject.ViewModels
     {
         private readonly NavigationStore _navigationStore;
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
-        public MainViewModel(NavigationStore navigationStore)
+        public MainViewModel()
         {
-            _navigationStore = navigationStore;
-
+            _navigationStore = App.GetService<NavigationStore>();
             _navigationStore.CurrentViewModelChanged += OncurrentViewModelChanged;
         }
 
