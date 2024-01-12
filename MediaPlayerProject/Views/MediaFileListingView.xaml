@@ -20,17 +20,41 @@ d:DataContext="{d:DesignInstance Type=vm:MediaFileListingViewModel}"
             <Button Content="Remove" Command="{Binding RemoveMediaFileCommand}"></Button>
         </StackPanel>
 
-        <ListView Grid.Row="1" SelectedItem="{Binding SelectedMediaFile}"  ItemsSource="{Binding MediaFiles}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:Name="SingleLineDataTemplate" >
-                    <Button >
-                        <StackPanel Orientation="Horizontal" Height="44" >
-                            <Image Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding FileName}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
-                        </StackPanel>
-                    </Button>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <ListView Grid.Column="0" SelectedItem="{Binding SelectedMediaFile}"  ItemsSource="{Binding MediaFiles}">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <Button >
+                            <StackPanel Orientation="Horizontal" Height="44" >
+                                <Image Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding FileName}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button Grid.Column="1" FontSize="30" Height="40" Content="&#x003c;" CommandParameter="{Binding ElementName=FilePool, Path=SelectedItems}" Command="{Binding AddMediaFilesFromPoolCommand}"></Button>
+
+            <ListView x:Name="FilePool" Grid.Column="2" SelectionMode="Multiple"  ItemsSource="{Binding MediaFilesPool}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button >
+                            <StackPanel Orientation="Horizontal" Height="44" >
+                                <Image Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding FileName}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
     </Grid>
 </UserControl>

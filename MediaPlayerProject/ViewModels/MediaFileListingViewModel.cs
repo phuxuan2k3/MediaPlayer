@@ -1,6 +1,7 @@
 ﻿using MediaPlayerProject.Commands;
 using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
+using MediaPlayerProject.Services.MediaFIlePoolProvider;
 using MediaPlayerProject.Services.MediaFileProviders;
 using MediaPlayerProject.Services.NavigationServiceProvider;
 using MediaPlayerProject.Services.PlaylistProviders;
@@ -16,22 +17,28 @@ namespace MediaPlayerProject.ViewModels
         public Playlist PlaylistData { get; }
 
         public MediaFile? SelectedMediaFile { get; set; }
+        public ObservableCollection<MediaFile> SelectedMediaFilePool { get; set; }
         public ObservableCollection<MediaFile> MediaFiles { get; set; }
+        public ObservableCollection<MediaFile> MediaFilesPool { get; set; }
 
         public ICommand AddMediaFilesFromSystemCommand { get; }
+        public ICommand AddMediaFilesFromPoolCommand { get; }
         public ICommand RemoveMediaFileCommand { get; }
         public ICommand BackCommand { get; }
 
         public MediaFileListingViewModel(Playlist playlist)
         {
+            SelectedMediaFilePool = new ObservableCollection<MediaFile>();
             PlaylistData = playlist;
             MediaFiles = new ObservableCollection<MediaFile>();
+            MediaFilesPool = new ObservableCollection<MediaFile>();
             AddMediaFilesFromSystemCommand = new AddMediaFilesFromSystemCommand(playlist, this);
+            AddMediaFilesFromPoolCommand = new AddMediaFileFromPoolCommand(playlist, this);
             var nsp = App.GetService<INavigationServiceProvider>();
             var ns_PLVM = nsp.GetNavigationService(PlaylistListingViewModel.LoadViewModel);
             BackCommand = new NavigateCommand(ns_PLVM);
             RemoveMediaFileCommand = new RemoveMediaFileCommand(this);
-            UpdateMediaFileList();
+            UpdateViewModel();
         }
 
         public static MediaFileListingViewModel LoadViewModel(Playlist playlist)
@@ -40,7 +47,7 @@ namespace MediaPlayerProject.ViewModels
             return mediaFileListingViewModel;
         }
 
-        public async void UpdateMediaFileList()
+        public async void UpdateViewModel()
         {
             var sv = App.GetService<IMediaFileProvider>();
             MediaFiles.Clear();
@@ -48,6 +55,14 @@ namespace MediaPlayerProject.ViewModels
             foreach (var mediaFile in mediaFiles)
             {
                 MediaFiles.Add(mediaFile);
+            }
+
+            var sv_MFP = App.GetService<IMediaFIlePoolProvider>();
+            MediaFilesPool.Clear();
+            var mediaFilesPool = await sv_MFP.getMediaFIlePool();
+            foreach (var mediaFile in mediaFilesPool)
+            {
+                MediaFilesPool.Add(mediaFile);
             }
         }
     }
