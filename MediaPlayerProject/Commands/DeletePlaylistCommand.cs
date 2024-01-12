@@ -3,11 +3,7 @@ using MediaPlayerProject.Services;
 using MediaPlayerProject.Services.PlaylistDelete;
 using MediaPlayerProject.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaPlayerProject.Commands
 {

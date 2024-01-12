@@ -2,6 +2,7 @@
 using MediaPlayerProject.Models;
 using MediaPlayerProject.Services.NavigationServiceProvider;
 using MediaPlayerProject.Services.PlaylistProviders;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace MediaPlayerProject.Commands
 {
@@ -22,7 +17,7 @@ namespace MediaPlayerProject.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            return !IsExecuting &&  base.CanExecute(parameter);
+            return !IsExecuting && base.CanExecute(parameter);
         }
         public override async void Execute(object? parameter)
         {
@@ -31,7 +26,8 @@ namespace MediaPlayerProject.Commands
             {
                 await ExecuteAsync(parameter);
 
-            }finally { IsExecuting = false; }
+            }
+            finally { IsExecuting = false; }
         }
 
         public abstract Task ExecuteAsync(object? parameter);

@@ -37,7 +37,7 @@ namespace MediaPlayerProject.Commands
                     var mpl = await sv.AddMediaFiletoPlaylist(this.playlist, new MediaFile(m.Name, m.Path, m.Id));
                 }
 
-                this.mediaFileListingViewModel.UpdateMediaFileList();
+                this.mediaFileListingViewModel.UpdateViewModel();
             }
         }
     }

@@ -1,11 +1,7 @@
-﻿using MediaPlayerProject.Models;
-using MediaPlayerProject.Services.RemoveMediaFile;
+﻿using MediaPlayerProject.Services.RemoveMediaFile;
 using MediaPlayerProject.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -39,8 +35,8 @@ namespace MediaPlayerProject.Commands
             try
             {
                 var sv = App.GetService<IRemoveMediaFile>();
-                await sv.removeMediaFile(mediaFileListingViewModel.PlaylistData, mediaFileListingViewModel.SelectedMediaFile);
-                mediaFileListingViewModel.UpdateMediaFileList();
+                await sv.removeMediaFile(mediaFileListingViewModel.PlaylistData, mediaFileListingViewModel.SelectedMediaFile!);
+                mediaFileListingViewModel.UpdateViewModel();
             }
             catch (Exception e)
             {

@@ -1,10 +1,4 @@
-﻿using MediaPlayerProject.Models;
-using MediaPlayerProject.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediaPlayerProject.Stores;
 
 namespace MediaPlayerProject.ViewModels
 {
