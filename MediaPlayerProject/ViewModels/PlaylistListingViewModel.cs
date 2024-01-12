@@ -1,6 +1,7 @@
 ﻿using MediaPlayerProject.Commands;
 using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
+using MediaPlayerProject.Services.NavigationServiceProvider;
 using MediaPlayerProject.Services.PlaylistProviders;
 using System;
 using System.Collections.Generic;
@@ -14,57 +15,38 @@ namespace MediaPlayerProject.ViewModels
 {
     public class PlaylistListingViewModel : ViewModelBase
     {
+        public Playlist? SelectedPlaylist { get; set; }
         public ObservableCollection<Playlist> Playlists { get; set; }
-        //public IEnumerable<PlaylistViewModel> Playlists => _playlists;
 
-        private Playlist _selectedPlaylist;
-        private readonly PlaylistList playlistList;
-
-        public Playlist SelectedPlaylist
-        {
-            get { return _selectedPlaylist; }
-            set
-            {
-                _selectedPlaylist = value;
-            }
-        }
-
-        public ICommand LoadPlaylistCommand { get; }
         public ICommand CreatePlaylistCommand { get; }
         public ICommand DeletePlaylistCommand { get; }
         public ICommand LoadMediaFileCommand { get; }
+        public ICommand MediaFilePoolNavigateCommand { get; }
 
-        public PlaylistListingViewModel(PlaylistList playlistList, NavigationService addPlaylistNavigateService,
-            Func<Playlist, NavigationService> createMediaFileListingNavigationService)
+        public PlaylistListingViewModel()
         {
             Playlists = new ObservableCollection<Playlist>();
-            CreatePlaylistCommand = new NavigateCommand(addPlaylistNavigateService);
-            LoadPlaylistCommand = new LoadPlaylistCommand(playlistList, this);
-            DeletePlaylistCommand = new DeletePlaylistCommand(playlistList, this);
-            LoadMediaFileCommand = new LoadMediaFileCommand(createMediaFileListingNavigationService);
-            this.playlistList = playlistList;
+
+            var nsp = App.GetService<INavigationServiceProvider>();
+            var ns_APLVM = nsp.GetNavigationService(() => new AddPlaylistViewModel());
+            var ns_MFPVM = nsp.GetNavigationService(() => new MediaFilePoolViewModel());
+            CreatePlaylistCommand = new NavigateCommand(ns_APLVM);
+            MediaFilePoolNavigateCommand = new NavigateCommand(ns_MFPVM);
+            DeletePlaylistCommand = new DeletePlaylistCommand(this);
+            LoadMediaFileCommand = new LoadMediaFileCommand();
+            UpdatePlaylistList();
         }
 
-        public static PlaylistListingViewModel LoadViewModel(PlaylistList playlistList, NavigationService addPlaylistNavigateService, Func<Playlist, NavigationService> createMediaFileListingNavigationService)
+        public static PlaylistListingViewModel LoadViewModel()
         {
-            PlaylistListingViewModel playlistListingViewModel = new PlaylistListingViewModel(playlistList,
-                addPlaylistNavigateService, createMediaFileListingNavigationService);
-            playlistListingViewModel.LoadPlaylistCommand.Execute(null);
-
+            PlaylistListingViewModel playlistListingViewModel = new PlaylistListingViewModel();
             return playlistListingViewModel;
         }
 
         public async void UpdatePlaylistList()
         {
-            this.Playlists = new ObservableCollection<Playlist>((await playlistList.GetItems()).ToList());
-            //Playlists.Clear();
-
-            //foreach (var playlist in playlistList)
-            //{
-            //    //PlaylistViewModel playlistViewModel = new PlaylistViewModel(playlist);
-            //    //Playlists.Add(playlistViewModel);
-
-            //}
+            var sv = App.GetService<IPlaylistProvider>();
+            this.Playlists = new ObservableCollection<Playlist>((await sv.GetAllPlaylist()).ToList());
         }
     }
 }

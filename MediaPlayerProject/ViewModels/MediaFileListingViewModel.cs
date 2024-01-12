@@ -1,6 +1,9 @@
 ﻿using MediaPlayerProject.Commands;
 using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
+using MediaPlayerProject.Services.MediaFileProviders;
+using MediaPlayerProject.Services.NavigationServiceProvider;
+using MediaPlayerProject.Services.PlaylistProviders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,36 +16,38 @@ namespace MediaPlayerProject.ViewModels
 {
     public class MediaFileListingViewModel : ViewModelBase
     {
-        private readonly Playlist playlist;
-        private readonly NavigationService playlistListingNavigationService;
+        public Playlist PlaylistData { get; }
 
+        public MediaFile? SelectedMediaFile { get; set; }
         public ObservableCollection<MediaFile> MediaFiles { get; set; }
 
-        public Playlist Playlist { get { return this.playlist; } }
+        public ICommand AddMediaFilesFromSystemCommand { get; }
+        public ICommand RemoveMediaFileCommand { get; }
+        public ICommand BackCommand { get; }
 
-        public ICommand LoadMediaFileCommand { get; }
-        public ICommand CreatePlaylistCommand { get; }
-        public ICommand DeletePlaylistCommand { get; }
-
-        public MediaFileListingViewModel(Playlist playlist, NavigationService playlistListingNavigationService)
+        public MediaFileListingViewModel(Playlist playlist)
         {
+            PlaylistData = playlist;
             MediaFiles = new ObservableCollection<MediaFile>();
-            this.playlist = playlist;
-            this.playlistListingNavigationService = playlistListingNavigationService;
+            AddMediaFilesFromSystemCommand = new AddMediaFilesFromSystemCommand(playlist, this);
+            var nsp = App.GetService<INavigationServiceProvider>();
+            var ns_PLVM = nsp.GetNavigationService(PlaylistListingViewModel.LoadViewModel);
+            BackCommand = new NavigateCommand(ns_PLVM);
+            RemoveMediaFileCommand = new RemoveMediaFileCommand(this);
+            UpdateMediaFileList();
         }
 
-        public static MediaFileListingViewModel LoadViewModel(Playlist playlist, NavigationService playlistListingNavigationService)
+        public static MediaFileListingViewModel LoadViewModel(Playlist playlist)
         {
-            MediaFileListingViewModel mediaFileListingViewModel = new MediaFileListingViewModel(playlist, playlistListingNavigationService);
-            mediaFileListingViewModel.UpdateMediaFileList();
+            MediaFileListingViewModel mediaFileListingViewModel = new MediaFileListingViewModel(playlist);
             return mediaFileListingViewModel;
         }
 
-
         public async void UpdateMediaFileList()
         {
+            var sv = App.GetService<IMediaFileProvider>();
             MediaFiles.Clear();
-            var mediaFiles = await this.playlist.GetItems();
+            var mediaFiles = await sv.GetMediaFiles(this.PlaylistData);
             foreach (var mediaFile in mediaFiles)
             {
                 MediaFiles.Add(mediaFile);

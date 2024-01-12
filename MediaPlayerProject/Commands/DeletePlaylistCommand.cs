@@ -1,5 +1,6 @@
 ﻿using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
+using MediaPlayerProject.Services.PlaylistDelete;
 using MediaPlayerProject.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,10 @@ namespace MediaPlayerProject.Commands
 {
     public class DeletePlaylistCommand : CommandBase
     {
-        private readonly PlaylistList _playlistList;
-        private readonly NavigationService _playlistListingNavigationService;
         private readonly PlaylistListingViewModel _playlistListingViewModel;
 
-        public DeletePlaylistCommand(PlaylistList playlistList, PlaylistListingViewModel playlistListingViewModel)
+        public DeletePlaylistCommand(PlaylistListingViewModel playlistListingViewModel)
         {
-            _playlistList = playlistList;
             _playlistListingViewModel = playlistListingViewModel;
             _playlistListingViewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
@@ -41,7 +39,8 @@ namespace MediaPlayerProject.Commands
             var playlist = new Playlist(_playlistListingViewModel.SelectedPlaylist.Name, _playlistListingViewModel.SelectedPlaylist.TimeCreated, _playlistListingViewModel.SelectedPlaylist.Id);
             try
             {
-                await _playlistList.deletePlaylist(playlist);
+                var sv = App.GetService<IPlaylistDelete>();
+                await sv.DeletePlaylist(playlist);
                 _playlistListingViewModel.UpdatePlaylistList();
             }
             catch (Exception e)

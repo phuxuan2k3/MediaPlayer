@@ -17,7 +17,7 @@ namespace MediaPlayerProject.Services
         public NavigationService(NavigationStore navigationStore, Func<ViewModelBase> createViewModel)
         {
             _navigationStore = navigationStore;
-            this._createViewModel = createViewModel;
+            _createViewModel = createViewModel;
         }
 
         public void Navigate()
