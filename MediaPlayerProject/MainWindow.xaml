@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:MediaPlayerProject.Views"
         xmlns:vms="clr-namespace:MediaPlayerProject.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="1200">
     <Grid>
         <Grid.Resources>
             <DataTemplate DataType="{x:Type vms:AddPlaylistViewModel}">

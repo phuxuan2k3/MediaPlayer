@@ -3,18 +3,9 @@ using MediaPlayerProject.ViewModels;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace MediaPlayerProject.Views
@@ -28,15 +19,14 @@ namespace MediaPlayerProject.Views
         private DispatcherTimer _previewTimer;
         private DateTime _lastUpdate = DateTime.Now;
 
-
         public int currentIndex { get; set; }
         public bool shufleMode { get; set; } = false;
         public List<Uri> listMediaSource { get; set; }
         private PlayFileViewModel vm { get; set; }
+
         public PlayFileView()
         {
             InitializeComponent();
-
 
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromMilliseconds(200);
@@ -50,10 +40,14 @@ namespace MediaPlayerProject.Views
             timelineSlider.MouseMove += TimelineSlider_MouseMove;
             timelineSlider.MouseLeave += TimelineSlider_MouseLeave;
         }
+
+        // Trung >>>>
+
         private Uri fileToUri(MediaFile m)
         {
             return new Uri(m.Path + "\\" + m.FileName);
         }
+
         private void displayPlayingFile()
         {
             FilesListView.SelectedItem = FilesListView.Items[currentIndex];
@@ -71,6 +65,8 @@ namespace MediaPlayerProject.Views
             vm.mediaSource = listMediaSource[sourceIndex];
             currentIndex = sourceIndex;
         }
+
+        // Trung <<<<<
 
         void OnMouseDownPlayMedia(object sender, MouseButtonEventArgs args)
         {
@@ -106,9 +102,16 @@ namespace MediaPlayerProject.Views
             myMediaElement.Volume = (double)volumeSlider.Value;
         }
 
-        private void ChangeMediaSpeedRatio(object sender, RoutedPropertyChangedEventArgs<double> args)
+        private void ChangeMediaSpeedRatio(object sender, SelectionChangedEventArgs e)
         {
-            //myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
+            string selectedSpeedRatio = ((ComboBoxItem)speedRatioComboBox.SelectedItem).Content.ToString();
+            double speedRatio = double.Parse(selectedSpeedRatio.Trim('x'));
+            SetMediaSpeed(speedRatio);
+        }
+
+        private void SetMediaSpeed(double speedRatio)
+        {
+            myMediaElement.SpeedRatio = speedRatio;
         }
 
         private void Element_MediaOpened(object sender, EventArgs e)
@@ -120,7 +123,7 @@ namespace MediaPlayerProject.Views
         {
             myMediaElement.Stop();
             _timer.Stop();
-
+            // Trung <<<<
             if (shufleMode)
             {
                 SetRandomSource();
@@ -134,12 +137,14 @@ namespace MediaPlayerProject.Views
             _timer.Start();
             myMediaElement.Play();
             displayPlayingFile();
+            // Trung >>>>
         }
 
         void InitializePropertyValues()
         {
+            // Trung <<<<
             myMediaElement.Volume = (double)volumeSlider.Value;
-            myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
+            // Trung >>>>
         }
 
         // Cập nhật thanh slider 200ms 1 lần
@@ -149,6 +154,10 @@ namespace MediaPlayerProject.Views
             if (!timelineSlider.IsMouseCaptureWithin)
             {
                 timelineSlider.Value = myMediaElement.Position.TotalMilliseconds;
+            }
+            if (myMediaElement.NaturalDuration.HasTimeSpan)
+            {
+                progressTextBox.Text = $"{myMediaElement.Position.ToString(@"hh\:mm\:ss")}/{myMediaElement.NaturalDuration.TimeSpan.ToString(@"hh\:mm\:ss")}";
             }
         }
 
@@ -165,6 +174,8 @@ namespace MediaPlayerProject.Views
                 }
             }
         }
+
+        // Trung <<<<
 
         private void OnMouseDownPreMedia(object sender, MouseButtonEventArgs e)
         {
@@ -196,6 +207,8 @@ namespace MediaPlayerProject.Views
             displayPlayingFile();
         }
 
+        // Trung >>>>
+
         // Nút tua + tua ngược 5s
 
         private void OnSkipBackward(object sender, MouseButtonEventArgs e)
@@ -221,7 +234,7 @@ namespace MediaPlayerProject.Views
             if (timelineSlider.IsMouseOver && !timelineSlider.IsMouseCaptureWithin)
             {
                 previewMediaElement.Visibility = Visibility.Visible;
-                double mousePos = e.GetPosition(timelineSlider).X; // px_dex -200 là tại vì t thêm cái cột bên trái, nếu xoá cột này thì ko trừ nữa
+                double mousePos = e.GetPosition(timelineSlider).X;
                 double sliderValue = mousePos / timelineSlider.ActualWidth * timelineSlider.Maximum;
                 previewMediaElement.Position = TimeSpan.FromMilliseconds(sliderValue);
                 previewMediaElement.Play();
@@ -236,6 +249,7 @@ namespace MediaPlayerProject.Views
                 previewMediaElement.Visibility = Visibility.Hidden;
             }
         }
+
         private void TimelineSlider_MouseLeave(object sender, MouseEventArgs e)
         {
             previewMediaElement.Visibility = Visibility.Hidden;
@@ -255,6 +269,8 @@ namespace MediaPlayerProject.Views
             timelineSlider.Value = sliderValue;
             myMediaElement.Position = TimeSpan.FromMilliseconds(sliderValue);
         }
+
+        // Xuan <<<<
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
@@ -281,8 +297,8 @@ namespace MediaPlayerProject.Views
             currentIndex = 0;
 
             myMediaElement.Play();
-
             displayPlayingFile();
+            _timer.Start();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -292,5 +308,7 @@ namespace MediaPlayerProject.Views
             vm.mediaSource = listMediaSource[currentIndex];
             displayPlayingFile();
         }
+
+        // Xuan >>>>
     }
 }
