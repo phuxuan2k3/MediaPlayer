@@ -32,7 +32,7 @@ namespace Hung_Task
             _timer.Tick += Timer_Tick;
 
             _previewTimer = new DispatcherTimer();
-            _previewTimer.Interval = TimeSpan.FromMilliseconds(10);
+            _previewTimer.Interval = TimeSpan.FromMilliseconds(1);
             _previewTimer.Tick += PreviewTimer_Tick;
 
             timelineSlider.MouseEnter += TimelineSlider_MouseEnter;
@@ -189,6 +189,14 @@ namespace Hung_Task
         {
             previewMediaElement.Pause();
             _previewTimer.Stop();
+        }
+
+        private void TimelineSlider_SeekClick(object sender, MouseButtonEventArgs e)
+        {
+            double mousePos = e.GetPosition(timelineSlider).X;
+            double sliderValue = mousePos / timelineSlider.ActualWidth * timelineSlider.Maximum;
+            timelineSlider.Value = sliderValue;
+            myMediaElement.Position = TimeSpan.FromMilliseconds(sliderValue);
         }
     }
 }

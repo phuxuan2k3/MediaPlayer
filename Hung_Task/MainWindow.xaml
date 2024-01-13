@@ -16,7 +16,7 @@
 
         <StackPanel HorizontalAlignment="Center" Width="506" Orientation="Horizontal" Canvas.Left="147" Canvas.Top="323" VerticalAlignment="Top">
             <TextBlock Foreground="Black" Margin="5"  VerticalAlignment="Center">Seek To</TextBlock>
-            <Slider Name="timelineSlider" Margin="5" ValueChanged="SeekToMediaPosition" Width="440"/>
+            <Slider Name="timelineSlider" Margin="5" ValueChanged="SeekToMediaPosition" Width="440" PreviewMouseLeftButtonUp="TimelineSlider_SeekClick"/>
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Center" Width="390" Orientation="Horizontal" Canvas.Left="205" Canvas.Top="356" VerticalAlignment="Top">
