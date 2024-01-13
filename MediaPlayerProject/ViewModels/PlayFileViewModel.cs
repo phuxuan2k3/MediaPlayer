@@ -61,8 +61,8 @@ namespace MediaPlayerProject.ViewModels
                 OnPropertyChanged(nameof(CurrentMediaSource));
             }
         }
-        public MediaFile CurrentPlayingMediaFile => DisplayMediaFiles[CurrentIndex];
-        public Uri CurrentMediaSource => PathHelper.fileToUri(CurrentPlayingMediaFile);
+        public MediaFile? CurrentPlayingMediaFile => DisplayMediaFiles[CurrentIndex];
+        public Uri? CurrentMediaSource => PathHelper.fileToUri(CurrentPlayingMediaFile);
 
 
         public PlayFileViewModel(Playlist playlistData)
@@ -71,7 +71,7 @@ namespace MediaPlayerProject.ViewModels
             _mediaFiles = new List<MediaFile>();
             DisplayMediaFiles = new List<MediaFile>();
             BackCommand = new LoadMediaFileCommand();
-            SaveTimeSpanCommand = new SaveMediaFileTimeSpanCommand();
+            //SaveTimeSpanCommand = new SaveMediaFileTimeSpanCommand();
             UpdateViewModel();
         }
 

@@ -13,16 +13,19 @@ namespace MediaPlayerProject.Commands
     public class PlayFileCommand : CommandBase
     {
         public PlayFileCommand() { }
-        public override void Execute(object? parameter)
+        public override async void Execute(object? parameter)
         {
             try
             {
                 var pl = parameter as Playlist;
                 if (pl != null)
                 {
-                    var nsp = App.GetService<INavigationServiceProvider>();
-                    var ns = nsp.GetNavigationService(() => new PlayFileViewModel(pl));
-                    ns.Navigate();
+                    if ((await pl.getFiles()).Any())
+                    {
+                        var nsp = App.GetService<INavigationServiceProvider>();
+                        var ns = nsp.GetNavigationService(() => new PlayFileViewModel(pl));
+                        ns.Navigate();
+                    }
                 }
             }
             catch (Exception ex)
