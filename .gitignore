@@ -3,3 +3,5 @@
 /**/obj/**/*
 *.cs
 /MediaPlayerProject/PlaylistList.db
+/MediaPlayerProject/Migrations/*.cs
+/MediaPlayerProject/Migrations/PlaylistListDbContextModelSnapshot.cs
