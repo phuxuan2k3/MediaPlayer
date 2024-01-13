@@ -25,9 +25,11 @@ namespace MediaPlayerProject.ViewModels
         public ICommand AddMediaFilesFromPoolCommand { get; }
         public ICommand RemoveMediaFileCommand { get; }
         public ICommand BackCommand { get; }
+        public ICommand PlayFileCommand { get; }
 
         public MediaFileListingViewModel(Playlist playlist)
         {
+            PlayFileCommand = new PlayFileCommand();
             SelectedMediaFilePool = new ObservableCollection<MediaFile>();
             PlaylistData = playlist;
             MediaFiles = new ObservableCollection<MediaFile>();
@@ -49,9 +51,8 @@ namespace MediaPlayerProject.ViewModels
 
         public async void UpdateViewModel()
         {
-            var sv = App.GetService<IMediaFileProvider>();
             MediaFiles.Clear();
-            var mediaFiles = await sv.GetMediaFiles(this.PlaylistData);
+            var mediaFiles = await PlaylistData.getFiles();
             foreach (var mediaFile in mediaFiles)
             {
                 MediaFiles.Add(mediaFile);

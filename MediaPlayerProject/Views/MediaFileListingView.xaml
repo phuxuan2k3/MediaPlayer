@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MediaPlayerProject.Views.MediaFileListingView"
+﻿<UserControl x:Name="MediaListingView" x:Class="MediaPlayerProject.Views.MediaFileListingView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,16 +18,17 @@ d:DataContext="{d:DesignInstance Type=vm:MediaFileListingViewModel}"
             <Button Content="Add files" Command="{Binding AddMediaFilesFromSystemCommand}"></Button>
             <Button Content="Back" Command="{Binding BackCommand}"></Button>
             <Button Content="Remove" Command="{Binding RemoveMediaFileCommand}"></Button>
+            <Button Content="Play" CommandParameter="{Binding ElementName=MediaListingView, Path=DataContext.PlaylistData}" Command="{Binding PlayFileCommand}"></Button>
         </StackPanel>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition />
                 <ColumnDefinition Width="50"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <ListView Grid.Column="0" SelectedItem="{Binding SelectedMediaFile}"  ItemsSource="{Binding MediaFiles}">
+            <ListView Grid.Column="0" SelectedItem="{Binding SelectedMediaFile}"  ItemsSource="{Binding MediaFiles}" >
                 <ListView.ItemTemplate>
                     <DataTemplate >
                         <Button >

@@ -21,6 +21,9 @@
             </DataTemplate> 
             <DataTemplate DataType="{x:Type vms:MediaFilePoolViewModel}">
                 <views:MediaFilePoolView></views:MediaFilePoolView>
+            </DataTemplate> 
+            <DataTemplate DataType="{x:Type vms:PlayFileViewModel}">
+                <views:PlayFileView></views:PlayFileView>
             </DataTemplate>
         </Grid.Resources>
 
