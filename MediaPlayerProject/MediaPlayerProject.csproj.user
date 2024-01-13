@@ -16,6 +16,9 @@
     <Compile Update="Views\MediaFilePoolView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\PlayFileSingle.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\PlayFileView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +49,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\MediaFilePoolView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\PlayFileSingle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PlayFileView.xaml">

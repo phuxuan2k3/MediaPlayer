@@ -174,11 +174,11 @@
             Color="{StaticResource DarkBlue}"
             Offset="0" />
         <GradientStop
-            Color="{StaticResource Pink}"
+            Color="{StaticResource Teal}"
             Offset="0.5" />
         <GradientStop
             Color="{StaticResource Purple}"
-            Offset="1" />
+            Offset="1.2" />
     </LinearGradientBrush>
 
     <!--Image Size-->

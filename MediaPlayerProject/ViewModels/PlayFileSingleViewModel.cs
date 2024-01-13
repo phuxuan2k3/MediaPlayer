@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace MediaPlayerProject.ViewModels
 {
-    public class PlayFileViewModel : ViewModelBase
+    public class PlayFileSingleViewModel : ViewModelBase
     {
         private static readonly Random _rng = new Random();
         private readonly List<MediaFile> _mediaFiles;
@@ -65,7 +65,7 @@ namespace MediaPlayerProject.ViewModels
         public Uri CurrentMediaSource => PathHelper.fileToUri(CurrentPlayingMediaFile);
 
 
-        public PlayFileViewModel(Playlist playlistData)
+        public PlayFileSingleViewModel(Playlist playlistData)
         {
             PlaylistData = playlistData;
             _mediaFiles = new List<MediaFile>();

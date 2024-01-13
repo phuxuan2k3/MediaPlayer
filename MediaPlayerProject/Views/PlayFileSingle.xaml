@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="MediaPlayerProject.Views.PlayFileView"
+    x:Class="MediaPlayerProject.Views.PlayFileSingle"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,15 +11,9 @@
     Loaded="UserControl_Loaded"
     MouseDown="UC_MouseDown"
     xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
-    d:DataContext="{d:DesignInstance vm:PlayFileViewModel}"
+    d:DataContext="{d:DesignInstance vm:PlayFileSingleViewModel}"
     Background="{StaticResource Background_1_Rad}"
     Unloaded="UserControl_Unloaded">
-    <UserControl.Resources>
-        <Style
-            TargetType="TextBlock"
-            BasedOn="{StaticResource NormalSmall}">
-        </Style>
-    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition

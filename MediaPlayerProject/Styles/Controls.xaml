@@ -2237,15 +2237,15 @@
 
     <!--Toggle Button-->
 
-    <SolidColorBrush
+    <!--<SolidColorBrush
         x:Key="Button.Static.Background"
-        Color="{StaticResource LightTeal}" />
+        Color="{StaticResource LightTeal}" />-->
     <SolidColorBrush
         x:Key="Button.Static.Border"
         Color="Transparent" />
-    <SolidColorBrush
+    <!--<SolidColorBrush
         x:Key="Button.Checked.Background"
-        Color="{StaticResource DarkGrayBlue}" />
+        Color="{StaticResource DarkGrayBlue}" />-->
     <SolidColorBrush
         x:Key="Button.MouseOver.Background"
         Color="{StaticResource LightGrayBlue_85}" />
@@ -2275,7 +2275,7 @@
             Value="{StaticResource FocusVisual}" />
         <Setter
             Property="Background"
-            Value="{StaticResource Button.Static.Background}" />
+            Value="Transparent" />
         <Setter
             Property="BorderBrush"
             Value="{StaticResource Button.Static.Border}" />
@@ -2304,7 +2304,8 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="true">
+                        SnapsToDevicePixels="true"
+                        CornerRadius="4">
                         <ContentPresenter
                             x:Name="contentPresenter"
                             Focusable="False"
@@ -2379,7 +2380,7 @@
                             Value="True">
                             <Setter
                                 Property="Background"
-                                Value="{StaticResource Button.Checked.Background}">
+                                Value="{DynamicResource Button_Bg2}">
                             </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
