@@ -40,5 +40,12 @@ namespace MediaPlayerProject.Views
             this.Options_Button.Visibility = Visibility.Visible;
             this.LayoutTriggerGrid.ColumnDefinitions[1].Width = new GridLength(0);
         }
+
+        private void Accept_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var items = this.PoolListView.SelectedItems;
+            var vm = (MediaFileListingViewModel)this.DataContext;
+            vm.AddMediaFilesFromPoolCommand.Execute(items);
+        }
     }
 }

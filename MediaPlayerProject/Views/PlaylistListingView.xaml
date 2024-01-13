@@ -94,22 +94,21 @@
         </StackPanel>
 
         <ListView
-            BorderThickness="0"
+            Grid.Row="2"
             x:Name="MyListView"
             SelectedItem="{Binding SelectedPlaylist}"
-            Grid.Row="2"
-            Background="Transparent"
             ItemsSource="{Binding Playlists}"
-            Margin="20">
-            <ListView.Resources>
+            Margin="10"
+            Style="{StaticResource Fade_ListViewStyle}">
+            <ListView.ItemContainerStyle>
                 <Style
-                    BasedOn="{StaticResource G1_ListViewItemStyle}"
+                    BasedOn="{StaticResource Transparent_ListViewItemStyle}"
                     TargetType="{x:Type ListViewItem}">
                     <EventSetter
                         Event="MouseDoubleClick"
                         Handler="ListViewItemDoubleClick" />
                 </Style>
-            </ListView.Resources>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel
@@ -118,7 +117,7 @@
                             Source="{Binding Source='playlist.png', Converter={StaticResource ImagePathConverter}}"
                             Height="{StaticResource ImageIconSize}"
                             Width="{StaticResource ImageIconSize}"
-                            Margin="18"
+                            Margin="16"
                             VerticalAlignment="Center" />
                         <TextBlock
                             Style="{StaticResource NormalSmall}"

@@ -13,8 +13,8 @@ namespace MediaPlayerProject.ViewModels
         public Playlist PlaylistData { get; }
 
         public MediaFile? SelectedMediaFile { get; set; }
-        public ObservableCollection<MediaFile> SelectedMediaFilePool { get; set; }
         public ObservableCollection<MediaFile> MediaFiles { get; set; }
+
         public ObservableCollection<MediaFile> MediaFilesPool { get; set; }
 
         public ICommand AddMediaFilesFromSystemCommand { get; }
@@ -25,14 +25,12 @@ namespace MediaPlayerProject.ViewModels
         public MediaFileListingViewModel(Playlist playlist)
         {
             PlaylistData = playlist;
-            SelectedMediaFilePool = new ObservableCollection<MediaFile>();
             MediaFiles = new ObservableCollection<MediaFile>();
             MediaFilesPool = new ObservableCollection<MediaFile>();
             AddMediaFilesFromSystemCommand = new AddMediaFilesFromSystemCommand(playlist, this);
             AddMediaFilesFromPoolCommand = new AddMediaFileFromPoolCommand(playlist, this);
             var nsp = App.GetService<INavigationServiceProvider>();
             var ns_PLVM = nsp.GetNavigationService(PlaylistListingViewModel.LoadViewModel);
-            MediaFiles = new ObservableCollection<MediaFile>();
             BackCommand = new NavigateCommand(ns_PLVM);
             RemoveMediaFileCommand = new RemoveMediaFileCommand(this);
             UpdateViewModel();

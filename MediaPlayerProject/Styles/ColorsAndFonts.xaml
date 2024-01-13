@@ -3,9 +3,40 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <!-- 
+    Transparency
+    100% — FF
+    95% — F2
+    90% — E6
+    85% — D9
+    80% — CC
+    75% — BF
+    70% — B3
+    65% — A6
+    60% — 99
+    55% — 8C
+    50% — 80
+    45% — 73
+    40% — 66
+    35% — 59
+    30% — 4D
+    25% — 40
+    20% — 33
+    15% — 26
+    10% — 1A
+    5% — 0D
+    0% — 00
+    -->
+
     <!--Color-->
     <Color
         x:Key="White">#FFFFFF</Color>
+    <Color
+        x:Key="White_15">#26FFFFFF</Color>
+    <Color
+        x:Key="White_40">#66FFFFFF</Color>
+    <Color
+        x:Key="White_65">#A6FFFFFF</Color>
     <Color
         x:Key="Gray">#DDDDDD</Color>
     <Color
@@ -34,6 +65,15 @@
     <SolidColorBrush
         x:Key="WhiteBrush"
         Color="{StaticResource White}" />
+    <SolidColorBrush
+        x:Key="WhiteBrush_15"
+        Color="{StaticResource White_15}" />
+    <SolidColorBrush
+        x:Key="WhiteBrush_40"
+        Color="{StaticResource White_40}" />
+    <SolidColorBrush
+        x:Key="WhiteBrush_65"
+        Color="{StaticResource White_65}" />
     <SolidColorBrush
         x:Key="GrayBrush"
         Color="{StaticResource Gray}" />

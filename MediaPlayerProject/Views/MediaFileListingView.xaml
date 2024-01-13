@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:MediaPlayerProject.Views"
     mc:Ignorable="d"
     xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
+    xmlns:m="clr-namespace:MediaPlayerProject.Models"
     d:DataContext="{d:DesignInstance Type=vm:MediaFileListingViewModel}"
     d:DesignHeight="600"
     d:DesignWidth="900"
@@ -93,6 +94,38 @@
                         Property="VerticalAlignment"
                         Value="Center" />
                 </Style>
+                <DataTemplate
+                    x:Key="lvMediaFiles"
+                    DataType="m:MediaFile">
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <Image
+                            Source="{Binding Source='mediafile.png', Converter={StaticResource ImagePathConverter}}"
+                            Height="{StaticResource ImageIconSize_2}"
+                            Width="{StaticResource ImageIconSize_2}"
+                            Margin="14"
+                            VerticalAlignment="Center" />
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Margin="12,4,0,4"
+                            Orientation="Vertical">
+                            <TextBlock
+                                Style="{StaticResource NormalSmall}"
+                                Text="{Binding FileName}"
+                                VerticalAlignment="Center"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Style="{StaticResource NormalSmall}"
+                                Foreground="{StaticResource GrayBrush}"
+                                Opacity="0.8"
+                                Text="{Binding Path}"
+                                VerticalAlignment="Center"
+                                TextWrapping="Wrap"
+                                Margin="0,5,0,0" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
             </Grid.Resources>
 
             <!--Options-->
@@ -131,7 +164,7 @@
                     VerticalAlignment="Center"
                     Template="{DynamicResource TextBlockButton}"
                     Content="Accept"
-                    Command="{Binding AddMediaFilesFromPoolCommand}">
+                    Click="Accept_Button_Click">
                 </Button>
                 <Button
                     x:Name="Cancel_Button"
@@ -151,83 +184,21 @@
                 Margin="10"
                 x:Name="DataListView"
                 SelectedItem="{Binding SelectedMediaFile}"
-                Background="Transparent"
                 ItemsSource="{Binding MediaFiles}"
-                BorderThickness="0"
-                ItemContainerStyle="{StaticResource G1_ListViewItemStyle}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel
-                            Orientation="Horizontal">
-                            <Image
-                                Source="{Binding Source='mediafile.png', Converter={StaticResource ImagePathConverter}}"
-                                Height="{StaticResource ImageIconSize_2}"
-                                Width="{StaticResource ImageIconSize_2}"
-                                Margin="10"
-                                VerticalAlignment="Center" />
-                            <StackPanel
-                                HorizontalAlignment="Left"
-                                Margin="20,0,0,0"
-                                Orientation="Vertical">
-                                <TextBlock
-                                    Style="{StaticResource NormalSmall}"
-                                    Text="{Binding FileName}"
-                                    VerticalAlignment="Center"
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    Style="{StaticResource NormalSmall}"
-                                    Foreground="{StaticResource GrayBrush}"
-                                    Opacity="0.8"
-                                    Text="{Binding Path}"
-                                    VerticalAlignment="Center"
-                                    TextWrapping="Wrap"
-                                    Margin="0,5,0,0" />
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                Style="{StaticResource Fade_ListViewStyle}"
+                ItemTemplate="{StaticResource lvMediaFiles}">
+
             </ListView>
+
+            <!--Pool-->
             <ListView
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="10"
                 x:Name="PoolListView"
-                SelectedItem="{Binding SelectedMediaFilePool}"
-                Background="Transparent"
                 ItemsSource="{Binding MediaFilesPool}"
-                BorderThickness="0"
-                ItemContainerStyle="{StaticResource G1_ListViewItemStyle}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel
-                            Orientation="Horizontal">
-                            <Image
-                                Source="{Binding Source='mediafile.png', Converter={StaticResource ImagePathConverter}}"
-                                Height="{StaticResource ImageIconSize_2}"
-                                Width="{StaticResource ImageIconSize_2}"
-                                Margin="10"
-                                VerticalAlignment="Center" />
-                            <StackPanel
-                                HorizontalAlignment="Left"
-                                Margin="20,0,0,0"
-                                Orientation="Vertical">
-                                <TextBlock
-                                    Style="{StaticResource NormalSmall}"
-                                    Text="{Binding FileName}"
-                                    VerticalAlignment="Center"
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    Style="{StaticResource NormalSmall}"
-                                    Foreground="{StaticResource GrayBrush}"
-                                    Opacity="0.8"
-                                    Text="{Binding Path}"
-                                    VerticalAlignment="Center"
-                                    TextWrapping="Wrap"
-                                    Margin="0,5,0,0" />
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                Style="{StaticResource Fade_ListViewStyle}"
+                ItemTemplate="{StaticResource lvMediaFiles}">
             </ListView>
         </Grid>
     </Grid>
