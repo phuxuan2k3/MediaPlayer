@@ -46,7 +46,7 @@ namespace MediaPlayerProject.Views
         private DispatcherTimer _previewTimer;
         private DateTime _lastUpdate = DateTime.Now;
 
-        private PlayFileViewModel? Vm { get; set; }
+        private PlayFileSingleViewModel? Vm { get; set; }
 
         public PlayFileSingle()
 
@@ -107,12 +107,7 @@ namespace MediaPlayerProject.Views
 
         private void Element_MediaEnded(object sender, EventArgs e)
         {
-            myMediaElement.Stop();
-            _timer.Stop();
-            Vm!.CurrentIndex += 1;
-            myMediaElement.Play();
-            _timer.Start();
-            SwitchPlayPauseButton(false);
+            OnMouseStartOverMedia(sender, null!);
         }
 
         // Cập nhật thanh slider 200ms 1 lần
@@ -139,16 +134,6 @@ namespace MediaPlayerProject.Views
                     _lastUpdate = DateTime.Now;
                 }
             }
-        }
-
-        private void OnMouseDownPreMedia(object sender, RoutedEventArgs e)
-        {
-            Vm!.CurrentIndex -= 1;
-        }
-
-        private void OnMouseDownNextMedia(object sender, RoutedEventArgs e)
-        {
-            Vm!.CurrentIndex += 1;
         }
 
         // Nút tua + tua ngược 5s
@@ -180,7 +165,7 @@ namespace MediaPlayerProject.Views
                 previewMediaElement.Position = TimeSpan.FromMilliseconds(sliderValue);
                 previewMediaElement.Play();
 
-                Point position = e.GetPosition(this);
+                Point position = e.GetPosition(this.SliderContainer);
                 Canvas.SetLeft(previewMediaElement, position.X - 60); //60 là width cái previewMediaElement
 
                 _previewTimer.Start();
@@ -213,14 +198,12 @@ namespace MediaPlayerProject.Views
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            var plalist = Vm!.PlaylistData;
-            Vm!.BackCommand.Execute(plalist);
+            Vm!.BackCommand.Execute(null);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Vm = (PlayFileViewModel)this.DataContext;
-            Vm.CurrentIndex = 0;
+            Vm = (PlayFileSingleViewModel)this.DataContext;
             myMediaElement.Play();
             _timer.Start();
             SwitchPlayPauseButton(false);

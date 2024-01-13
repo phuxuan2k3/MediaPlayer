@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using MediaPlayerProject.Models;
+using MediaPlayerProject.ViewModels;
+using System.Windows.Controls;
 
 namespace MediaPlayerProject.Views
 {
@@ -14,7 +16,10 @@ namespace MediaPlayerProject.Views
 
         private void ListViewItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-
+            var viewModel = (MediaFilePoolViewModel)this.DataContext;
+            var mediafile = (MediaFile)((ListViewItem)sender).DataContext;
+            viewModel.GetMediaFileData = () => mediafile;
+            viewModel.PlayMediaFileCommand.Execute(null);
         }
     }
 }

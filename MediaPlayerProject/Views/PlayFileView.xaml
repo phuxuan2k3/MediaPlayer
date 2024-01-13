@@ -107,6 +107,7 @@
                 Grid.Row="1"
                 Name="screen">
                 <Grid
+                    Panel.ZIndex="0"
                     Width="{Binding ElementName=screen, Path=ActualWidth}"
                     Height="{Binding ElementName=screen, Path=ActualHeight}">
                     <Image
@@ -119,35 +120,44 @@
                         HorizontalAlignment="Center" />
                 </Grid>
 
-                <MediaElement
-                    Panel.ZIndex="2"
+                <Grid
                     Width="{Binding ElementName=screen, Path=ActualWidth}"
                     Height="{Binding ElementName=screen, Path=ActualHeight}"
-                    Name="myMediaElement"
-                    Volume="{Binding ElementName=volumeSlider, Path=Value}"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Source="{Binding  CurrentMediaSource}"
-                    LoadedBehavior="Manual"
-                    UnloadedBehavior="Stop"
-                    Stretch="Fill"
-                    MediaOpened="Element_MediaOpened"
-                    MediaEnded="Element_MediaEnded" />
+                    Panel.ZIndex="2">
+                    <MediaElement
+                        Height="{Binding ElementName=screen, Path=ActualHeight}"
+                        Name="myMediaElement"
+                        Volume="{Binding ElementName=volumeSlider, Path=Value}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Center"
+                        Source="{Binding  CurrentMediaSource}"
+                        LoadedBehavior="Manual"
+                        UnloadedBehavior="Stop"
+                        Stretch="Uniform"
+                        MediaOpened="Element_MediaOpened"
+                        MediaEnded="Element_MediaEnded" />
+                </Grid>
 
-                <MediaElement
-                    Name="previewMediaElement"
-                    Width="120"
-                    Height="90"
-                    Source="{Binding CurrentMediaSource}"
-                    Visibility="Visible"
-                    LoadedBehavior="Manual"
-                    UnloadedBehavior="Stop"
-                    Stretch="Fill"
-                    Panel.ZIndex="20" />
-
+                <Canvas
+                    Panel.ZIndex="20"
+                    Width="{Binding ElementName=screen, Path=ActualWidth}"
+                    Height="{Binding ElementName=screen, Path=ActualHeight}">
+                    <MediaElement
+                        Name="previewMediaElement"
+                        Width="120"
+                        Height="90"
+                        Canvas.Bottom="0"
+                        Canvas.Left="0"
+                        Source="{Binding CurrentMediaSource}"
+                        Visibility="Visible"
+                        LoadedBehavior="Manual"
+                        UnloadedBehavior="Stop"
+                        Stretch="Fill" />
+                </Canvas>
             </Canvas>
 
             <Grid
+                x:Name="SliderContainer"
                 Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition

@@ -12,33 +12,14 @@
     MouseDown="UC_MouseDown"
     xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
     d:DataContext="{d:DesignInstance vm:PlayFileSingleViewModel}"
-    Background="{StaticResource Background_1_Rad}"
+    Background="{StaticResource Background_2}"
     Unloaded="UserControl_Unloaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 Width="*"
                 MinWidth="64" />
-            <ColumnDefinition
-                Width="2" />
-            <ColumnDefinition
-                Width="3*" />
         </Grid.ColumnDefinitions>
-
-        <ListView
-            Grid.ColumnSpan="2"
-            Grid.Column="0"
-            x:Name="FilesListView"
-            ItemsSource="{Binding DisplayMediaFiles}"
-            SelectedIndex="{Binding CurrentIndex}"
-            Style="{StaticResource Fade_ListViewStyle}"
-            ItemTemplate="{StaticResource MediaFileListViewItem_DT}" />
-
-        <GridSplitter
-            Grid.Column="1"
-            Width="2"
-            ResizeBehavior="PreviousAndNext"
-            Background="{StaticResource WhiteBrush_40}" />
 
         <Grid
             Grid.Column="2">
@@ -79,11 +60,7 @@
                         Style="{StaticResource Heading1}"
                         FontFamily="{StaticResource BeautyFontFamily}"
                         TextTrimming="CharacterEllipsis" />
-                    <TextBlock
-                        Text="{Binding PlaylistData.Name}"
-                        Style="{StaticResource Normal}"
-                        Foreground="{StaticResource GrayBrush}"
-                        Opacity="0.8" />
+
                 </StackPanel>
                 <Button
                     Margin="20 0"
@@ -113,35 +90,45 @@
                         HorizontalAlignment="Center" />
                 </Grid>
 
-                <MediaElement
-                    Panel.ZIndex="2"
+                <Grid
                     Width="{Binding ElementName=screen, Path=ActualWidth}"
                     Height="{Binding ElementName=screen, Path=ActualHeight}"
-                    Name="myMediaElement"
-                    Volume="{Binding ElementName=volumeSlider, Path=Value}"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Source="{Binding  CurrentMediaSource}"
-                    LoadedBehavior="Manual"
-                    UnloadedBehavior="Stop"
-                    Stretch="Fill"
-                    MediaOpened="Element_MediaOpened"
-                    MediaEnded="Element_MediaEnded" />
+                    Panel.ZIndex="2">
+                    <MediaElement
+                        Height="{Binding ElementName=screen, Path=ActualHeight}"
+                        Name="myMediaElement"
+                        Volume="{Binding ElementName=volumeSlider, Path=Value}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Center"
+                        Source="{Binding  CurrentMediaSource}"
+                        LoadedBehavior="Manual"
+                        UnloadedBehavior="Stop"
+                        Stretch="Uniform"
+                        MediaOpened="Element_MediaOpened"
+                        MediaEnded="Element_MediaEnded" />
+                </Grid>
 
-                <MediaElement
-                    Name="previewMediaElement"
-                    Width="120"
-                    Height="90"
-                    Source="{Binding CurrentMediaSource}"
-                    Visibility="Visible"
-                    LoadedBehavior="Manual"
-                    UnloadedBehavior="Stop"
-                    Stretch="Fill"
-                    Panel.ZIndex="20" />
+                <Canvas
+                    Panel.ZIndex="20"
+                    Width="{Binding ElementName=screen, Path=ActualWidth}"
+                    Height="{Binding ElementName=screen, Path=ActualHeight}">
+                    <MediaElement
+                        Name="previewMediaElement"
+                        Width="120"
+                        Height="90"
+                        Canvas.Bottom="0"
+                        Canvas.Left="0"
+                        Source="{Binding CurrentMediaSource}"
+                        Visibility="Visible"
+                        LoadedBehavior="Manual"
+                        UnloadedBehavior="Stop"
+                        Stretch="Fill" />
+                </Canvas>
 
             </Canvas>
 
             <Grid
+                x:Name="SliderContainer"
                 Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition
@@ -236,10 +223,6 @@
                             Orientation="Horizontal"
                             DockPanel.Dock="Right"
                             HorizontalAlignment="Right">
-                            <ToggleButton
-                                Style="{DynamicResource MyToggleButtonStyle}"
-                                IsChecked="{Binding IsShuffle}"
-                                Content="🔀" />
                             <Button
                                 Content="⟳"
                                 Click="OnMouseStartOverMedia" />
@@ -274,9 +257,6 @@
                             </Style>
                         </StackPanel.Resources>
                         <Button
-                            Content="⏮"
-                            Click="OnMouseDownPreMedia" />
-                        <Button
                             Content="⏪"
                             Click="OnSkipBackward" />
                         <Button
@@ -294,9 +274,6 @@
                         <Button
                             Content="⏩"
                             Click="OnSkipForward" />
-                        <Button
-                            Content="⏭️"
-                            Click="OnMouseDownNextMedia" />
                     </StackPanel>
 
                     <StackPanel
