@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlayerProject", "MediaPlayerProject\MediaPlayerProject.csproj", "{34723A6E-1040-413F-9C09-ECC8303197CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayerProject", "MediaPlayerProject\MediaPlayerProject.csproj", "{34723A6E-1040-413F-9C09-ECC8303197CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trung_Task", "Trung_Task\Trung_Task.csproj", "{75BA7E9F-1A6D-4C4F-922A-2F86B9B2EE1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hung_Task", "Hung_Task\Hung_Task.csproj", "{9CE69FF4-0457-4F72-96E9-83F7A9D74CE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{34723A6E-1040-413F-9C09-ECC8303197CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34723A6E-1040-413F-9C09-ECC8303197CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34723A6E-1040-413F-9C09-ECC8303197CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75BA7E9F-1A6D-4C4F-922A-2F86B9B2EE1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75BA7E9F-1A6D-4C4F-922A-2F86B9B2EE1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75BA7E9F-1A6D-4C4F-922A-2F86B9B2EE1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75BA7E9F-1A6D-4C4F-922A-2F86B9B2EE1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CE69FF4-0457-4F72-96E9-83F7A9D74CE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CE69FF4-0457-4F72-96E9-83F7A9D74CE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CE69FF4-0457-4F72-96E9-83F7A9D74CE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CE69FF4-0457-4F72-96E9-83F7A9D74CE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
