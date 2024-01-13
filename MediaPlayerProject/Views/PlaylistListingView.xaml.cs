@@ -21,5 +21,6 @@ namespace MediaPlayerProject.Views
             var playlist = (Playlist)(((Button)(sender)).DataContext);
             viewModel.LoadMediaFileCommand.Execute(playlist);
         }
+
     }
 }
