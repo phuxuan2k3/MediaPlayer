@@ -14,12 +14,13 @@
  Width="450" Height="250" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" 
  MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded" Canvas.Left="175" Canvas.Top="35"/>
 
-        <StackPanel HorizontalAlignment="Center" Width="506" Orientation="Horizontal" Canvas.Left="147" Canvas.Top="323" VerticalAlignment="Top">
+        <StackPanel HorizontalAlignment="Left" Width="600" Orientation="Horizontal" Canvas.Left="106" Canvas.Top="323" VerticalAlignment="Center">
             <TextBlock Foreground="Black" Margin="5"  VerticalAlignment="Center">Seek To</TextBlock>
             <Slider Name="timelineSlider" Margin="5" ValueChanged="SeekToMediaPosition" Width="440" PreviewMouseLeftButtonUp="TimelineSlider_SeekClick"/>
+            <TextBox Name="progressTextBox" Text="00:00:00/00:00:00" IsReadOnly="True" Width="97" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Center" Width="390" Orientation="Horizontal" Canvas.Left="205" Canvas.Top="356" VerticalAlignment="Top">
+        <StackPanel HorizontalAlignment="Left" Width="358" Orientation="Horizontal" Canvas.Left="221" Canvas.Top="356" VerticalAlignment="Center">
             <TextBlock Text="🗁" MouseDown="OnOpenMediaFile" Margin="5" />
 
             <TextBlock Text="▶" MouseDown="OnMouseDownPlayMedia" Margin="5" />
@@ -37,8 +38,11 @@
    Minimum="0" Maximum="1" Value="0.5" Width="70"/>
 
             <TextBlock Foreground="Black" Margin="5"  VerticalAlignment="Center">Speed</TextBlock>
-            <Slider Name="speedRatioSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaSpeedRatio" 
-   Value="1" Width="70" />
+            <ComboBox x:Name="speedRatioComboBox" SelectionChanged="ChangeMediaSpeedRatio" Height="22">
+                <ComboBoxItem Content="0.5x" />
+                <ComboBoxItem Content="1x" IsSelected="True" />
+                <ComboBoxItem Content="2x" />
+            </ComboBox>
         </StackPanel>
     </Canvas>
 </Window>
