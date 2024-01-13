@@ -35,6 +35,11 @@
                 <views:MediaFilePoolView />
             </DataTemplate>
 
+            <DataTemplate
+                DataType="{x:Type vms:PlayFileViewModel}">
+                <views:PlayFileView />
+            </DataTemplate>
+
         </Grid.Resources>
 
         <ContentControl>

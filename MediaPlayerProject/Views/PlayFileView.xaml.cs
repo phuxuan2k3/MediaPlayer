@@ -15,14 +15,29 @@ namespace MediaPlayerProject.Views
     /// </summary>
     public partial class PlayFileView : UserControl
     {
+        private void UC_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void SwitchPlayPauseButton(bool play)
+        {
+            if (!play)
+            {
+                this.PlayButton.Visibility = Visibility.Collapsed;
+                this.PauseButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.PlayButton.Visibility = Visibility.Visible;
+                this.PauseButton.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private DispatcherTimer _timer;
         private DispatcherTimer _previewTimer;
         private DateTime _lastUpdate = DateTime.Now;
 
-        public int currentIndex { get; set; }
-        public bool shufleMode { get; set; } = false;
-        public List<Uri> listMediaSource { get; set; }
-        private PlayFileViewModel vm { get; set; }
+        private PlayFileViewModel? Vm { get; set; }
 
         public PlayFileView()
         {
@@ -41,77 +56,38 @@ namespace MediaPlayerProject.Views
             timelineSlider.MouseLeave += TimelineSlider_MouseLeave;
         }
 
-        // Trung >>>>
-
-        private Uri fileToUri(MediaFile m)
-        {
-            return new Uri(m.Path + "\\" + m.FileName);
-        }
-
-        private void displayPlayingFile()
-        {
-            FilesListView.SelectedItem = FilesListView.Items[currentIndex];
-            FilesListView.Focus();
-        }
-
-        private void SetRandomSource()
-        {
-            int sourceIndex = -1;
-            do
-            {
-                Random rnd = new Random();
-                sourceIndex = rnd.Next(listMediaSource.Count);
-            } while (vm.mediaSource == listMediaSource[sourceIndex]);
-            vm.mediaSource = listMediaSource[sourceIndex];
-            currentIndex = sourceIndex;
-        }
-
-        // Trung <<<<<
-
-        void OnMouseDownPlayMedia(object sender, MouseButtonEventArgs args)
+        void OnMouseDownPlayMedia(object sender, RoutedEventArgs e)
         {
             myMediaElement.Play();
             _timer.Start();
-
+            SwitchPlayPauseButton(false);
             InitializePropertyValues();
         }
 
-        void OnMouseDownPauseMedia(object sender, MouseButtonEventArgs args)
+        void OnMouseDownPauseMedia(object sender, RoutedEventArgs e)
         {
             myMediaElement.Pause();
             _timer.Stop();
+            SwitchPlayPauseButton(true);
         }
 
-        void OnMouseDownStopMedia(object sender, MouseButtonEventArgs args)
+        void OnMouseStartOverMedia(object sender, RoutedEventArgs e) // Tua video lại từ đầu, chưa có nút
         {
             myMediaElement.Stop();
             _timer.Stop();
-        }
-
-        void OnMouseStartOverMedia(object sender, MouseButtonEventArgs args) // Tua video lại từ đầu, chưa có nút
-        {
-            myMediaElement.Stop();
-            _timer.Stop();
-
             myMediaElement.Play();
             _timer.Start();
-        }
-
-        private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
-        {
-            myMediaElement.Volume = (double)volumeSlider.Value;
+            SwitchPlayPauseButton(false);
         }
 
         private void ChangeMediaSpeedRatio(object sender, SelectionChangedEventArgs e)
         {
-            string selectedSpeedRatio = ((ComboBoxItem)speedRatioComboBox.SelectedItem).Content.ToString();
-            double speedRatio = double.Parse(selectedSpeedRatio.Trim('x'));
-            SetMediaSpeed(speedRatio);
-        }
-
-        private void SetMediaSpeed(double speedRatio)
-        {
-            myMediaElement.SpeedRatio = speedRatio;
+            string? selectedSpeedRatio = ((ComboBoxItem)speedRatioComboBox.SelectedItem).Content.ToString();
+            if (selectedSpeedRatio != null)
+            {
+                double speedRatio = double.Parse(selectedSpeedRatio.Trim('x'));
+                myMediaElement.SpeedRatio = speedRatio;
+            }
         }
 
         private void Element_MediaOpened(object sender, EventArgs e)
@@ -123,32 +99,18 @@ namespace MediaPlayerProject.Views
         {
             myMediaElement.Stop();
             _timer.Stop();
-            // Trung <<<<
-            if (shufleMode)
-            {
-                SetRandomSource();
-            }
-            else
-            {
-                var newIndex = listMediaSource.IndexOf(vm.mediaSource) + 1 >= listMediaSource.Count ? 0 : listMediaSource.IndexOf(vm.mediaSource) + 1;
-                vm.mediaSource = listMediaSource[newIndex];
-                currentIndex = newIndex;
-            }
-            _timer.Start();
+            Vm.CurrentIndex += 1;
             myMediaElement.Play();
-            displayPlayingFile();
-            // Trung >>>>
+            _timer.Start();
+            SwitchPlayPauseButton(false);
         }
 
         void InitializePropertyValues()
         {
-            // Trung <<<<
             myMediaElement.Volume = (double)volumeSlider.Value;
-            // Trung >>>>
         }
 
         // Cập nhật thanh slider 200ms 1 lần
-
         private void Timer_Tick(object? sender = null, EventArgs? e = null)
         {
             if (!timelineSlider.IsMouseCaptureWithin)
@@ -162,7 +124,6 @@ namespace MediaPlayerProject.Views
         }
 
         // Tua MediaElement, 100ms cập nhật 1 lần, cập nhật liên tục video siêu lag
-
         private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
         {
             if (timelineSlider.IsMouseCaptureWithin)
@@ -175,48 +136,23 @@ namespace MediaPlayerProject.Views
             }
         }
 
-        // Trung <<<<
-
-        private void OnMouseDownPreMedia(object sender, MouseButtonEventArgs e)
+        private void OnMouseDownPreMedia(object sender, RoutedEventArgs e)
         {
-            if (shufleMode)
-            {
-                SetRandomSource();
-            }
-            else
-            {
-                var newIndex = listMediaSource.IndexOf(vm.mediaSource) - 1 < 0 ? listMediaSource.Count - 1 : listMediaSource.IndexOf(vm.mediaSource) - 1;
-                vm.mediaSource = listMediaSource[newIndex];
-                currentIndex = newIndex;
-            }
-            displayPlayingFile();
+            Vm!.CurrentIndex -= 1;
         }
 
-        private void OnMouseDownNextMedia(object sender, MouseButtonEventArgs e)
+        private void OnMouseDownNextMedia(object sender, RoutedEventArgs e)
         {
-            if (shufleMode)
-            {
-                SetRandomSource();
-            }
-            else
-            {
-                var newIndex = listMediaSource.IndexOf(vm.mediaSource) + 1 >= listMediaSource.Count ? 0 : listMediaSource.IndexOf(vm.mediaSource) + 1;
-                vm.mediaSource = listMediaSource[newIndex];
-                currentIndex = newIndex;
-            }
-            displayPlayingFile();
+            Vm!.CurrentIndex += 1;
         }
-
-        // Trung >>>>
 
         // Nút tua + tua ngược 5s
-
-        private void OnSkipBackward(object sender, MouseButtonEventArgs e)
+        private void OnSkipBackward(object sender, RoutedEventArgs e)
         {
             myMediaElement.Position = myMediaElement.Position.Subtract(TimeSpan.FromSeconds(5));
         }
 
-        private void OnSkipForward(object sender, MouseButtonEventArgs e)
+        private void OnSkipForward(object sender, RoutedEventArgs e)
         {
             myMediaElement.Position = myMediaElement.Position.Add(TimeSpan.FromSeconds(5));
         }
@@ -279,36 +215,13 @@ namespace MediaPlayerProject.Views
             vm.BackCommand.Execute(plalist);
         }
 
-        private void ShuffleMode_Click(object sender, RoutedEventArgs e)
-        {
-            this.shufleMode = !shufleMode;
-        }
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            vm = (PlayFileViewModel)this.DataContext;
-            listMediaSource = new List<Uri>();
-
-            foreach (var item in vm.MediaFiles)
-            {
-                listMediaSource!.Add(fileToUri(item));
-            }
-            vm.mediaSource = listMediaSource![0];
-            currentIndex = 0;
-
+            Vm = (PlayFileViewModel)this.DataContext;
+            Vm.CurrentIndex = 0;
             myMediaElement.Play();
-            displayPlayingFile();
             _timer.Start();
+            SwitchPlayPauseButton(false);
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var mediaFile = (MediaFile)(((Button)(sender)).DataContext);
-            currentIndex = listMediaSource.IndexOf(fileToUri(mediaFile));
-            vm.mediaSource = listMediaSource[currentIndex];
-            displayPlayingFile();
-        }
-
-        // Xuan >>>>
     }
 }

@@ -6,169 +6,277 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MediaPlayerProject.Views"
     mc:Ignorable="d"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="600"
+    d:DesignWidth="900"
     Loaded="UserControl_Loaded"
+    MouseDown="UC_MouseDown"
     xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
-    d:DataContext="{d:DesignInstance vm:PlayFileViewModel}">
+    d:DataContext="{d:DesignInstance vm:PlayFileViewModel}"
+    Background="{StaticResource Background_1_Rad}">
+    <UserControl.Resources>
+        <Style
+            TargetType="TextBlock"
+            BasedOn="{StaticResource NormalSmall}">
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition
-                Width="600"></ColumnDefinition>
+                Width="*" />
+            <ColumnDefinition
+                Width="3*" />
         </Grid.ColumnDefinitions>
 
         <ListView
             Grid.Column="0"
             x:Name="FilesListView"
-            ItemsSource="{Binding MediaFiles}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Button
-                        Click="Button_Click">
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Height="44">
-                            <Image
-                                Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}"
-                                Height="16"
-                                Width="16"
-                                VerticalAlignment="Center" />
-                            <TextBlock
-                                Text="{Binding FileName}"
-                                VerticalAlignment="Center"
-                                Margin="12,0,0,0" />
-                        </StackPanel>
-                    </Button>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            ItemsSource="{Binding DisplayMediaFiles}"
+            SelectedIndex="{Binding CurrentIndex}"
+            Style="{StaticResource Fade_ListViewStyle}"
+            ItemTemplate="{StaticResource MediaFileListViewItem_DT}" />
 
-        <Canvas
+        <Grid
             Grid.Column="1">
-            <Button
-                Grid.Column="1"
-                FontSize="30"
-                Height="40"
-                x:Name="BackBtn"
-                Content="Back"
-                Click="BackButton_Click"></Button>
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="auto" />
+                <RowDefinition
+                    Height="*" />
+                <RowDefinition
+                    Height="auto" />
+            </Grid.RowDefinitions>
 
-            <MediaElement
-                Name="previewMediaElement"
-                Width="120"
-                Height="90"
-                Source="{Binding mediaSource}"
-                Visibility="Visible"
-                LoadedBehavior="Manual"
-                UnloadedBehavior="Stop"
-                Stretch="Fill"
-                Canvas.Left="340"
-                Canvas.Top="230"
-                Panel.ZIndex="20" />
-
-            <MediaElement
-                Name="myMediaElement"
-                Width="450"
-                Height="250"
-                Source="{Binding mediaSource}"
-                LoadedBehavior="Manual"
-                UnloadedBehavior="Stop"
-                Stretch="Fill"
-                MediaOpened="Element_MediaOpened"
-                MediaEnded="Element_MediaEnded"
-                Canvas.Left="175"
-                Canvas.Top="35" />
-
-            <StackPanel
-                HorizontalAlignment="Left"
-                Width="600"
-                Orientation="Horizontal"
-                Canvas.Left="106"
-                Canvas.Top="323"
-                VerticalAlignment="Center">
-                <TextBlock
-                    Foreground="Black"
-                    Margin="5"
-                    VerticalAlignment="Center">Seek To</TextBlock>
-                <Slider
-                    Name="timelineSlider"
-                    Margin="5"
-                    ValueChanged="SeekToMediaPosition"
-                    Width="440"
-                    PreviewMouseLeftButtonUp="TimelineSlider_SeekClick" />
-                <TextBox
-                    Name="progressTextBox"
-                    Text="00:00:00/00:00:00"
-                    IsReadOnly="True"
-                    Width="97"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
-            </StackPanel>
-
-            <StackPanel
-                HorizontalAlignment="Left"
-                Width="358"
-                Orientation="Horizontal"
-                Canvas.Left="221"
-                Canvas.Top="356"
-                VerticalAlignment="Center">
-
-                <TextBlock
-                    Text="▶"
-                    MouseDown="OnMouseDownPlayMedia"
-                    Margin="5" />
-
-                <TextBlock
-                    Text="◼"
-                    MouseDown="OnMouseDownPauseMedia"
-                    Margin="5" />
-
-                <TextBlock
-                    Text="🔴"
-                    MouseDown="OnMouseDownStopMedia"
-                    Margin="5" />
-
-                <TextBlock
-                    Text="⏪"
-                    MouseDown="OnSkipBackward"
-                    Margin="5" />
-
-                <TextBlock
-                    Text="⏩"
-                    MouseDown="OnSkipForward"
-                    Margin="5" />
-
-                <TextBlock
-                    Foreground="Black"
+            <DockPanel
+                Margin="30 20"
+                Grid.Row="0">
+                <DockPanel.Resources>
+                    <Style
+                        TargetType="TextBlock"
+                        x:Key="ButtonText"
+                        BasedOn="{StaticResource NormalLarge}">
+                        <Setter
+                            Property="FontFamily"
+                            Value="{StaticResource BeautyFontFamily}" />
+                    </Style>
+                </DockPanel.Resources>
+                <StackPanel
+                    Orientation="Vertical"
+                    DockPanel.Dock="Left">
+                    <TextBlock
+                        Text="{Binding CurrentPlayingMediaFile.FileName}"
+                        Style="{StaticResource Heading1}"
+                        FontFamily="{StaticResource BeautyFontFamily}" />
+                    <TextBlock
+                        Text="{Binding PlaylistData.Name}"
+                        Style="{StaticResource Normal}"
+                        Foreground="{StaticResource GrayBrush}"
+                        Opacity="0.8" />
+                </StackPanel>
+                <Button
+                    Margin="20 0"
+                    x:Name="BackBtn"
+                    DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Margin="5">Volume</TextBlock>
-                <Slider
-                    Name="volumeSlider"
-                    VerticalAlignment="Center"
-                    ValueChanged="ChangeMediaVolume"
-                    Minimum="0"
-                    Maximum="1"
-                    Value="0.5"
-                    Width="70" />
+                    Content="🢤  Back"
+                    Template="{DynamicResource TextBlockButton}"
+                    Click="BackButton_Click" />
+            </DockPanel>
 
-                <TextBlock
-                    Foreground="Black"
-                    Margin="5"
-                    VerticalAlignment="Center">Speed</TextBlock>
-                <ComboBox
-                    x:Name="speedRatioComboBox"
-                    SelectionChanged="ChangeMediaSpeedRatio"
-                    Height="22">
-                    <ComboBoxItem
-                        Content="0.5x" />
-                    <ComboBoxItem
-                        Content="1x"
-                        IsSelected="True" />
-                    <ComboBoxItem
-                        Content="2x" />
-                </ComboBox>
-            </StackPanel>
-        </Canvas>
+            <Canvas
+                Margin="10"
+                Grid.Row="1"
+                Name="screen">
+                <Grid
+                    Width="{Binding ElementName=screen, Path=ActualWidth}"
+                    Height="{Binding ElementName=screen, Path=ActualHeight}">
+                    <Image
+                        Margin="40"
+                        Opacity="0.8"
+                        Source="{Binding Source='mediafile.png', Converter={StaticResource ImagePathConverter}}"
+                        MaxHeight="{Binding ElementName=screen, Path=ActualHeight}"
+                        MaxWidth="{Binding ElementName=screen, Path=ActualWidth}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center" />
+                </Grid>
+
+                <MediaElement
+                    Panel.ZIndex="2"
+                    Width="{Binding ElementName=screen, Path=ActualWidth}"
+                    Height="{Binding ElementName=screen, Path=ActualHeight}"
+                    Name="myMediaElement"
+                    Volume="{Binding ElementName=volumeSlider, Path=Value}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Source="{Binding  CurrentMediaSource}"
+                    LoadedBehavior="Manual"
+                    UnloadedBehavior="Stop"
+                    Stretch="Fill"
+                    MediaOpened="Element_MediaOpened"
+                    MediaEnded="Element_MediaEnded" />
+
+                <MediaElement
+                    Name="previewMediaElement"
+                    Width="120"
+                    Height="90"
+                    Source="{Binding CurrentMediaSource}"
+                    Visibility="Visible"
+                    LoadedBehavior="Manual"
+                    UnloadedBehavior="Stop"
+                    Stretch="Fill"
+                    Panel.ZIndex="20" />
+
+            </Canvas>
+
+            <Grid
+                Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="auto" />
+                    <RowDefinition
+                        Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="*" />
+                        <ColumnDefinition
+                            Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Slider
+                        Grid.Column="0"
+                        Name="timelineSlider"
+                        Style="{StaticResource DiamondSliderStyle}"
+                        Margin="25 5"
+                        ValueChanged="SeekToMediaPosition"
+                        PreviewMouseLeftButtonUp="TimelineSlider_SeekClick" />
+                    <TextBlock
+                        Margin="5 5 20 5"
+                        Grid.Column="1"
+                        Name="progressTextBox"
+                        Text="00:00:00/00:00:00"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                </Grid>
+                <Grid
+                    Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="*" />
+                        <ColumnDefinition
+                            Width="auto" />
+                        <ColumnDefinition
+                            Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Grid.Column="0"
+                        Margin="10 2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Margin="5"
+                            Text="Volume" />
+                        <Slider
+                            Style="{DynamicResource DiamondSliderStyle}"
+                            x:Name="volumeSlider"
+                            VerticalAlignment="Center"
+                            Minimum="0"
+                            Maximum="1"
+                            Value="0.3"
+                            Margin="10 0 0 0"
+                            Width="70" />
+                        <ToggleButton
+                            Style="{DynamicResource MyToggleButtonStyle}"
+                            IsChecked="{Binding IsShuffle}"
+                            Content="🔀"
+                            Background="Transparent" />
+                    </StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <StackPanel.Resources>
+                            <Style
+                                TargetType="Button"
+                                BasedOn="{StaticResource RoundMediaButton}">
+                                <Setter
+                                    Property="Width"
+                                    Value="30" />
+                                <Setter
+                                    Property="Height"
+                                    Value="30" />
+                                <Setter
+                                    Property="VerticalAlignment"
+                                    Value="Center" />
+                                <Setter
+                                    Property="Margin"
+                                    Value="5" />
+                            </Style>
+                            <Style
+                                x:Key="ButtonText"
+                                TargetType="TextBlock"
+                                BasedOn="{StaticResource NormalSmall}">
+                            </Style>
+                        </StackPanel.Resources>
+                        <Button
+                            Content="⏮"
+                            Click="OnMouseDownPreMedia" />
+                        <Button
+                            Content="⏪"
+                            Click="OnSkipBackward" />
+                        <Button
+                            x:Name="PlayButton"
+                            Width="40"
+                            Height="40"
+                            Content="▶"
+                            Click="OnMouseDownPlayMedia" />
+                        <Button
+                            x:Name="PauseButton"
+                            Content="||"
+                            Width="40"
+                            Height="40"
+                            Click="OnMouseDownPauseMedia" />
+                        <Button
+                            Content="⟳"
+                            Click="OnMouseStartOverMedia" />
+                        <Button
+                            Content="⏩"
+                            Click="OnSkipForward" />
+                        <Button
+                            Content="⏭️"
+                            Click="OnMouseDownNextMedia" />
+                    </StackPanel>
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Text="Speed"
+                            Margin="10 0" />
+                        <ComboBox
+                            Style="{DynamicResource Fade_ComboBoxStyle}"
+                            ItemContainerStyle="{DynamicResource Fade_ComboBoxItemContainerStyle}"
+                            x:Name="speedRatioComboBox"
+                            VerticalAlignment="Center"
+                            SelectionChanged="ChangeMediaSpeedRatio">
+                            <ComboBoxItem
+                                Content="0.5x" />
+                            <ComboBoxItem
+                                Content="1x"
+                                IsSelected="True" />
+                            <ComboBoxItem
+                                Content="2x" />
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

@@ -31,7 +31,7 @@ namespace MediaPlayerProject.Commands
                 filenames = openFileDialog.FileNames;
                 foreach (var filename in filenames)
                 {
-                    var parsedFileName = ParseFileName.parseFileName(filename);
+                    var parsedFileName = PathHelper.parseFileName(filename);
                     await sv.AddMediaFiletoPool(new MediaFile(parsedFileName.Name, parsedFileName.Path));
                 }
 

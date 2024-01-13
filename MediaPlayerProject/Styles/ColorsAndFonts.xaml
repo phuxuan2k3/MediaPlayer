@@ -38,6 +38,8 @@
     <Color
         x:Key="White_65">#A6FFFFFF</Color>
     <Color
+        x:Key="White_85">#D9FFFFFF</Color>
+    <Color
         x:Key="Gray">#DDDDDD</Color>
     <Color
         x:Key="DarkGrayBlue">#19376D</Color>
@@ -83,6 +85,28 @@
     <SolidColorBrush
         x:Key="GrayBrush"
         Color="{StaticResource Gray}" />
+    <SolidColorBrush
+        x:Key="LightTealBrush"
+        Color="{StaticResource LightTeal}" />
+    <!--SystemItem-->
+    <SolidColorBrush
+        x:Key="Item.MouseOver.Background"
+        Color="#26DADADA" />
+    <SolidColorBrush
+        x:Key="Item.MouseOver.Border"
+        Color="#B3DADADA" />
+    <SolidColorBrush
+        x:Key="Item.SelectedActive.Background"
+        Color="#3DDADADA" />
+    <SolidColorBrush
+        x:Key="Item.SelectedActive.Border"
+        Color="#FFDADADA" />
+    <SolidColorBrush
+        x:Key="Item.SelectedInactive.Background"
+        Color="#3DDADADA" />
+    <SolidColorBrush
+        x:Key="Item.SelectedInactive.Border"
+        Color="#FFDADADA" />
     <!--Gradient-->
     <LinearGradientBrush
         x:Key="Background_1"
@@ -127,6 +151,34 @@
         <GradientStop
             Color="{StaticResource DarkGrayBlue_85}"
             Offset="1.4" />
+    </LinearGradientBrush>
+    <LinearGradientBrush
+        x:Key="Button_Bg1"
+        StartPoint="0 0"
+        EndPoint="0 1">
+        <GradientStop
+            Color="{StaticResource Teal_85}"
+            Offset="-0.4" />
+        <GradientStop
+            Color="{StaticResource Pink}"
+            Offset="1.4" />
+        <GradientStop
+            Color="{StaticResource DarkGrayBlue_85}"
+            Offset="0.6" />
+    </LinearGradientBrush>
+    <LinearGradientBrush
+        x:Key="Button_Bg2"
+        StartPoint="0 0"
+        EndPoint="0 1">
+        <GradientStop
+            Color="{StaticResource DarkBlue}"
+            Offset="0" />
+        <GradientStop
+            Color="{StaticResource Pink}"
+            Offset="0.5" />
+        <GradientStop
+            Color="{StaticResource Purple}"
+            Offset="1" />
     </LinearGradientBrush>
 
     <!--Image Size-->

@@ -22,7 +22,6 @@ namespace MediaPlayerProject.Views
             var playlist = (MediaFile)((ListViewItem)sender).DataContext;
         }
 
-
         private void UC_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DataListView.UnselectAll();
@@ -31,13 +30,13 @@ namespace MediaPlayerProject.Views
 
         private void AddFiles_Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Options_Button.Visibility = Visibility.Collapsed;
+            this.AddFiles_Button.Visibility = Visibility.Collapsed;
             this.LayoutTriggerGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Options_Button.Visibility = Visibility.Visible;
+            this.AddFiles_Button.Visibility = Visibility.Visible;
             this.LayoutTriggerGrid.ColumnDefinitions[1].Width = new GridLength(0);
         }
 

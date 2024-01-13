@@ -105,11 +105,17 @@
                 Grid.Column="0">
                 <Button
                     Template="{DynamicResource TextBlockButton}"
+                    Content="▶ Play"
+                    Command="{Binding PlayFileCommand}"
+                    CommandParameter="{Binding PlaylistData}">
+                </Button>
+                <Button
+                    Template="{DynamicResource TextBlockButton}"
                     Content="Remove"
                     Command="{Binding RemoveMediaFileCommand}">
                 </Button>
                 <Button
-                    x:Name="Options_Button"
+                    x:Name="AddFiles_Button"
                     Template="{DynamicResource TextBlockButton}"
                     Content="Add Files"
                     Click="AddFiles_Button_Click">

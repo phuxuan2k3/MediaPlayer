@@ -26,7 +26,6 @@ namespace MediaPlayerProject.ViewModels
         public MediaFileListingViewModel(Playlist playlist)
         {
             PlayFileCommand = new PlayFileCommand();
-            SelectedMediaFilePool = new ObservableCollection<MediaFile>();
             PlaylistData = playlist;
             MediaFiles = new ObservableCollection<MediaFile>();
             MediaFilesPool = new ObservableCollection<MediaFile>();
