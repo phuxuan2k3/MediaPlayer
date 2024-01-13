@@ -76,9 +76,16 @@ namespace Hung_Task
             myMediaElement.Volume = (double)volumeSlider.Value;
         }
 
-        private void ChangeMediaSpeedRatio(object sender, RoutedPropertyChangedEventArgs<double> args)
+        private void ChangeMediaSpeedRatio(object sender, SelectionChangedEventArgs e)
         {
-            //myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
+            string selectedSpeedRatio = ((ComboBoxItem)speedRatioComboBox.SelectedItem).Content.ToString();
+            double speedRatio = double.Parse(selectedSpeedRatio.Trim('x'));
+            SetMediaSpeed(speedRatio);
+        }
+
+        private void SetMediaSpeed(double speedRatio)
+        {
+            myMediaElement.SpeedRatio = speedRatio;
         }
 
         private void Element_MediaOpened(object sender, EventArgs e)
@@ -95,7 +102,6 @@ namespace Hung_Task
         void InitializePropertyValues()
         {
             myMediaElement.Volume = (double)volumeSlider.Value;
-            myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
         }
 
         // Cập nhật thanh slider 200ms 1 lần
@@ -105,6 +111,10 @@ namespace Hung_Task
             if (!timelineSlider.IsMouseCaptureWithin)
             {
                 timelineSlider.Value = myMediaElement.Position.TotalMilliseconds;
+            }
+            if (myMediaElement.NaturalDuration.HasTimeSpan)
+            {
+                progressTextBox.Text = $"{myMediaElement.Position.ToString(@"hh\:mm\:ss")}/{myMediaElement.NaturalDuration.TimeSpan.ToString(@"hh\:mm\:ss")}";
             }
         }
 
