@@ -30,6 +30,11 @@
                 <views:MediaFileListingView />
             </DataTemplate>
 
+            <DataTemplate
+                DataType="{x:Type vms:MediaFilePoolViewModel}">
+                <views:MediaFilePoolView />
+            </DataTemplate>
+
         </Grid.Resources>
 
         <ContentControl>

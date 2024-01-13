@@ -11,5 +11,10 @@ namespace MediaPlayerProject.Views
         {
             InitializeComponent();
         }
+
+        private void ListViewItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

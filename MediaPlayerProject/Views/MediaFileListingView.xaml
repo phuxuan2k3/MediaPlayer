@@ -7,7 +7,6 @@
     xmlns:local="clr-namespace:MediaPlayerProject.Views"
     mc:Ignorable="d"
     xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
-    xmlns:m="clr-namespace:MediaPlayerProject.Models"
     d:DataContext="{d:DesignInstance Type=vm:MediaFileListingViewModel}"
     d:DesignHeight="600"
     d:DesignWidth="900"
@@ -52,7 +51,7 @@
                 DockPanel.Dock="Right"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Content="Playlists"
+                Content="🢤  Playlists"
                 Margin="30 0"
                 Template="{DynamicResource TextBlockButton}"
                 Command="{Binding BackCommand}" />
@@ -94,38 +93,7 @@
                         Property="VerticalAlignment"
                         Value="Center" />
                 </Style>
-                <DataTemplate
-                    x:Key="lvMediaFiles"
-                    DataType="m:MediaFile">
-                    <StackPanel
-                        Orientation="Horizontal">
-                        <Image
-                            Source="{Binding Source='mediafile.png', Converter={StaticResource ImagePathConverter}}"
-                            Height="{StaticResource ImageIconSize_2}"
-                            Width="{StaticResource ImageIconSize_2}"
-                            Margin="14"
-                            VerticalAlignment="Center" />
-                        <StackPanel
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            Margin="12,4,0,4"
-                            Orientation="Vertical">
-                            <TextBlock
-                                Style="{StaticResource NormalSmall}"
-                                Text="{Binding FileName}"
-                                VerticalAlignment="Center"
-                                TextWrapping="Wrap" />
-                            <TextBlock
-                                Style="{StaticResource NormalSmall}"
-                                Foreground="{StaticResource GrayBrush}"
-                                Opacity="0.8"
-                                Text="{Binding Path}"
-                                VerticalAlignment="Center"
-                                TextWrapping="Wrap"
-                                Margin="0,5,0,0" />
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
+
             </Grid.Resources>
 
             <!--Options-->
@@ -143,8 +111,8 @@
                 <Button
                     x:Name="Options_Button"
                     Template="{DynamicResource TextBlockButton}"
-                    Content="Options"
-                    Click="Options_Button_Click">
+                    Content="Add Files"
+                    Click="AddFiles_Button_Click">
                 </Button>
             </StackPanel>
             <DockPanel
@@ -186,9 +154,7 @@
                 SelectedItem="{Binding SelectedMediaFile}"
                 ItemsSource="{Binding MediaFiles}"
                 Style="{StaticResource Fade_ListViewStyle}"
-                ItemTemplate="{StaticResource lvMediaFiles}">
-
-            </ListView>
+                ItemTemplate="{StaticResource MediaFileListViewItem_DT}" />
 
             <!--Pool-->
             <ListView
@@ -198,8 +164,7 @@
                 x:Name="PoolListView"
                 ItemsSource="{Binding MediaFilesPool}"
                 Style="{StaticResource Fade_ListViewStyle}"
-                ItemTemplate="{StaticResource lvMediaFiles}">
-            </ListView>
+                ItemTemplate="{StaticResource MediaFileListViewItem_DT}" />
         </Grid>
     </Grid>
 </UserControl>

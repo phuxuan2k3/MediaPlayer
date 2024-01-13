@@ -29,7 +29,7 @@ namespace MediaPlayerProject.Views
             PoolListView.UnselectAll();
         }
 
-        private void Options_Button_Click(object sender, RoutedEventArgs e)
+        private void AddFiles_Button_Click(object sender, RoutedEventArgs e)
         {
             this.Options_Button.Visibility = Visibility.Collapsed;
             this.LayoutTriggerGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
@@ -46,6 +46,7 @@ namespace MediaPlayerProject.Views
             var items = this.PoolListView.SelectedItems;
             var vm = (MediaFileListingViewModel)this.DataContext;
             vm.AddMediaFilesFromPoolCommand.Execute(items);
+            this.Cancel_Button_Click(sender, e);
         }
     }
 }

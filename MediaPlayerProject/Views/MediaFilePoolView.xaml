@@ -1,33 +1,114 @@
-﻿<UserControl x:Class="MediaPlayerProject.Views.MediaFilePoolView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MediaPlayerProject.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="MediaPlayerProject.Views.MediaFilePoolView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MediaPlayerProject.Views"
+    xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="900"
+    d:DataContext="{d:DesignInstance vm:MediaFilePoolViewModel}"
+    Background="{StaticResource Background_2}">
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition
+                Height="auto" />
+            <RowDefinition
+                Height="auto" />
+            <RowDefinition
+                Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Remove" Command="{Binding RemoveMediaFilePoolCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0"></Button>
-            <Button Content="Add file" Command="{Binding AddMediaFileCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0"></Button>
-            <Button Content="Back" Command="{Binding BackCommand}"  Grid.Row="1" Width="200" Height="40"  Margin="0 0 10 0"></Button>
 
+        <!--Title-->
+        <DockPanel
+            LastChildFill="True"
+            Grid.Row="0">
+            <DockPanel.Resources>
+                <Style
+                    TargetType="TextBlock"
+                    x:Key="ButtonText"
+                    BasedOn="{StaticResource NormalLarge}">
+                    <Setter
+                        Property="FontFamily"
+                        Value="{StaticResource BeautyFontFamily}" />
+                </Style>
+            </DockPanel.Resources>
+            <TextBlock
+                Text="Media Files"
+                FontSize="{StaticResource Heading2FontSize}"
+                FontWeight="Bold"
+                Foreground="{StaticResource WhiteBrush}"
+                Margin="30"
+                FontFamily="{StaticResource BeautyFontFamily}" />
+            <Button
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Content="🢤  Playlists"
+                Margin="30 0"
+                Template="{DynamicResource TextBlockButton}"
+                Command="{Binding BackCommand}" />
+        </DockPanel>
+
+        <!--Options-->
+        <StackPanel
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Background="Transparent"
+            Grid.Row="1"
+            Margin="30 0">
+            <StackPanel.Resources>
+                <Style
+                    TargetType="Button">
+                    <Setter
+                        Property="Margin"
+                        Value="20 10" />
+                    <Setter
+                        Property="Padding"
+                        Value="10 5" />
+                    <Setter
+                        Property="BorderThickness"
+                        Value="0" />
+                </Style>
+                <Style
+                    TargetType="TextBlock"
+                    x:Key="ButtonText"
+                    BasedOn="{StaticResource Normal}">
+                </Style>
+            </StackPanel.Resources>
+            <Button
+                Template="{DynamicResource TextBlockButton}"
+                Background="Transparent"
+                Content="Remove"
+                Command="{Binding RemoveMediaFilePoolCommand}">
+            </Button>
+            <Button
+                Template="{DynamicResource TextBlockButton}"
+                Background="Transparent"
+                Content="Add from Local"
+                Command="{Binding AddMediaFileCommand}">
+            </Button>
         </StackPanel>
-        <ListView Grid.Row="1" SelectedItem="{Binding SelectedMediaFile}" ItemsSource="{Binding MediaFiles}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:Name="SingleLineDataTemplate" >
-                    <Button >
-                        <StackPanel Orientation="Horizontal" Height="44" >
-                            <Image Source="{Binding Source='playlist.png',  Converter={StaticResource ImagePathConverter}}" Height="16" Width="16" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding FileName}" VerticalAlignment="Center"  Margin="12,0,0,0"/>
-                        </StackPanel>
-                    </Button>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+
+        <ListView
+            Grid.Row="2"
+            x:Name="MyListView"
+            SelectedItem="{Binding SelectedMediaFile}"
+            ItemsSource="{Binding MediaFiles}"
+            Margin="10"
+            Style="{StaticResource Fade_ListViewStyle}"
+            ItemTemplate="{StaticResource MediaFileListViewItem_DT}">
+            <ListView.ItemContainerStyle>
+                <Style
+                    BasedOn="{StaticResource Transparent_ListViewItemStyle}"
+                    TargetType="{x:Type ListViewItem}">
+                    <EventSetter
+                        Event="MouseDoubleClick"
+                        Handler="ListViewItem_MouseDoubleClick" />
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </UserControl>

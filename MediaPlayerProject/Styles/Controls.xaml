@@ -295,19 +295,8 @@
                                 Value="True">
                                 <Setter
                                     TargetName="textblock"
-                                    Property="TextBlock.TextDecorations">
-                                    <Setter.Value>
-                                        <TextDecorationCollection>
-                                            <TextDecoration
-                                                Location="Underline">
-                                                <TextDecoration.Pen>
-                                                    <Pen
-                                                        Thickness="2"
-                                                        Brush="{Binding ElementName=textblock, Path=Foreground}" />
-                                                </TextDecoration.Pen>
-                                            </TextDecoration>
-                                        </TextDecorationCollection>
-                                    </Setter.Value>
+                                    Property="TextBlock.TextDecorations"
+                                    Value="Underline">
                                 </Setter>
                             </DataTrigger>
                         </DataTemplate.Triggers>
@@ -315,7 +304,8 @@
                             x:Name="textblock"
                             Foreground="{StaticResource WhiteBrush}"
                             Style="{DynamicResource ButtonText}"
-                            Text="{Binding}">
+                            Text="{Binding}"
+                            TextDecorations="{x:Null}">
                         </TextBlock>
                     </DataTemplate>
                 </ContentPresenter.ContentTemplate>

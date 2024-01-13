@@ -42,17 +42,23 @@
     <Color
         x:Key="DarkGrayBlue">#19376D</Color>
     <Color
+        x:Key="DarkGrayBlue_85">#D919376D</Color>
+    <Color
         x:Key="DarkBlue">#0F1035</Color>
     <Color
         x:Key="LightGrayBlue">#576CBC</Color>
     <Color
         x:Key="LightGrayBlue_85">#D9576CBC</Color>
     <Color
+        x:Key="LightGrayBlue_40">#66576CBC</Color>
+    <Color
         x:Key="LightTeal">#a5cbcf</Color>
     <Color
         x:Key="Teal">#73A9AD</Color>
     <Color
         x:Key="Teal_85">#D973A9AD</Color>
+    <Color
+        x:Key="Teal_40">#6673A9AD</Color>
     <Color
         x:Key="LightRed">#EF4040</Color>
     <Color
@@ -110,14 +116,17 @@
     </RadialGradientBrush>
     <LinearGradientBrush
         x:Key="Background_2"
-        StartPoint="0 0"
-        EndPoint="1 1">
+        StartPoint="0.2 0"
+        EndPoint="0.8 1">
         <GradientStop
-            Color="{StaticResource DarkGrayBlue}"
-            Offset="0" />
+            Color="{StaticResource DarkGrayBlue_85}"
+            Offset="-0.4" />
         <GradientStop
-            Color="{StaticResource DarkBlue}"
-            Offset="1" />
+            Color="{StaticResource LightGrayBlue_85}"
+            Offset="0.6" />
+        <GradientStop
+            Color="{StaticResource DarkGrayBlue_85}"
+            Offset="1.4" />
     </LinearGradientBrush>
 
     <!--Image Size-->

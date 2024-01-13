@@ -5,9 +5,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Converter/Converters.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/Styles/ColorsAndFonts.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/Styles/Controls.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="/Converter/Converters.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Styles/DataTemplate.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -47,7 +47,7 @@
             <Button
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Content="Media Files"
+                Content="Media Files  🢥"
                 Margin="30 0"
                 Template="{DynamicResource TextBlockButton}"
                 Command="{Binding MediaFilePoolNavigateCommand}" />
@@ -99,7 +99,8 @@
             SelectedItem="{Binding SelectedPlaylist}"
             ItemsSource="{Binding Playlists}"
             Margin="10"
-            Style="{StaticResource Fade_ListViewStyle}">
+            Style="{StaticResource Fade_ListViewStyle}"
+            ItemTemplate="{StaticResource PlaylistListViewItem_DT}">
             <ListView.ItemContainerStyle>
                 <Style
                     BasedOn="{StaticResource Transparent_ListViewItemStyle}"
@@ -109,31 +110,6 @@
                         Handler="ListViewItemDoubleClick" />
                 </Style>
             </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel
-                        Orientation="Horizontal">
-                        <Image
-                            Source="{Binding Source='playlist.png', Converter={StaticResource ImagePathConverter}}"
-                            Height="{StaticResource ImageIconSize}"
-                            Width="{StaticResource ImageIconSize}"
-                            Margin="16"
-                            VerticalAlignment="Center" />
-                        <TextBlock
-                            Style="{StaticResource NormalSmall}"
-                            Text="{Binding Name}"
-                            VerticalAlignment="Center"
-                            Margin="12,0,0,0" />
-                        <TextBlock
-                            Style="{StaticResource NormalSmall}"
-                            Foreground="{StaticResource GrayBrush}"
-                            Opacity="0.8"
-                            Text="{Binding TimeCreated}"
-                            VerticalAlignment="Center"
-                            Margin="12,0,0,0" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
     </Grid>
 </UserControl>
