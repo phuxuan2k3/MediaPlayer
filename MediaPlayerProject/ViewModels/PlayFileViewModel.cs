@@ -35,12 +35,22 @@ namespace MediaPlayerProject.ViewModels
             }
         }
 
+        public void SaveTimeSpan()
+        {
+            //...
+        }
+
         private int _currentIndex;
         public int CurrentIndex
         {
-            get => _currentIndex; set
+            get => _currentIndex;
+            set
             {
+                // Trc khi chuyen video
+                // TODO:
+                //SaveTimeSpan();
                 _currentIndex = value;
+                // Sau 
                 if (_currentIndex >= _mediaFiles.Count)
                 {
                     _currentIndex = 0;
@@ -54,7 +64,8 @@ namespace MediaPlayerProject.ViewModels
             }
         }
         public MediaFile CurrentPlayingMediaFile => DisplayMediaFiles[CurrentIndex];
-        public Uri CurrentMediaSource => PathHelper.fileToUri(DisplayMediaFiles[CurrentIndex]);
+        public Uri CurrentMediaSource => PathHelper.fileToUri(CurrentPlayingMediaFile);
+
 
         public PlayFileViewModel(Playlist playlistData)
         {

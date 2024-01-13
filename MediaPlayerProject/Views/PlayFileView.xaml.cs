@@ -42,6 +42,7 @@ namespace MediaPlayerProject.Views
         public PlayFileView()
         {
             InitializeComponent();
+            Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
 
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromMilliseconds(200);
@@ -61,7 +62,6 @@ namespace MediaPlayerProject.Views
             myMediaElement.Play();
             _timer.Start();
             SwitchPlayPauseButton(false);
-            InitializePropertyValues();
         }
 
         void OnMouseDownPauseMedia(object sender, RoutedEventArgs e)
@@ -99,15 +99,10 @@ namespace MediaPlayerProject.Views
         {
             myMediaElement.Stop();
             _timer.Stop();
-            Vm.CurrentIndex += 1;
+            Vm!.CurrentIndex += 1;
             myMediaElement.Play();
             _timer.Start();
             SwitchPlayPauseButton(false);
-        }
-
-        void InitializePropertyValues()
-        {
-            myMediaElement.Volume = (double)volumeSlider.Value;
         }
 
         // Cập nhật thanh slider 200ms 1 lần
@@ -206,13 +201,10 @@ namespace MediaPlayerProject.Views
             myMediaElement.Position = TimeSpan.FromMilliseconds(sliderValue);
         }
 
-        // Xuan <<<<
-
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            var vm = (PlayFileViewModel)this.DataContext;
-            var plalist = vm.PlaylistData;
-            vm.BackCommand.Execute(plalist);
+            var plalist = Vm!.PlaylistData;
+            Vm!.BackCommand.Execute(plalist);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -222,6 +214,19 @@ namespace MediaPlayerProject.Views
             myMediaElement.Play();
             _timer.Start();
             SwitchPlayPauseButton(false);
+        }
+
+        private void Dispatcher_ShutdownStarted(object? sender, EventArgs e)
+        {
+            // TODO:
+            //Vm!.SaveTimeSpan();
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.ShutdownStarted -= Dispatcher_ShutdownStarted;
+            // TODO:
+            //Vm!.SaveTimeSpan();
         }
     }
 }

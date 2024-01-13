@@ -11,7 +11,7 @@
     Title="My Playlist"
     Height="600"
     Width="900"
-    WindowStartupLocation="CenterScreen">
+    WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Grid>
         <Grid.Resources>
             <!--Navigation-->

@@ -12,7 +12,8 @@
     MouseDown="UC_MouseDown"
     xmlns:vm="clr-namespace:MediaPlayerProject.ViewModels"
     d:DataContext="{d:DesignInstance vm:PlayFileViewModel}"
-    Background="{StaticResource Background_1_Rad}">
+    Background="{StaticResource Background_1_Rad}"
+    Unloaded="UserControl_Unloaded">
     <UserControl.Resources>
         <Style
             TargetType="TextBlock"
@@ -22,12 +23,15 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition
-                Width="*" />
+                Width="200" />
+            <ColumnDefinition
+                Width="2" />
             <ColumnDefinition
                 Width="3*" />
         </Grid.ColumnDefinitions>
 
         <ListView
+            Grid.ColumnSpan="2"
             Grid.Column="0"
             x:Name="FilesListView"
             ItemsSource="{Binding DisplayMediaFiles}"
@@ -35,8 +39,13 @@
             Style="{StaticResource Fade_ListViewStyle}"
             ItemTemplate="{StaticResource MediaFileListViewItem_DT}" />
 
+        <GridSplitter
+            Grid.Column="1"
+            Width="2"
+            Background="{StaticResource WhiteBrush_40}" />
+
         <Grid
-            Grid.Column="1">
+            Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition
                     Height="auto" />
