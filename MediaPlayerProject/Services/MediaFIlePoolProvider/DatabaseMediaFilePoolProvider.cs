@@ -22,7 +22,7 @@ namespace MediaPlayerProject.Services.MediaFIlePoolProvider
         {
             using (PlaylistListDbContext dbContext = _playlistListDbContextFactory.CreateDbContext())
             {
-                return (await dbContext.MediaFiles.ToListAsync()).Select(m => new MediaFile(m.Name, m.Path, m.Id));
+                return (await dbContext.MediaFiles.ToListAsync()).Select(m => new MediaFile(m.Name, m.Path, m.Id, m.StartTime));
             }
         }
 
@@ -39,7 +39,8 @@ namespace MediaPlayerProject.Services.MediaFIlePoolProvider
             MediaFileDTO mediaFileDTO = new MediaFileDTO()
             {
                 Name = m.FileName,
-                Path = m.Path
+                Path = m.Path,
+                StartTime = m.StartTime
             };
             return mediaFileDTO;
         }

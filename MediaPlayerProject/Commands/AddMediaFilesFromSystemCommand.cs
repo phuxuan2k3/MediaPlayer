@@ -3,6 +3,7 @@ using MediaPlayerProject.Models;
 using MediaPlayerProject.Services.MediaFileCreator;
 using MediaPlayerProject.ViewModels;
 using Microsoft.Win32;
+using System;
 using System.Threading.Tasks;
 
 namespace MediaPlayerProject.Commands

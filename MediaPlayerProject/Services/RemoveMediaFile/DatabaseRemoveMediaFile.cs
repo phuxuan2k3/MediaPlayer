@@ -52,7 +52,8 @@ namespace MediaPlayerProject.Services.RemoveMediaFile
             {
                 Path = m.Path,
                 Name = m.FileName,
-                Id = m.Id
+                Id = m.Id,
+                StartTime = m.StartTime,
             };
         }
     }

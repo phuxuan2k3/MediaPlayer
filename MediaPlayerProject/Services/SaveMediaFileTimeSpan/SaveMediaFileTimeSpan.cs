@@ -1,15 +1,19 @@
 ﻿using MediaPlayerProject.DbContexts;
 using MediaPlayerProject.DTOs;
 using MediaPlayerProject.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace MediaPlayerProject.Services.RemoveMediaFilePool
+namespace MediaPlayerProject.Services.SaveMediaFileTimeSpan
 {
-    public class DatabaseRemoveMediaFilePool : IRemoveMediaFilePool
+    public class SaveMediaFileTimeSpan : ISaveMediaFileTimeSpan
     {
         private readonly PlaylistListDbContextFactory _playlistListDbContextFactory;
 
-        public DatabaseRemoveMediaFilePool(PlaylistListDbContextFactory playlistListDbContextFactory)
+        public SaveMediaFileTimeSpan(PlaylistListDbContextFactory playlistListDbContextFactory)
         {
             _playlistListDbContextFactory = playlistListDbContextFactory;
         }
@@ -24,11 +28,11 @@ namespace MediaPlayerProject.Services.RemoveMediaFilePool
             };
         }
 
-        public async Task removeMediaFile(MediaFile m)
+        public async Task Save(MediaFile m)
         {
             using (PlaylistListDbContext dbContext = _playlistListDbContextFactory.CreateDbContext())
             {
-                dbContext.MediaFiles.Remove(toMediaFileDTO(m));
+                dbContext.MediaFiles.Update(toMediaFileDTO(m));
                 await dbContext.SaveChangesAsync();
             }
         }

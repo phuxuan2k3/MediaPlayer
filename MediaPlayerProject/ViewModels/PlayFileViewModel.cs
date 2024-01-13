@@ -71,6 +71,7 @@ namespace MediaPlayerProject.ViewModels
             _mediaFiles = new List<MediaFile>();
             DisplayMediaFiles = new List<MediaFile>();
             BackCommand = new LoadMediaFileCommand();
+            SaveTimeSpanCommand = new SaveMediaFileTimeSpanCommand();
             UpdateViewModel();
         }
 

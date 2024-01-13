@@ -10,6 +10,7 @@ using MediaPlayerProject.Services.PlaylistDelete;
 using MediaPlayerProject.Services.PlaylistProviders;
 using MediaPlayerProject.Services.RemoveMediaFile;
 using MediaPlayerProject.Services.RemoveMediaFilePool;
+using MediaPlayerProject.Services.SaveMediaFileTimeSpan;
 using MediaPlayerProject.Stores;
 using MediaPlayerProject.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,7 @@ namespace MediaPlayerProject
                     services.AddSingleton<IMediaFIlePoolProvider, DatabaseMediaFilePoolProvider>();
                     services.AddSingleton<IMediaFileCreator, DatabaseMediaFileCreator>();
                     services.AddSingleton<IRemoveMediaFilePool, DatabaseRemoveMediaFilePool>();
+                    services.AddSingleton<ISaveMediaFileTimeSpan, SaveMediaFileTimeSpan>();
 
                     // Navigation
                     services.AddSingleton<NavigationStore>();
