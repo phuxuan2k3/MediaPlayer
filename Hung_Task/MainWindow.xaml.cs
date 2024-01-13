@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,8 @@ namespace Hung_Task
     public partial class MainWindow : Window
     {
         private DispatcherTimer _timer;
+        private DispatcherTimer _previewTimer;
+        private DateTime _lastUpdate = DateTime.Now;
 
         public MainWindow()
         {
@@ -27,7 +30,17 @@ namespace Hung_Task
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromMilliseconds(200);
             _timer.Tick += Timer_Tick;
+
+            _previewTimer = new DispatcherTimer();
+            _previewTimer.Interval = TimeSpan.FromMilliseconds(10);
+            _previewTimer.Tick += PreviewTimer_Tick;
+
+            timelineSlider.MouseEnter += TimelineSlider_MouseEnter;
+            timelineSlider.MouseMove += TimelineSlider_MouseMove;
+            timelineSlider.MouseLeave += TimelineSlider_MouseLeave;
         }
+
+        // Event nút bấm
 
         void OnMouseDownPlayMedia(object sender, MouseButtonEventArgs args)
         {
@@ -49,19 +62,13 @@ namespace Hung_Task
             _timer.Stop();
         }
 
-        private void Timer_Tick(object? sender = null, EventArgs? e = null)
+        void OnMouseStartOverMedia(object sender, MouseButtonEventArgs args) // Tua video lại từ đầu, chưa có nút
         {
-            if (!timelineSlider.IsMouseCaptureWithin)
-            {
-                timelineSlider.Value = myMediaElement.Position.TotalMilliseconds;
-            }
-        }
-        private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
-        {
-            if (timelineSlider.IsMouseCaptureWithin)
-            {
-                myMediaElement.Position = TimeSpan.FromMilliseconds(timelineSlider.Value);
-            }
+            myMediaElement.Stop();
+            _timer.Stop();
+
+            myMediaElement.Play();
+            _timer.Start();
         }
 
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
@@ -91,6 +98,32 @@ namespace Hung_Task
             myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
         }
 
+        // Cập nhật thanh slider 200ms 1 lần
+
+        private void Timer_Tick(object? sender = null, EventArgs? e = null)
+        {
+            if (!timelineSlider.IsMouseCaptureWithin)
+            {
+                timelineSlider.Value = myMediaElement.Position.TotalMilliseconds;
+            }
+        }
+
+        // Tua MediaElement, 100ms cập nhật 1 lần, cập nhật liên tục video siêu lag
+
+        private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
+        {
+            if (timelineSlider.IsMouseCaptureWithin)
+            {
+                if ((DateTime.Now - _lastUpdate).TotalMilliseconds >= 100)
+                {
+                    myMediaElement.Position = TimeSpan.FromMilliseconds(timelineSlider.Value);
+                    _lastUpdate = DateTime.Now;
+                }
+            }
+        }
+
+        // Mở file
+
         private void OnOpenMediaFile(object sender, MouseButtonEventArgs e)
         {
             var dialog = new OpenFileDialog();
@@ -99,8 +132,14 @@ namespace Hung_Task
             if (result == true)
             {
                 myMediaElement.Source = new Uri(dialog.FileName);
+                previewMediaElement.Source = myMediaElement.Source;
+                myMediaElement.Play();
+                previewMediaElement.Volume = 0;
+                _timer.Start();
             }
         }
+
+        // Nút tua + tua ngược 5s
 
         private void OnSkipBackward(object sender, MouseButtonEventArgs e)
         {
@@ -110,6 +149,46 @@ namespace Hung_Task
         private void OnSkipForward(object sender, MouseButtonEventArgs e)
         {
             myMediaElement.Position = myMediaElement.Position.Add(TimeSpan.FromSeconds(5));
+        }
+
+        // Preview
+
+        private void TimelineSlider_MouseEnter(object sender, MouseEventArgs e)
+        {
+            previewMediaElement.Visibility = Visibility.Visible;
+            previewMediaElement.Position = TimeSpan.FromMilliseconds(0);
+        }
+
+        private void TimelineSlider_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (timelineSlider.IsMouseOver && !timelineSlider.IsMouseCaptureWithin)
+            {
+                previewMediaElement.Visibility = Visibility.Visible;
+                double mousePos = e.GetPosition(timelineSlider).X;
+                double sliderValue = mousePos / timelineSlider.ActualWidth * timelineSlider.Maximum;
+                previewMediaElement.Position = TimeSpan.FromMilliseconds(sliderValue);
+                previewMediaElement.Play();
+
+                Point position = e.GetPosition(this);
+                Canvas.SetLeft(previewMediaElement, position.X - 60); //60 là width cái previewMediaElement
+
+                _previewTimer.Start();
+            }
+            else
+            {
+                previewMediaElement.Visibility = Visibility.Hidden;
+            }
+        }
+        private void TimelineSlider_MouseLeave(object sender, MouseEventArgs e)
+        {
+            previewMediaElement.Visibility = Visibility.Hidden;
+            previewMediaElement.Position = TimeSpan.FromMilliseconds(0);
+        }
+
+        private void PreviewTimer_Tick(object? sender = null, EventArgs? e = null)
+        {
+            previewMediaElement.Pause();
+            _previewTimer.Stop();
         }
     }
 }

@@ -6,12 +6,20 @@
         xmlns:local="clr-namespace:Hung_Task"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <StackPanel>
+    <Canvas>
+
+        <MediaElement Name="previewMediaElement" Width="120" Height="90" Visibility="Visible" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" Canvas.Left="340" Canvas.Top="230" Panel.ZIndex="20"/>
+
         <MediaElement Name="myMediaElement" 
  Width="450" Height="250" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" 
- MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>
+ MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded" Canvas.Left="175" Canvas.Top="35"/>
 
-        <StackPanel HorizontalAlignment="Center" Width="506" Orientation="Horizontal">
+        <StackPanel HorizontalAlignment="Center" Width="506" Orientation="Horizontal" Canvas.Left="147" Canvas.Top="323" VerticalAlignment="Top">
+            <TextBlock Foreground="Black" Margin="5"  VerticalAlignment="Center">Seek To</TextBlock>
+            <Slider Name="timelineSlider" Margin="5" ValueChanged="SeekToMediaPosition" Width="440"/>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center" Width="390" Orientation="Horizontal" Canvas.Left="205" Canvas.Top="356" VerticalAlignment="Top">
             <TextBlock Text="🗁" MouseDown="OnOpenMediaFile" Margin="5" />
 
             <TextBlock Text="▶" MouseDown="OnMouseDownPlayMedia" Margin="5" />
@@ -31,10 +39,6 @@
             <TextBlock Foreground="Black" Margin="5"  VerticalAlignment="Center">Speed</TextBlock>
             <Slider Name="speedRatioSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaSpeedRatio" 
    Value="1" Width="70" />
-
-            <TextBlock Foreground="Black" Margin="5"  VerticalAlignment="Center">Seek To</TextBlock>
-            <Slider Name="timelineSlider" Margin="5" ValueChanged="SeekToMediaPosition" Width="70"/>
-
         </StackPanel>
-    </StackPanel>
+    </Canvas>
 </Window>
