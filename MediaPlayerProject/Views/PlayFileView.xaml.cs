@@ -154,6 +154,7 @@ namespace MediaPlayerProject.Views
         private void TimelineSlider_MouseEnter(object sender, MouseEventArgs e)
         {
             previewMediaElement.Visibility = Visibility.Visible;
+            previewMediaElement.Volume = 0f;
             previewMediaElement.Position = TimeSpan.FromMilliseconds(0);
         }
 

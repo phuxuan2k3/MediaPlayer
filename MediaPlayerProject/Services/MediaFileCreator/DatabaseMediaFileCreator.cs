@@ -25,7 +25,8 @@ namespace MediaPlayerProject.Services.MediaFileCreator
             return new MediaFileDTO()
             {
                 Path = m.Path,
-                Name = m.FileName
+                Name = m.FileName,
+                StartTime = m.StartTime
             };
         }
         public async Task<MediaFileDTO> AddMediaFiletoPool(MediaFile m)

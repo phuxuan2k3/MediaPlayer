@@ -26,7 +26,7 @@ namespace MediaPlayerProject.Services.MediaFileProviders
 
                 IEnumerable<MediaFileDTO> mediaFileDTOs = await playlistListDbContext.MediaFiles.Where(m => idMediaFiles.Select(imf => imf.FileId).Contains(m.Id)).ToListAsync();
 
-                return mediaFileDTOs.Select(p => new MediaFile(p.Name, p.Path, p.Id));
+                return mediaFileDTOs.Select(p => new MediaFile(p.Name, p.Path, p.Id, p.StartTime));
             }
         }
     }
