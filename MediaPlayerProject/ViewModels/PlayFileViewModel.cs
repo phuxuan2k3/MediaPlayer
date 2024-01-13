@@ -8,16 +8,18 @@ namespace MediaPlayerProject.ViewModels
 {
     public class PlayFileViewModel : ViewModelBase
     {
-        public Uri mediaSource { get; set; }
+        public Uri? mediaSource { get; set; }
 
         public Playlist PlaylistData { get; set; }
         public ObservableCollection<MediaFile> MediaFiles { get; set; }
         public ICommand BackCommand { get; set; }
+        public ICommand SaveTimeSpanCommand { get; set; }
         public PlayFileViewModel(Playlist playlistData)
         {
             PlaylistData = playlistData;
             MediaFiles = new ObservableCollection<MediaFile>();
             BackCommand = new LoadMediaFileCommand();
+            SaveTimeSpanCommand = new SaveMediaFileTimeSpanCommand();
             UpdateViewModel();
         }
         public async void UpdateViewModel()

@@ -31,6 +31,9 @@ namespace MediaPlayerProject.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("MediaFiles");

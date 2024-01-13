@@ -19,7 +19,7 @@ namespace MediaPlayerProject.Views
         private DispatcherTimer _previewTimer;
         private DateTime _lastUpdate = DateTime.Now;
 
-        public int currentIndex { get; set; }
+        public int currentIndex { get; set; } = -1;
         public bool shufleMode { get; set; } = false;
         public List<Uri> listMediaSource { get; set; }
         private PlayFileViewModel vm { get; set; }
@@ -62,8 +62,10 @@ namespace MediaPlayerProject.Views
                 Random rnd = new Random();
                 sourceIndex = rnd.Next(listMediaSource.Count);
             } while (vm.mediaSource == listMediaSource[sourceIndex]);
-            vm.mediaSource = listMediaSource[sourceIndex];
-            currentIndex = sourceIndex;
+
+            //vm.mediaSource = listMediaSource[sourceIndex];
+            //currentIndex = sourceIndex;
+            playAFile(sourceIndex);
         }
 
         // Trung <<<<<
@@ -131,12 +133,12 @@ namespace MediaPlayerProject.Views
             else
             {
                 var newIndex = listMediaSource.IndexOf(vm.mediaSource) + 1 >= listMediaSource.Count ? 0 : listMediaSource.IndexOf(vm.mediaSource) + 1;
-                vm.mediaSource = listMediaSource[newIndex];
-                currentIndex = newIndex;
+                //vm.mediaSource = listMediaSource[newIndex];
+                //currentIndex = newIndex;
+                playAFile(newIndex);
             }
             _timer.Start();
             myMediaElement.Play();
-            displayPlayingFile();
             // Trung >>>>
         }
 
@@ -179,6 +181,8 @@ namespace MediaPlayerProject.Views
 
         private void OnMouseDownPreMedia(object sender, MouseButtonEventArgs e)
         {
+            saveTimeSpan();
+
             if (shufleMode)
             {
                 SetRandomSource();
@@ -186,14 +190,16 @@ namespace MediaPlayerProject.Views
             else
             {
                 var newIndex = listMediaSource.IndexOf(vm.mediaSource) - 1 < 0 ? listMediaSource.Count - 1 : listMediaSource.IndexOf(vm.mediaSource) - 1;
-                vm.mediaSource = listMediaSource[newIndex];
-                currentIndex = newIndex;
+                //vm.mediaSource = listMediaSource[newIndex];
+                //currentIndex = newIndex;
+                playAFile(newIndex);
             }
-            displayPlayingFile();
         }
 
         private void OnMouseDownNextMedia(object sender, MouseButtonEventArgs e)
         {
+            saveTimeSpan();
+
             if (shufleMode)
             {
                 SetRandomSource();
@@ -201,10 +207,10 @@ namespace MediaPlayerProject.Views
             else
             {
                 var newIndex = listMediaSource.IndexOf(vm.mediaSource) + 1 >= listMediaSource.Count ? 0 : listMediaSource.IndexOf(vm.mediaSource) + 1;
-                vm.mediaSource = listMediaSource[newIndex];
-                currentIndex = newIndex;
+                //vm.mediaSource = listMediaSource[newIndex];
+                //currentIndex = newIndex;
+                playAFile(newIndex);
             }
-            displayPlayingFile();
         }
 
         // Trung >>>>
@@ -226,6 +232,7 @@ namespace MediaPlayerProject.Views
         private void TimelineSlider_MouseEnter(object sender, MouseEventArgs e)
         {
             previewMediaElement.Visibility = Visibility.Visible;
+            previewMediaElement.Volume = 0f;
             previewMediaElement.Position = TimeSpan.FromMilliseconds(0);
         }
 
@@ -274,6 +281,8 @@ namespace MediaPlayerProject.Views
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
+            saveTimeSpan();
+
             var vm = (PlayFileViewModel)this.DataContext;
             var plalist = vm.PlaylistData;
             vm.BackCommand.Execute(plalist);
@@ -293,20 +302,47 @@ namespace MediaPlayerProject.Views
             {
                 listMediaSource!.Add(fileToUri(item));
             }
-            vm.mediaSource = listMediaSource![0];
-            currentIndex = 0;
+            //vm.mediaSource = listMediaSource![0];
+            //currentIndex = 0;
+            if (listMediaSource.Count > 0)
+            {
+                playAFile(0);
+            }
 
             myMediaElement.Play();
-            displayPlayingFile();
             _timer.Start();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            var curPosition = myMediaElement.Position;
+            //todo
+
             var mediaFile = (MediaFile)(((Button)(sender)).DataContext);
-            currentIndex = listMediaSource.IndexOf(fileToUri(mediaFile));
+            //currentIndex = listMediaSource.IndexOf(fileToUri(mediaFile));
+            //vm.mediaSource = listMediaSource[currentIndex];
+            playAFile(listMediaSource.IndexOf(fileToUri(mediaFile)));
+        }
+
+        private void playAFile(int index)
+        {
+            saveTimeSpan();
+
+            currentIndex = index;
             vm.mediaSource = listMediaSource[currentIndex];
+            myMediaElement.Position = vm.MediaFiles[index].StartTime;
+            myMediaElement.Play();
             displayPlayingFile();
+        }
+
+        private  void saveTimeSpan()
+        {
+            if (string.IsNullOrEmpty(vm.mediaSource?.ToString()) == false && currentIndex != -1)
+            {
+                var currentFile = vm.MediaFiles[currentIndex];
+                currentFile.StartTime = myMediaElement.Position;
+                 vm.SaveTimeSpanCommand.Execute(currentFile);
+            }
         }
 
         // Xuan >>>>
