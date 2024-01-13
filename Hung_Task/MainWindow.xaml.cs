@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -180,7 +181,7 @@ namespace Hung_Task
                 previewMediaElement.Play();
 
                 Point position = e.GetPosition(this);
-                Canvas.SetLeft(previewMediaElement, position.X - 60); //60 là width cái previewMediaElement
+                Canvas.SetLeft(previewMediaElement, position.X - 60); //60 là width / 2 của cái previewMediaElement
 
                 _previewTimer.Start();
             }
@@ -207,6 +208,29 @@ namespace Hung_Task
             double sliderValue = mousePos / timelineSlider.ActualWidth * timelineSlider.Maximum;
             timelineSlider.Value = sliderValue;
             myMediaElement.Position = TimeSpan.FromMilliseconds(sliderValue);
+        }
+
+        // Hàm viết/đọc guid
+        public void WriteGuidToTextFile(Guid guid, string filePath) // filePath là đường dẫn tới folder, lấy bằng FolderBrowserDialog
+        {
+            string fileName = System.IO.Path.Combine(filePath, "ExportedGuidList.txt");
+            using (StreamWriter writer = new StreamWriter(fileName, true))
+            {
+                writer.WriteLine(guid.ToString());
+            }
+        }
+
+        public List<Guid> ReadGuidFromTextFile(string fileName) // fileName là đường dẫn tới folder, lấy bằng OpenFileDialog
+        {
+            string[]? lines = File.ReadAllLines(fileName);
+            List<Guid> guidList = new List<Guid>();
+
+            for (int i = lines.Length - 1; i >= 0; i--)
+            {
+                guidList.Add(Guid.Parse(lines[i]));
+            }
+
+            return guidList;
         }
     }
 }
