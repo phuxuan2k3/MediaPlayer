@@ -4,18 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Trung_Task"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Closing="Window_Closing"
         Title="MainWindow" Height="450" Width="800">
   
     
     <Grid>
 
         <StackPanel Background="Gray">
-            <MediaElement  Source="{Binding mediaSource}" x:Name="myMediaElement" 
+            <Image x:Name="thumbImage" Width="100" Height="100" />
+            <MediaElement ScrubbingEnabled="True"  Source="{Binding mediaSource}" x:Name="myMediaElement" 
                 Width="450" Height="250" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" 
              MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded" />
             <StackPanel HorizontalAlignment="Center" Width="450" Orientation="Horizontal">
-                <ToggleButton IsChecked="{Binding shufleMode }" Width="20"  Content="🔀" Background="Transparent"/>
+                <ToggleButton IsChecked="{Binding shuffleMode }" Width="20"  Content="🔀" Background="Transparent"/>
                 <!-- Pre video-->
                 <TextBlock Text="⏮️" MouseDown="OnMouseDownPreMedia" Margin="5" />
 

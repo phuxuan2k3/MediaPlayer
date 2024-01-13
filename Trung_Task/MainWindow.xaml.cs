@@ -2,6 +2,7 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -9,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trung_Task.Keys;
 
 namespace Trung_Task
 {
@@ -21,11 +23,15 @@ namespace Trung_Task
         public Uri mediaSource { get; set; }
 
         public int currentIndex { get; set; }
-        public bool shufleMode { get; set; } = false;
+        public bool shuffleMode { get; set; } = false;
         public List<Uri> listMediaSource { get; set; }
 
         public MainWindow()
         {
+            // Phần khởi tạo cơ bản
+            InitializeComponent();
+            this.DataContext = this;
+            // Set cứng playlist
             listMediaSource = new List<Uri>() {
                 new Uri("C:\\Users\\USER\\Downloads\\SampleVideo_720x480_30mb.mp4"),
                 new Uri("C:\\Users\\USER\\Downloads\\pexels-thirdman-5538137 (1080p).mp4"),
@@ -34,13 +40,17 @@ namespace Trung_Task
             };
             mediaSource = listMediaSource[0];
             currentIndex = 0;
-            InitializeComponent();
-            this.DataContext = this;
+            // Thiết lập global hook
+            HotkeysManager.SetupSystemHook();
+            HotkeysManager.AddHotkey(ModifierKeys.Alt, Key.D1, () => { myMediaElement.Play();  });
+            HotkeysManager.AddHotkey(ModifierKeys.Alt, Key.D2, () => { myMediaElement.Pause(); });
+            HotkeysManager.AddHotkey(ModifierKeys.Alt, Key.D3, () => { PreVideo(); });
+            HotkeysManager.AddHotkey(ModifierKeys.Alt, Key.D4, () => { NextVideo(); });
+
+
         }
 
         // Function
-
-
         private void SetRandomSource() {
             int sourceIndex = -1;
             do {
@@ -94,11 +104,26 @@ namespace Trung_Task
 
         }
 
-        private void OnMouseDownPreMedia(object sender, MouseButtonEventArgs e)
-        {
-            if (shufleMode) { 
+        private void NextVideo() {
+            if (shuffleMode)
+            {
                 SetRandomSource();
-            } else
+            }
+            else
+            {
+                var newIndex = listMediaSource.IndexOf(mediaSource) + 1 >= listMediaSource.Count ? 0 : listMediaSource.IndexOf(mediaSource) + 1;
+                mediaSource = listMediaSource[newIndex];
+                currentIndex = newIndex;
+            }
+        }
+
+        private void PreVideo()
+        {
+            if (shuffleMode)
+            {
+                SetRandomSource();
+            }
+            else
             {
                 var newIndex = listMediaSource.IndexOf(mediaSource) - 1 < 0 ? listMediaSource.Count - 1 : listMediaSource.IndexOf(mediaSource) - 1;
                 mediaSource = listMediaSource[newIndex];
@@ -106,17 +131,19 @@ namespace Trung_Task
             }
         }
 
+        private void OnMouseDownPreMedia(object sender, MouseButtonEventArgs e)
+        {
+            PreVideo();
+        }
+
         private void OnMouseDownNextMedia(object sender, MouseButtonEventArgs e)
         {
-            if (shufleMode)
-            {
-                SetRandomSource();
-            } else
-            {
-                var newIndex = listMediaSource.IndexOf(mediaSource) + 1 >= listMediaSource.Count ? 0 : listMediaSource.IndexOf(mediaSource) + 1;
-                mediaSource = listMediaSource[newIndex];
-                currentIndex = newIndex;    
-            }
+            NextVideo();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            HotkeysManager.ShutdownSystemHook();
         }
     }
 }
