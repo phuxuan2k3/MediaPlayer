@@ -60,6 +60,7 @@ namespace MediaPlayerProject.Views
         void OnMouseDownPlayMedia(object sender, RoutedEventArgs e)
         {
             myMediaElement.Play();
+            myMediaElement.Position = myMediaElement.Position.Add(Vm!.CurrentPlayingMediaFile.StartTime);
             _timer.Start();
             SwitchPlayPauseButton(false);
         }
@@ -213,21 +214,30 @@ namespace MediaPlayerProject.Views
             Vm = (PlayFileViewModel)this.DataContext;
             Vm.CurrentIndex = 0;
             myMediaElement.Play();
+            myMediaElement.Position = myMediaElement.Position.Add(Vm.CurrentPlayingMediaFile.StartTime);
             _timer.Start();
             SwitchPlayPauseButton(false);
+
+            Vm.GetCurrentTimeSpan = () => getCurrentTimeSpan();
+            Vm.SetCurrenTimeSpan = (ts) => myMediaElement.Position = ts;
         }
 
         private void Dispatcher_ShutdownStarted(object? sender, EventArgs e)
         {
-            // TODO:
-            //Vm!.SaveTimeSpan();
+            Vm!.SaveTimeSpan();
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
+
+
             Dispatcher.ShutdownStarted -= Dispatcher_ShutdownStarted;
-            // TODO:
-            //Vm!.SaveTimeSpan();
+            Vm!.SaveTimeSpan();
+        }
+        private TimeSpan getCurrentTimeSpan()
+        {
+            var dsff = timelineSlider.Value;
+            return TimeSpan.FromMilliseconds(timelineSlider.Value);
         }
     }
 }

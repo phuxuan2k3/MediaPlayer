@@ -32,7 +32,7 @@ namespace MediaPlayerProject.Commands
                 foreach (var filename in filenames)
                 {
                     var parsedFileName = PathHelper.parseFileName(filename);
-                    await sv.AddMediaFiletoPool(new MediaFile(parsedFileName.Name, parsedFileName.Path));
+                    await sv.AddMediaFiletoPool(new MediaFile(parsedFileName.Name, parsedFileName.Path, new TimeSpan(0)));
                 }
 
                 this.mediaFilePoolViewModel.UpdateMediaFileList();
