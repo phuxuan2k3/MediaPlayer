@@ -210,6 +210,7 @@ namespace MediaPlayerProject.Views
         {
             Vm = (PlayFileViewModel)this.DataContext;
             Vm.CurrentIndex = 0;
+            Vm.historyHelper.WriteGuidToTextFile(Vm.CurrentPlayingMediaFile.Id);
             myMediaElement.Play();
             myMediaElement.Position = myMediaElement.Position.Add(Vm.CurrentPlayingMediaFile.StartTime);
             _timer.Start();

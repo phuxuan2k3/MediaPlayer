@@ -46,6 +46,11 @@
                 <views:PlayFileSingle />
             </DataTemplate>
 
+            <DataTemplate
+                DataType="{x:Type vms:HistoryFileViewModel}">
+                <views:HistoryFileView />
+            </DataTemplate>
+
         </Grid.Resources>
 
         <ContentControl>

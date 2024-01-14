@@ -12,7 +12,7 @@ namespace MediaPlayerProject.ViewModels
     public class PlayFileSingleViewModel : ViewModelBase
     {
 
-        public ICommand BackCommand { get; set; }
+        public ICommand? BackCommand { get; set; }
 
         public void SaveTimeSpan()
         {
@@ -22,12 +22,21 @@ namespace MediaPlayerProject.ViewModels
         public MediaFile CurrentPlayingMediaFile { get; set; }
         public Uri CurrentMediaSource => PathHelper.fileToUri(CurrentPlayingMediaFile);
 
-        public PlayFileSingleViewModel(MediaFile mediaFile)
+        public PlayFileSingleViewModel(MediaFile mediaFile, string backTo)
         {
             var nsp = App.GetService<INavigationServiceProvider>();
             var ns_MFPVM = nsp.GetNavigationService(() => new MediaFilePoolViewModel());
+            var ns_PLVM = nsp.GetNavigationService(() => new HistoryFileViewModel());
             CurrentPlayingMediaFile = mediaFile;
-            BackCommand = new NavigateCommand(ns_MFPVM);
+            switch (backTo)
+            {
+                case "MediaFilePoolViewModel":
+                    BackCommand = new NavigateCommand(ns_MFPVM);
+                    break;
+                case "HistoryFileViewModel":
+                    BackCommand = new NavigateCommand(ns_PLVM);
+                    break;
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ namespace MediaPlayerProject.ViewModels
         {
             var nsp = App.GetService<INavigationServiceProvider>();
             var ns_PLVM = nsp.GetNavigationService(() => new PlaylistListingViewModel());
-            var ns_PFSVM = nsp.GetNavigationService(() => new PlayFileSingleViewModel(GetMediaFileData!.Invoke()));
+            var ns_PFSVM = nsp.GetNavigationService(() => new PlayFileSingleViewModel(GetMediaFileData!.Invoke(), "MediaFilePoolViewModel"));
             MediaFiles = new ObservableCollection<MediaFile>();
             BackCommand = new NavigateCommand(ns_PLVM);
             AddMediaFileCommand = new AddMediaFilePoolCommand(this);

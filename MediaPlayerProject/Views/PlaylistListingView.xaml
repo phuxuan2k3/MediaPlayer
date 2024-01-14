@@ -44,6 +44,14 @@
                 Foreground="{StaticResource WhiteBrush}"
                 Margin="30"
                 FontFamily="{StaticResource BeautyFontFamily}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Content="History"
+                Margin="30 0"
+                Template="{DynamicResource TextBlockButton}"
+                Command="{Binding HistoryFileCommand}" />
             <Button
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
@@ -51,6 +59,7 @@
                 Margin="30 0"
                 Template="{DynamicResource TextBlockButton}"
                 Command="{Binding MediaFilePoolNavigateCommand}" />
+            </StackPanel>
         </DockPanel>
 
         <!--Options-->

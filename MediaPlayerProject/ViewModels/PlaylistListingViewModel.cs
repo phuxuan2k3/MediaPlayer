@@ -18,7 +18,7 @@ namespace MediaPlayerProject.ViewModels
         public ICommand DeletePlaylistCommand { get; }
         public ICommand LoadMediaFileCommand { get; }
         public ICommand MediaFilePoolNavigateCommand { get; }
-
+        public ICommand HistoryFileCommand { get; }
         public PlaylistListingViewModel()
         {
             Playlists = new ObservableCollection<Playlist>();
@@ -26,10 +26,12 @@ namespace MediaPlayerProject.ViewModels
             var nsp = App.GetService<INavigationServiceProvider>();
             var ns_APLVM = nsp.GetNavigationService(() => new AddPlaylistViewModel());
             var ns_MFPVM = nsp.GetNavigationService(() => new MediaFilePoolViewModel());
+            var ns_HFVM = nsp.GetNavigationService(() => new HistoryFileViewModel());
             CreatePlaylistCommand = new NavigateCommand(ns_APLVM);
             MediaFilePoolNavigateCommand = new NavigateCommand(ns_MFPVM);
             DeletePlaylistCommand = new DeletePlaylistCommand(this);
             LoadMediaFileCommand = new LoadMediaFileCommand();
+            HistoryFileCommand = new NavigateCommand(ns_HFVM);
             UpdatePlaylistList();
         }
 

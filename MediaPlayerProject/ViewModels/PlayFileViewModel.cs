@@ -49,6 +49,7 @@ namespace MediaPlayerProject.ViewModels
             set
             {
                 SaveTimeSpan();
+                historyHelper.WriteGuidToTextFile(CurrentPlayingMediaFile.Id);
 
                 _currentIndex = value;
                 if (_currentIndex >= _mediaFiles.Count)
@@ -67,9 +68,11 @@ namespace MediaPlayerProject.ViewModels
         public MediaFile CurrentPlayingMediaFile => DisplayMediaFiles[CurrentIndex];
         public Uri CurrentMediaSource => PathHelper.fileToUri(CurrentPlayingMediaFile);
 
-
+        public HistoryHelper historyHelper;
         public PlayFileViewModel(Playlist playlistData)
         {
+            historyHelper = new HistoryHelper();
+
             PlaylistData = playlistData;
             _mediaFiles = new List<MediaFile>();
             DisplayMediaFiles = new List<MediaFile>();

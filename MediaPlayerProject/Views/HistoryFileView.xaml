@@ -93,7 +93,6 @@
         <ListView
          Grid.Row="2"
          x:Name="MyListView"
-         SelectedItem="{Binding SelectedMediaFile}"
          ItemsSource="{Binding HistoryFiles}"
          Margin="10"
          Style="{StaticResource Fade_ListViewStyle}"
