@@ -39,7 +39,6 @@ namespace MediaPlayerProject.Views
         public PlayFileView()
         {
             InitializeComponent();
-            Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
 
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromMilliseconds(200);
@@ -88,12 +87,12 @@ namespace MediaPlayerProject.Views
             }
         }
 
-        private void Element_MediaOpened(object sender, EventArgs e)
+        private void Element_MediaOpened(object sender, RoutedEventArgs e)
         {
             timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
         }
 
-        private void Element_MediaEnded(object sender, EventArgs e)
+        private void Element_MediaEnded(object sender, RoutedEventArgs e)
         {
             myMediaElement.Stop();
             _timer.Stop();
@@ -209,33 +208,42 @@ namespace MediaPlayerProject.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Vm = (PlayFileViewModel)this.DataContext;
+            Vm.GetCurrentTimeSpan = getCurrentTimeSpan;
+            Vm.SetCurrenTimeSpan = (ts) => myMediaElement.Position = ts;
+
             Vm.CurrentIndex = 0;
             Vm.historyHelper.WriteGuidToTextFile(Vm.CurrentPlayingMediaFile.Id);
+
+            App.Current.Exit += Current_Exit;
             myMediaElement.Play();
             myMediaElement.Position = myMediaElement.Position.Add(Vm.CurrentPlayingMediaFile.StartTime);
             _timer.Start();
             SwitchPlayPauseButton(false);
-
-            Vm.GetCurrentTimeSpan = () => getCurrentTimeSpan();
-            Vm.SetCurrenTimeSpan = (ts) => myMediaElement.Position = ts;
         }
 
-        private void Dispatcher_ShutdownStarted(object? sender, EventArgs e)
+        private void Current_Exit(object sender, ExitEventArgs e)
         {
             Vm!.SaveTimeSpan();
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-
-
-            Dispatcher.ShutdownStarted -= Dispatcher_ShutdownStarted;
             Vm!.SaveTimeSpan();
+            App.Current.Exit -= Current_Exit;
         }
+
         private TimeSpan getCurrentTimeSpan()
         {
-            var dsff = timelineSlider.Value;
-            return TimeSpan.FromMilliseconds(timelineSlider.Value);
+            // allow 100ms delay
+            var tsv = timelineSlider.Value >= timelineSlider.Maximum - 100 ? 0 : timelineSlider.Value;
+            return TimeSpan.FromMilliseconds(tsv);
+        }
+
+        private void myMediaElement_Loaded(object sender, RoutedEventArgs e)
+        {
+            myMediaElement.Play();
+            myMediaElement.Position = myMediaElement.Position.Add(Vm!.CurrentPlayingMediaFile.StartTime);
+            _timer.Start();
         }
     }
 }

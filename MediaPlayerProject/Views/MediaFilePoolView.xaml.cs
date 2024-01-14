@@ -1,4 +1,5 @@
-﻿using MediaPlayerProject.Models;
+﻿using MediaPlayerProject.Helpers;
+using MediaPlayerProject.Models;
 using MediaPlayerProject.ViewModels;
 using System.Windows.Controls;
 
@@ -20,6 +21,9 @@ namespace MediaPlayerProject.Views
             var mediafile = (MediaFile)((ListViewItem)sender).DataContext;
             viewModel.GetMediaFileData = () => mediafile;
             viewModel.PlayMediaFileCommand.Execute(null);
+
+            HistoryHelper historyHelper = new HistoryHelper();
+            historyHelper.WriteGuidToTextFile(mediafile.Id);
         }
     }
 }

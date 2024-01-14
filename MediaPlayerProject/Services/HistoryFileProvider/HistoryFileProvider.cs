@@ -41,7 +41,10 @@ namespace MediaPlayerProject.Services.HistoryFileProvider
                 foreach (var item in listId)
                 {
                     var fileDTO = dbContext.MediaFiles.SingleOrDefault(f => f.Id == item);
-                    listFile.Add(new MediaFile(fileDTO!.Name, fileDTO.Path, fileDTO.StartTime));
+                    if (fileDTO != null)
+                    {
+                        listFile.Add(new MediaFile(fileDTO!.Name, fileDTO.Path, fileDTO.StartTime));
+                    }
                 }
             }
             return listFile;
