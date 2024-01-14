@@ -132,7 +132,7 @@
                     UnloadedBehavior="Stop"
                     Stretch="Fill"
                     MediaOpened="Element_MediaOpened"
-                    MediaEnded="Element_MediaEnded" />
+                    MediaEnded="Element_MediaEnded" Loaded="myMediaElement_Loaded"/>
 
                 <MediaElement
                     Name="previewMediaElement"
