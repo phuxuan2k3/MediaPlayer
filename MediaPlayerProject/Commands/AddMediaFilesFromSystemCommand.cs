@@ -34,8 +34,8 @@ namespace MediaPlayerProject.Commands
                 foreach (var filename in filenames)
                 {
                     var parsedFileName = PathHelper.parseFileName(filename);
-                    var m = await sv.AddMediaFiletoPool(new MediaFile(parsedFileName.Name, parsedFileName.Path));
-                    var mpl = await sv.AddMediaFiletoPlaylist(this.playlist, new MediaFile(m.Name, m.Path, m.Id));
+                    var m = await sv.AddMediaFiletoPool(new MediaFile(parsedFileName.Name, parsedFileName.Path, new TimeSpan(0)));
+                    var mpl = await sv.AddMediaFiletoPlaylist(this.playlist, new MediaFile(m.Name, m.Path, m.Id, m.StartTime));
                 }
 
                 this.mediaFileListingViewModel.UpdateViewModel();

@@ -16,6 +16,7 @@ namespace MediaPlayerProject.ViewModels
         public Playlist PlaylistData { get; set; }
         public List<MediaFile> DisplayMediaFiles { get; set; }
         public ICommand BackCommand { get; set; }
+        public ICommand SaveTimeSpanCommand { get; set; }
 
         private bool _isShuffle;
         public bool IsShuffle
@@ -35,20 +36,21 @@ namespace MediaPlayerProject.ViewModels
 
         public void SaveTimeSpan()
         {
-            //...
+            _mediaFiles[CurrentIndex].StartTime = GetCurrentTimeSpan.Invoke();
+            SaveTimeSpanCommand.Execute(_mediaFiles[CurrentIndex]);
         }
 
         private int _currentIndex;
+        public Func<TimeSpan> GetCurrentTimeSpan { get; set; }
+        public Action<TimeSpan> SetCurrenTimeSpan { get; set; }
         public int CurrentIndex
         {
             get => _currentIndex;
             set
             {
-                // Trc khi chuyen video
-                // TODO:
-                //SaveTimeSpan();
+                SaveTimeSpan();
+
                 _currentIndex = value;
-                // Sau 
                 if (_currentIndex >= _mediaFiles.Count)
                 {
                     _currentIndex = 0;
@@ -59,6 +61,7 @@ namespace MediaPlayerProject.ViewModels
                 }
                 OnPropertyChanged(nameof(CurrentPlayingMediaFile));
                 OnPropertyChanged(nameof(CurrentMediaSource));
+                SetCurrenTimeSpan.Invoke(CurrentPlayingMediaFile.StartTime);
             }
         }
         public MediaFile CurrentPlayingMediaFile => DisplayMediaFiles[CurrentIndex];
@@ -78,13 +81,12 @@ namespace MediaPlayerProject.ViewModels
         public async void UpdateViewModel()
         {
             _mediaFiles.Clear();
-            DisplayMediaFiles.Clear();
             var mediaFiles = await PlaylistData.getFiles();
             foreach (var file in mediaFiles)
             {
                 _mediaFiles.Add(file);
-                DisplayMediaFiles.Add(file);
             }
+            DisplayMediaFiles = _mediaFiles;
         }
     }
 }
