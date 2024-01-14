@@ -11,7 +11,8 @@
     Title="My Playlist"
     Height="600"
     Width="900"
-    WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    WindowStartupLocation="CenterScreen"
+    Closing="Window_Closing">
     <Grid>
         <Grid.Resources>
             <!--Navigation-->
@@ -38,6 +39,11 @@
             <DataTemplate
                 DataType="{x:Type vms:PlayFileViewModel}">
                 <views:PlayFileView />
+            </DataTemplate>
+
+            <DataTemplate
+                DataType="{x:Type vms:PlayFileSingleViewModel}">
+                <views:PlayFileSingle />
             </DataTemplate>
 
         </Grid.Resources>

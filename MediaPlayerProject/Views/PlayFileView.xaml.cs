@@ -1,8 +1,5 @@
-﻿using MediaPlayerProject.Models;
-using MediaPlayerProject.ViewModels;
-using Microsoft.Win32;
+﻿using MediaPlayerProject.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -172,7 +169,7 @@ namespace MediaPlayerProject.Views
                 previewMediaElement.Position = TimeSpan.FromMilliseconds(sliderValue);
                 previewMediaElement.Play();
 
-                Point position = e.GetPosition(this);
+                Point position = e.GetPosition(this.SliderContainer);
                 Canvas.SetLeft(previewMediaElement, position.X - 60); //60 là width cái previewMediaElement
 
                 _previewTimer.Start();
