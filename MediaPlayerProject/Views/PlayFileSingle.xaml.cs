@@ -1,18 +1,9 @@
-﻿using MediaPlayerProject.ViewModels;
+﻿using MediaPlayerProject.Helpers;
+using MediaPlayerProject.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace MediaPlayerProject.Views
@@ -28,9 +19,11 @@ namespace MediaPlayerProject.Views
         {
         }
 
-        private void SwitchPlayPauseButton(bool play)
+        private bool _isPlaying;
+        private void SwitchPlayPauseButton(bool notPlay)
         {
-            if (!play)
+            _isPlaying = !notPlay;
+            if (!notPlay)
             {
                 this.PlayButton.Visibility = Visibility.Collapsed;
                 this.PauseButton.Visibility = Visibility.Visible;
@@ -47,6 +40,22 @@ namespace MediaPlayerProject.Views
         private DateTime _lastUpdate = DateTime.Now;
 
         private PlayFileSingleViewModel? Vm { get; set; }
+
+        void TogglePlay(bool play)
+        {
+            if (play)
+            {
+                myMediaElement.Play();
+                _timer.Start();
+                SwitchPlayPauseButton(false);
+            }
+            else
+            {
+                myMediaElement.Pause();
+                _timer.Stop();
+                SwitchPlayPauseButton(true);
+            }
+        }
 
         public PlayFileSingle()
 
@@ -207,6 +216,8 @@ namespace MediaPlayerProject.Views
             myMediaElement.Play();
             _timer.Start();
             SwitchPlayPauseButton(false);
+
+            HotkeysManager.AddHotkey(ModifierKeys.Alt, Key.S, () => TogglePlay(!_isPlaying));
         }
 
         private void Dispatcher_ShutdownStarted(object? sender, EventArgs e)

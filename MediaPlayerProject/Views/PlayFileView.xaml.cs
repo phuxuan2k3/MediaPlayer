@@ -1,4 +1,5 @@
-﻿using MediaPlayerProject.ViewModels;
+﻿using MediaPlayerProject.Helpers;
+using MediaPlayerProject.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,9 +17,11 @@ namespace MediaPlayerProject.Views
         {
         }
 
-        private void SwitchPlayPauseButton(bool play)
+        private bool _isPlaying;
+        private void SwitchPlayPauseButton(bool notPlay)
         {
-            if (!play)
+            _isPlaying = !notPlay;
+            if (!notPlay)
             {
                 this.PlayButton.Visibility = Visibility.Collapsed;
                 this.PauseButton.Visibility = Visibility.Visible;
@@ -35,6 +38,22 @@ namespace MediaPlayerProject.Views
         private DateTime _lastUpdate = DateTime.Now;
 
         private PlayFileViewModel? Vm { get; set; }
+
+        void TogglePlay(bool play)
+        {
+            if (play)
+            {
+                myMediaElement.Play();
+                _timer.Start();
+                SwitchPlayPauseButton(false);
+            }
+            else
+            {
+                myMediaElement.Pause();
+                _timer.Stop();
+                SwitchPlayPauseButton(true);
+            }
+        }
 
         public PlayFileView()
         {
@@ -56,16 +75,12 @@ namespace MediaPlayerProject.Views
 
         void OnMouseDownPlayMedia(object sender, RoutedEventArgs e)
         {
-            myMediaElement.Play();
-            _timer.Start();
-            SwitchPlayPauseButton(false);
+            TogglePlay(true);
         }
 
         void OnMouseDownPauseMedia(object sender, RoutedEventArgs e)
         {
-            myMediaElement.Pause();
-            _timer.Stop();
-            SwitchPlayPauseButton(true);
+            TogglePlay(false);
         }
 
         void OnMouseStartOverMedia(object sender, RoutedEventArgs e) // Tua video lại từ đầu, chưa có nút
@@ -212,6 +227,10 @@ namespace MediaPlayerProject.Views
             myMediaElement.Play();
             _timer.Start();
             SwitchPlayPauseButton(false);
+
+            HotkeysManager.AddHotkey(ModifierKeys.Alt, Key.S, () => TogglePlay(!_isPlaying));
+            HotkeysManager.AddHotkey(ModifierKeys.Alt, Key.Left, () => Vm!.CurrentIndex -= 1);
+            HotkeysManager.AddHotkey(ModifierKeys.Alt, Key.Right, () => Vm!.CurrentIndex += 1);
         }
 
         private void Dispatcher_ShutdownStarted(object? sender, EventArgs e)

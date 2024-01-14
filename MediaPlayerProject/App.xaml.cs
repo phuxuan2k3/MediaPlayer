@@ -1,6 +1,6 @@
 ﻿using MediaPlayerProject.DbContexts;
+using MediaPlayerProject.Helpers;
 using MediaPlayerProject.Models;
-using MediaPlayerProject.Services;
 using MediaPlayerProject.Services.MediaFileCreator;
 using MediaPlayerProject.Services.MediaFIlePoolProvider;
 using MediaPlayerProject.Services.MediaFileProviders;
@@ -90,6 +90,7 @@ namespace MediaPlayerProject
                 DataContext = new MainViewModel()
             };
             MainWindow.Show();
+            HotkeysManager.SetupSystemHook();
 
             base.OnStartup(e);
         }
