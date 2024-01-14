@@ -10,6 +10,9 @@
     <Compile Update="Views\AddPlaylistView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\HistoryFileView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\MediaFileListingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -43,6 +46,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AddPlaylistView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\HistoryFileView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\MediaFileListingView.xaml">

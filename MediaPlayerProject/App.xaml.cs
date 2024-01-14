@@ -1,6 +1,7 @@
 ﻿using MediaPlayerProject.DbContexts;
 using MediaPlayerProject.Models;
 using MediaPlayerProject.Services;
+using MediaPlayerProject.Services.HistoryFileProvider;
 using MediaPlayerProject.Services.MediaFileCreator;
 using MediaPlayerProject.Services.MediaFIlePoolProvider;
 using MediaPlayerProject.Services.MediaFileProviders;
@@ -66,6 +67,7 @@ namespace MediaPlayerProject
                     services.AddSingleton<IMediaFileCreator, DatabaseMediaFileCreator>();
                     services.AddSingleton<IRemoveMediaFilePool, DatabaseRemoveMediaFilePool>();
                     services.AddSingleton<ISaveMediaFileTimeSpan, SaveMediaFileTimeSpan>();
+                    services.AddSingleton<IHistoryFileProvider, HistoryFileProvider>();
 
                     // Navigation
                     services.AddSingleton<NavigationStore>();
