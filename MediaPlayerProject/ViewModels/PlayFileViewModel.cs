@@ -65,8 +65,8 @@ namespace MediaPlayerProject.ViewModels
                 SetCurrenTimeSpan.Invoke(CurrentPlayingMediaFile.StartTime);
             }
         }
-        public MediaFile CurrentPlayingMediaFile => DisplayMediaFiles[CurrentIndex];
-        public Uri CurrentMediaSource => PathHelper.fileToUri(CurrentPlayingMediaFile);
+        public MediaFile? CurrentPlayingMediaFile => DisplayMediaFiles[CurrentIndex];
+        public Uri? CurrentMediaSource => PathHelper.fileToUri(CurrentPlayingMediaFile);
 
         public HistoryHelper historyHelper;
         public PlayFileViewModel(Playlist playlistData)

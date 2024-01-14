@@ -135,7 +135,8 @@
                         UnloadedBehavior="Stop"
                         Stretch="Uniform"
                         MediaOpened="Element_MediaOpened"
-                        MediaEnded="Element_MediaEnded" />
+                        MediaEnded="Element_MediaEnded"
+                        Loaded="myMediaElement_Loaded"/>
                 </Grid>
 
                 <Canvas
@@ -152,7 +153,8 @@
                         Visibility="Visible"
                         LoadedBehavior="Manual"
                         UnloadedBehavior="Stop"
-                        Stretch="Fill" />
+                        Stretch="Fill" 
+                       />
                 </Canvas>
             </Canvas>
 

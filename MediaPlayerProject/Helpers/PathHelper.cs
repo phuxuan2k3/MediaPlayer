@@ -24,8 +24,12 @@ namespace MediaPlayerProject.Helpers
             return fileName;
         }
 
-        public static Uri fileToUri(MediaFile m)
+        public static Uri fileToUri(MediaFile? m)
         {
+            if (m == null)
+            {
+                return new Uri("");
+            }
             return new Uri(m.Path + "\\" + m.FileName);
         }
     }
